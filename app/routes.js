@@ -1,7 +1,16 @@
-myApp.config(function($routeProvider) {
+App.config(function($routeProvider) {
     $routeProvider
-      .when('/home', {
-        templateUrl: 'views/home.html',
+      .when('/', {
+        templateUrl: 'views/dashboard.html',
         controller: 'HomeController as HC'
-      });
+      })
+        .when('/dashboard', {
+            templateUrl: 'views/dashboard.html',
+            controller: 'HomeController as HC'
+        })
+        .when('/rto', {
+            templateUrl: 'views/rto/rto_dashboard.html',
+            controller: 'RtoController as RC'
+        })
+
 });
