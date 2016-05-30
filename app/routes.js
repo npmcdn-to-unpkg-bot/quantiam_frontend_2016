@@ -4,6 +4,9 @@ App.config(function($routeProvider) {
             templateUrl: 'views/dashboard.html',
             controller: 'HomeController as HC'
         })
+				.when('/login', {
+            templateUrl: 'views/auth/login.html',
+        })
         .when('/dashboard', {
             templateUrl: 'views/dashboard.html',
             controller: 'HomeController as HC'
@@ -11,12 +14,15 @@ App.config(function($routeProvider) {
         .when('/rto', {
             templateUrl: 'views/rto/rto_dashboard.html',
             controller: 'RtoController as RC'
-        })
+        }) 
         .when('/rto/:rtoid', {
             templateUrl: 'views/rto/rto_view.html',
             controller: 'RtoViewController as RVC',
 
 
         });
+				
+				
+				
 
 });

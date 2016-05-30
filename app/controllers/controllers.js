@@ -23,6 +23,28 @@ App.controller('HomeController', ['$scope', function($scope) {
 }]);
 
 
+App.controller('AuthController', ['$scope', 'authService', function ($scope, authService){
+	
+    $scope.authenticate = function() {
+				if(authService.authenticate($scope.username,$scope.password))
+				{
+					$(location).attr('href', '#/dashboard');
+				}
+    };
+	
+	
+	}]);
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 App.controller('RtoController', ['$scope', 'rtoService', function($scope, rtoService) {
   var vm = this;
