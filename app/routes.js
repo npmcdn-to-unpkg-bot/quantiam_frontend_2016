@@ -6,6 +6,7 @@ App.config(function($routeProvider) {
         })
 				.when('/login', {
             templateUrl: 'views/auth/login.html',
+   
         })
         .when('/dashboard', {
             templateUrl: 'views/dashboard.html',
