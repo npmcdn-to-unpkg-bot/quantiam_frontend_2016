@@ -46,24 +46,27 @@ App.controller('AuthController', ['$scope', 'userService', function ($scope, use
 	
 
 
-App.controller('RtoController', ['$scope', 'rtoService', function($scope, rtoService) {
-  var vm = this;
+App.controller('RtoController', ['$scope', '$location', 'rtoService', function($scope, $location, rtoService) {
 
-  vm.title="www";
 
   //  console.log(rtoService);
-   vm.rtoList = rtoService.rtoList();
-    vm.rtoData = vm.rtoList.data;
+   $scope.rtoList = rtoService.rtoList();
+    $scope.rtoData = $scope.rtoList.data;
 
 
 
+   setTimeout(function() {
+       $('#rtotable').DataTable(
+           {
+               "order": [[2, "desc"]]
+           }
+       );
+   }, 0);
 
-    $(document).ready(function() {
-        $('#example').DataTable( {
-            "ajax": vm.rtoList.data
-        } );
-    } );
-console.log(vm.rtoList.data);
+    $scope.showRto = function(request_id) {
+        $location.path('/rto/' + request_id);
+        console.log($location.path);
+    };
 
 
 
