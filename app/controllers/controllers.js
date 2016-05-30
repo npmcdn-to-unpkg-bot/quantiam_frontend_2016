@@ -24,36 +24,30 @@ App.controller('HomeController', ['$scope', function($scope) {
 
 
 
-App.controller('RtoController', ['$scope', function($scope) {
+App.controller('RtoController', ['$scope', 'rtoService', function($scope, rtoService) {
   var vm = this;
 
   vm.title="www";
 
-  var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://apps.edm.quantiam.com:2000/rto",
-    "method": "POST",
-    "headers": {
-      "authorization": "Bearer " + localStorage.getItem('token'),
-      "content-type": "application/x-www-form-urlencoded"
-    },
-    "data": {
-      "page": [
-        "",
-        ""
-      ],
-      "status": "",
-      "employeeID": "",
-      "firstDate": "",
-      "lastDate": "",
-      "perPage": ""
-    }
-  };
+  //  console.log(rtoService);
+   vm.rtoList = rtoService.rtoList();
+    vm.rtoData = vm.rtoList.data;
 
-  var result = ($.ajax(settings).done(function (response) {
-  }));
 
-  console.log(result.responseJSON.);
+
+
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            "ajax": vm.rtoList.data
+        } );
+    } );
+console.log(vm.rtoList.data);
+
+
+
 
 }]);
+
+App.controller('RtoViewController', function($scope, $routeParams) {
+    console.log($routeParams);
+})

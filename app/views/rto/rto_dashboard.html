@@ -1,4 +1,30 @@
 <h2> Available RTOs for {{RC.title}}</h2>
-<p> what </p>
 table:
-{{RC.rtoData.responseText.length}}
+{{RC.rtoList.data}}
+
+
+<table id="example" class="display" cellspacing="0" width="100%">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Request ID</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th>Name</th>
+        <th>Request ID</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Status</th>
+    </tr>
+    </tfoot>
+    <tbody ng-repeat="obj in RC.rtoList.data">
+    <tr >
+            <td ng-repeat="(key, value) in obj" ng-if="key != 'created'">{{ key }}{{ value}}</td>
+    </tr>
+    </tbody>
+</table>
