@@ -1,6 +1,6 @@
 App.service(
     "apiRequest",
-    function($http) {
+    function($http, errorService) {
 
         return {
             send: send
@@ -28,7 +28,8 @@ App.service(
                   },
                   error: function (e) {
                       // We need to build an ovious way to display an error here. 
-                  //    response = e;
+											// response = e;
+											errorService.new_error(e);
                   }
               });
 
@@ -74,24 +75,77 @@ App.service("rtoService", function($http, apiRequest) {
 );
 
 
-App.service("authService",function($http, apiRequest) {
-	
-	 return ({
+/* 
+	This service contains methods used to authenticate and update the user.
+*/
+	App.service("userService",function(apiRequest) {
+		
+		 return ({
 
-            authenticate: authenticate
-    });
-		
-	function authenticate (username, pass)
-	{
-		
-		var params = {"username": username, "pass": pass};
-		var response = apiRequest.send('post','/auth',params);
+							authenticateUser: authenticateUser,
+							refreshUser: refreshUser,
+							logoutUser: logoutUser
+			});
 			
-			if(response)
-			{
-				localStorage.setItem('token', response. token);
-				return true;
-			}
-	}
+			
+		// Obtain the user JWT token using credentials
+		function authenticateUser (username, pass)
+		{
+			var params = {"username": username, "pass": pass};
+			var response = apiRequest.send('post','/auth',params);
+				
+				if(response)
+				{
+					localStorage.setItem('token', response. token);
+					return true;
+				}
+		}
+		
+		// Use the stored token to refresh the user object.
+		function refreshUser() 
+		{
+			
+			
+			
+			
+		}
+		
+		// Used to redirect the user to the login screen and delete the stored token.
+		function logoutUser()
+		{
+			
+			
+		}
 
+	});
+
+
+/* 
+	This service povides a place to store all api errors. 
+*/
+App.service("errorService", function (){
+	
+	var error_array = []; //Upon loading the application, create an array to store errors in. 
+	
+	function new_error (Obj){
+	
+			var temp_object = {}; // Create temporarty object. 
+			
+				for (var property in Obj) // Loop through error object.
+				{
+					if (typeof Obj[property] != 'function') // Only allow non-function properties
+					{
+						temp_object[property] = Obj[property]; // Append non-function properties to the temporary array.
+					}
+				}
+				//temp_object.timestamp = new Date().toISOString().slice(0,19);
+				error_array.unshift(temp_object); //Adds error object striped of functions to the front of error_array
+				console.log(error_array); // Display in console 
+	}
+	
+	return {
+    new_error: new_error
+  };
+	
+	
 });

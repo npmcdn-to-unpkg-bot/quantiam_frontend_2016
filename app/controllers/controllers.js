@@ -23,10 +23,10 @@ App.controller('HomeController', ['$scope', function($scope) {
 }]);
 
 
-App.controller('AuthController', ['$scope', 'authService', function ($scope, authService){
+App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
 	
     $scope.authenticate = function() {
-				if(authService.authenticate($scope.username,$scope.password))
+				if(userService.authenticateUser($scope.username,$scope.password))
 				{
 					$(location).attr('href', '#/dashboard');
 				}
