@@ -48,9 +48,12 @@
 
                     <tbody>
                     <tr ng-repeat="obj in rtoData.approvals">
-                        <td>fixlater</td>
+                        <td>{{ obj.name }}</td>
                         <td>{{ obj.employeeID }}</td>
-                        <td>{{ obj.approval }}</td>
+                        <td><span id="0" ng-if="obj.approval == 'Approved'" class="btn btn-block ink-reaction btn-flat btn-xs btn-success">Approved</span>
+                            <span id="1" ng-if="obj.approval == 'Pending'"  class="btn btn-block ink-reaction btn-flat btn-xs btn-warning">Pending</span>
+                            <span id="2" ng-if="obj.approval == 'Denied'"  class="btn btn-block ink-reaction btn-flat btn-xs btn-danger">Denied</span>
+                        </td>
                         <td>{{ obj.reason }}</td>
                         <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                     </tr>
