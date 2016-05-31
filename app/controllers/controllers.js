@@ -42,7 +42,6 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
     $scope.showRto = function(request_id) {
         $location.path('/rto/' + request_id);
-        console.log($location.path);
     };
 
 
@@ -50,24 +49,35 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 }]);
 
-App.controller('RtoViewController', ['$scope', 'rtoViewService',  function($scope, rtoViewService, $routeParams) {
+App.controller('RtoViewController', ['$scope', 'rtoViewService', 'userInfoService', '$routeParams',  function($scope, rtoViewService, userInfoService, $routeParams) {
 
-      $scope.rtoViewList = rtoViewService.rtoData();
+    var request_id = $routeParams.rtoid;
 
+    $scope.rtoData = rtoViewService.rtoViewData(request_id);
+    
+    $scope.userInfo = userInfoService.getUserData($scope.rtoData.employeeID);
+    $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
 
 
     setTimeout(function() {
         $('#rtotable').DataTable(
             {
-                "order": [[3, "desc"], [2, "desc"]]
+                "order": [[4, "desc" ]],
+                "searching": false,
+                "paging": false,
+                "info": false
+            }
+        );
+        $('#approvaltable').DataTable(
+            {
+                "oder": [[4, "desc"]],
+                "searching": false,
+                "paging": false,
+                "info": false
             }
         );
     }, 0);
 
-    $scope.showRto = function(request_id) {
-        $location.path('/rto/' + request_id);
-        console.log($location.path);
-    };
 
 
 }])

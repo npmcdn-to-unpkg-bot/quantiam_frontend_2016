@@ -37,7 +37,14 @@ App.service(
 					{
 						return response;
 					}
-
+					else if (Object.keys(response).length == 0)
+					{
+						return 'empty response';
+					}
+		  			else if (response.constructor != Object)
+					{
+						return 'response in improper format';
+					}
         }
 
 
@@ -74,26 +81,36 @@ App.service("rtoService", function($http, apiRequest) {
     }
 );
 
-App.service("rtoViewService", function($http, apiRequest, $routeParams) {
-
+App.service("rtoViewService", function($http, apiRequest) {
         // Return public API.
 	     return ({
 
-            rtoData: rtoData($routeParams.rtoid)
+			 rtoViewData: rtoViewData
     });
 
 
 
 
-        function rtoData(rtoid)
+        function rtoViewData(request_id)
 		{
-             return  apiRequest.send('get','/rto/' + rtoid, null);
+             return  apiRequest.send('get','/rto/' + request_id, null);
 
         }
 
     }
 );
+App.service("userInfoService", function($http, apiRequest) {
 
+	return ({
+
+		getUserData: getUserData
+	});
+
+	function getUserData(employee_id)
+	{
+		return apiRequest.send('get', '/user/' + employee_id, null);
+	}
+});
 
 /*
 	This service contains methods used to authenticate and update the user.
