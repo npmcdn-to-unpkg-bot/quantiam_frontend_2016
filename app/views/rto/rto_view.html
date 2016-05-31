@@ -1,5 +1,13 @@
+<div>
+    <button  type="button" id="0" ng-if="rtoData.status == 'Approved'" class="btn btn-block ink-reaction btn-xs btn-success">Approved</button>
+    <button  type="button" id="1" ng-if="rtoData.status == 'Pending'" class="btn btn-block ink-reaction btn-xs btn-warning">Pending</button>
+    <button  type="button" id="2" ng-if="rtoData.status == 'Denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
+</div>
+    <h1>
+        Request ID: {{rtoData.requestID}} for {{name}}
+    </h1>
 
-<h1>RTO for {{name}}</h1>
+
 
 <div class="row">
     <div class="col-lg-6">
