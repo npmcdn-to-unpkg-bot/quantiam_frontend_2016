@@ -29,6 +29,10 @@ App.controller('AuthController', ['$scope', 'userService', function ($scope, use
 				{
 					$(location).attr('href', '#/dashboard');
 				}
+				else
+				{
+					toastr.error('Your username or password are incorrect.', 'Authentication Error');
+				}
     };
 	
 	
