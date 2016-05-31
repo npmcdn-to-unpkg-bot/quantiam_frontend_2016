@@ -29,14 +29,13 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
   //  console.log(rtoService);
    $scope.rtoList = rtoService.rtoList();
-    $scope.rtoData = $scope.rtoList.data;
 
 
 
    setTimeout(function() {
        $('#rtotable').DataTable(
            {
-               "order": [[2, "desc"]]
+               "order": [[3, "desc"], [2, "desc"]]
            }
        );
    }, 0);
@@ -51,6 +50,24 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 }]);
 
-App.controller('RtoViewController', function($scope, $routeParams) {
-    console.log($routeParams);
-})
+App.controller('RtoViewController', ['$scope', 'rtoViewService',  function($scope, rtoViewService, $routeParams) {
+
+      $scope.rtoViewList = rtoViewService.rtoData();
+
+
+
+    setTimeout(function() {
+        $('#rtotable').DataTable(
+            {
+                "order": [[3, "desc"], [2, "desc"]]
+            }
+        );
+    }, 0);
+
+    $scope.showRto = function(request_id) {
+        $location.path('/rto/' + request_id);
+        console.log($location.path);
+    };
+
+
+}])

@@ -15,8 +15,7 @@ App.config(function($routeProvider) {
         .when('/rto/:rtoid', {
             templateUrl: 'views/rto/rto_view.html',
             controller: 'RtoViewController as RVC',
-
-
+            
         });
 
 });
