@@ -2,7 +2,7 @@
 App.controller('IndexController', ['$scope', function($scope) {
   var vm = this;
 
-  vm.AppName = "Index";
+  vm.AppName = "Quantiam";
 
   vm.body = {};
 
@@ -54,7 +54,7 @@ App.controller('RtoViewController', ['$scope', 'rtoViewService', 'userInfoServic
     var request_id = $routeParams.rtoid;
 
     $scope.rtoData = rtoViewService.rtoViewData(request_id);
-    
+
     $scope.userInfo = userInfoService.getUserData($scope.rtoData.employeeID);
     $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
 

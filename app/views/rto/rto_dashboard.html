@@ -17,7 +17,7 @@
     <tr ng-repeat="obj in rtoList.data" ng-click="showRto(obj.requestID)">
             <td>{{ obj.firstname }} {{ obj.lastname }}</td>
             <td> {{ obj.requestID }}</td>
-            <td>{{ obj.created }}</td>
+            <td>{{ obj.created | datetime | date : 'longDate' }}</td>
             <td><span id="0" ng-if="obj.status == 'Approved'" class="btn btn-block ink-reaction btn-flat btn-success">Approved</span>
                 <span id="1" ng-if="obj.status == 'Pending'"  class="btn btn-block ink-reaction btn-flat btn-warning">Pending</span>
                 <span id="2" ng-if="obj.status == 'Denied'"  class="btn btn-block ink-reaction btn-flat btn-danger">Denied</span>
