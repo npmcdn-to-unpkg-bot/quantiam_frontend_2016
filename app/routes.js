@@ -12,9 +12,10 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/dashboard.html',
             controller: 'HomeController as HC'
         })
-        .state('/login', {
-            url:'/dashboard',
+        .state('login', {
+            url:'/login',
             templateUrl: 'views/auth/login.html',
+				})
         .state('rto', {
             url:'/rto',
             templateUrl: 'views/rto/rto_dashboard.html',
