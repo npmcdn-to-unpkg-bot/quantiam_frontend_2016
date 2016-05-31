@@ -15,8 +15,6 @@ App.controller('IndexController', ['$scope', 'userService', function($scope, use
 
 App.controller('HomeController', ['$scope', function($scope) {
   var vm = this;
-
-
   vm.title = 'Dashboard';
 
 }]);

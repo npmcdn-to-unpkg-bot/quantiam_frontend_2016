@@ -146,12 +146,15 @@ App.service("userInfoService", function($http, apiRequest) {
 		// Use the stored token to refresh the user object.
 		function refreshUser() 
 		{
-				if(	!apiRequest.send('get','/user') )
+		
+				var request = apiRequest.send('get','/user');
+				if(	!request)
 					{
 						logoutUser();
 					}
 					else
 					{
+							userObject = request;
 							return userObject;
 					}
 			
