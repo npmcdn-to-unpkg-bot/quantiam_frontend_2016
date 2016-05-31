@@ -49,9 +49,8 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 }]);
 
-App.controller('RtoViewController', ['$scope', 'rtoViewService', 'userInfoService', '$routeParams',  function($scope, rtoViewService, userInfoService, $routeParams) {
-
-    var request_id = $routeParams.rtoid;
+App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService', 'userInfoService',  function($scope,  $stateParams, rtoViewService, userInfoService) {
+    var request_id = $stateParams.rtoid;
 
     $scope.rtoData = rtoViewService.rtoViewData(request_id);
 
