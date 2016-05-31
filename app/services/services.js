@@ -16,6 +16,7 @@ App.service(
                   type: httpVerb,
                   async: false,
                   url: apiUrl + path,
+				//dataType: "json",
                   headers: {
                       "Authorization": "Bearer " + localStorage.getItem('token'),
                       "content-type": "application/x-www-form-urlencoded"
@@ -24,27 +25,26 @@ App.service(
                   success: function (r) {
 
                       response = r;
+				console.log(response);
+									
                       //Do Something
                   },
                   error: function (e) {
                       // We need to build an ovious way to display an error here. 
 											// response = e;
 											errorService.new_error(e);
+											response = false;
                   }
               });
 
-					if(Object.keys(response).length != 0 && response.constructor === Object)
-					{
+								
+			
 						return response;
-					}
-					else if (Object.keys(response).length == 0)
-					{
-						return 'empty response';
-					}
-		  			else if (response.constructor != Object)
-					{
-						return 'response in improper format';
-					}
+					
+					
+			//		return;
+						
+
         }
 
 
@@ -60,10 +60,7 @@ App.service("rtoService", function($http, apiRequest) {
 
             rtoList: rtoList
     });
-
-
-
-
+		
         function rtoList()
         {
             var params =  {
@@ -116,58 +113,71 @@ App.service("userInfoService", function($http, apiRequest) {
 	This service contains methods used to authenticate and update the user.
 */
 	App.service("userService",function(apiRequest) {
-
+		
 		 return ({
 
 							authenticateUser: authenticateUser,
 							refreshUser: refreshUser,
+							getstoredUser: getstoredUser,
 							logoutUser: logoutUser
 			});
-
-
+			
+		var userObject = {};
+			
+			
 		// Obtain the user JWT token using credentials
 		function authenticateUser (username, pass)
 		{
 			var params = {"username": username, "pass": pass};
 			var response = apiRequest.send('post','/auth',params);
-
 				if(response)
 				{
 					localStorage.setItem('token', response. token);
 					return true;
 				}
 		}
-
-		// Use the stored token to refresh the user object.
-		function refreshUser()
-		{
-
-
-
-
+		
+		function getstoredUser(){
+						
+						return userObject; //returns stored object
+					
 		}
-
+		
+		// Use the stored token to refresh the user object.
+		function refreshUser() 
+		{
+				if(	!apiRequest.send('get','/user') )
+					{
+						logoutUser();
+					}
+					else
+					{
+							return userObject;
+					}
+			
+		}
+		
 		// Used to redirect the user to the login screen and delete the stored token.
 		function logoutUser()
 		{
-
-
+					localStorage.clear(); // clear stored data
+					$(location).attr('href', '#/login'); // send user to default screen. 
 		}
 
 	});
 
 
-/*
-	This service povides a place to store all api errors.
+/* 
+	This service povides a place to store all api errors. 
 */
 App.service("errorService", function (){
-
-	var error_array = []; //Upon loading the application, create an array to store errors in.
-
+	
+	var error_array = []; //Upon loading the application, create an array to store errors in. 
+	
 	function new_error (Obj){
-
-			var temp_object = {}; // Create temporarty object.
-
+	
+			var temp_object = {}; // Create temporarty object. 
+			
 				for (var property in Obj) // Loop through error object.
 				{
 					if (typeof Obj[property] != 'function') // Only allow non-function properties
@@ -177,12 +187,12 @@ App.service("errorService", function (){
 				}
 				//temp_object.timestamp = new Date().toISOString().slice(0,19);
 				error_array.unshift(temp_object); //Adds error object striped of functions to the front of error_array
-				console.log(error_array); // Display in console
+				console.log(error_array); // Display in console 
 	}
-
+	
 	return {
     new_error: new_error
   };
-
-
+	
+	
 });

@@ -1,5 +1,5 @@
 
-App.controller('IndexController', ['$scope', function($scope) {
+App.controller('IndexController', ['$scope', 'userService', function($scope, userService) {
   var vm = this;
 
   vm.AppName = "Quantiam";
@@ -7,9 +7,8 @@ App.controller('IndexController', ['$scope', function($scope) {
   vm.body = {};
 
   vm.body.title = "Thing";
-
-
-
+	
+	userService.refreshUser();
 
 }]);
 
@@ -23,12 +22,25 @@ App.controller('HomeController', ['$scope', function($scope) {
 }]);
 
 
+App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
+	
+    $scope.authenticate = function() {
+				if(userService.authenticateUser($scope.username,$scope.password))
+				{
+					$(location).attr('href', '#/dashboard');
+				}
+    };
+	
+	
+	}]);
+
 
 App.controller('RtoController', ['$scope', '$location', 'rtoService', function($scope, $location, rtoService) {
 
 
   //  console.log(rtoService);
-   $scope.rtoList = rtoService.rtoList();
+		$scope.rtoList = rtoService.rtoList();
+    $scope.rtoData = $scope.rtoList.data;
 
 
 
@@ -43,9 +55,6 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
     $scope.showRto = function(request_id) {
         $location.path('/rto/' + request_id);
     };
-
-
-
 
 }]);
 
