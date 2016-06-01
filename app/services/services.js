@@ -89,7 +89,8 @@ App.service("rtoViewService", function($http, apiRequest) {
         // Return public API.
 	     return ({
 
-			 rtoViewData: rtoViewData
+			 rtoViewData: rtoViewData,
+			 getRtotime: getRtotime
     });
 
 
@@ -102,9 +103,10 @@ App.service("rtoViewService", function($http, apiRequest) {
         }
 
 
-        function rtotimeData(rtotime_id)
+        function getRtotime(request_id)
 		{
-             return  apiRequest.send('get','/rto/' + request_id, null);
+            return apiRequest.send('get','/rto/' + request_id, null);
+
 
         }
 

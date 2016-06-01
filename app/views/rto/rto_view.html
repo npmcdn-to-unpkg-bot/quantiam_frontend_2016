@@ -63,21 +63,30 @@
             <div class="card-body">
                 <table id="formtable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
                     <thead>
-                    <tr >
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Time Code</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr >
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Time Code</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
 
                     <tbody>
                     <tr>
-                        <td id="submitButton">
-                            <i class="md md-edit" style="color:royalblue"></i>
-                        </td>
+                         <form>
+                            <td><input type="date" ng-model="date"></td>
+                            <td><input type="number" ng-model="hours" placeholder="Hours Absent"></td>
+                            <td><select ng-model="type">
+                                    <option value="PTO">PTO</option>
+                                    <option value="Vacation">Vacation</option>
+                                    <option value="Unpaid">Unpaid</option>
+                                    <option value="CTO">CTO</option>
+                                </select>
+                            </td>
+                            <td ng-click="postRtotime()">
+                                <input type="submit" style="background-color:powderblue; color:black">
+                            </td>
+                        </form>
                     </tr>
                     </tbody>
 

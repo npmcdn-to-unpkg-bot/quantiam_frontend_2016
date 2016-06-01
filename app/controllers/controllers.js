@@ -134,6 +134,14 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
 
     $scope.viewTables();
 
+    $scope.postRtotime = function() {
+        console.log($scope.hours);
+        console.log($scope.type);
+        console.log($scope.date);
+
+    }
+
+
     $scope.newForm = function(){
 
         $scope.show_form = true;
@@ -142,7 +150,11 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
 
     }
     $scope.editForm = function(rtotime_id){
-        console.log(rtotime_id);
+
+        $scope.rtotimeData = rtoViewService.getRtotime(rtotime_id);
+        console.log($scope.rtotimeData);
+
+
         $scope.show_form = true;
         $scope.formMode = 'Edit Existing RTO';
         //clear fields
