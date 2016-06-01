@@ -78,6 +78,18 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
                 "info": false
             }
         );
+
+        $('#addRow').on( 'click', function () {
+            t.row.add( [
+                $scope.name,
+                1,
+                2,
+                3
+            ] ).draw( false );
+
+            counter++;
+        } );
+
         $('#approvaltable').DataTable(
             {
                 "oder": [[4, "desc"]],
@@ -89,5 +101,4 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
     }, 0);
 
 
-
-}])
+}]);

@@ -25,7 +25,13 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             url:'/rto/:rtoid',
             templateUrl: 'views/rto/rto_view.html',
             controller: 'RtoViewController as RVC'
-        });
+        })
+
+        .state('newRto', {
+            url:'/rto/new',
+            templateUrl: 'views/rto/rto_view.html',
+            controller: 'NewRtoController as NRC'
+      });
 				
 				
 				
