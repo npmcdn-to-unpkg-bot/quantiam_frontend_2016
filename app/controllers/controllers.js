@@ -50,7 +50,6 @@ App.controller('AuthController', ['$scope', 'userService', function ($scope, use
 App.controller('RtoController', ['$scope', '$location', 'rtoService', function($scope, $location, rtoService) {
 
 
-  //  console.log(rtoService);
     $scope.rtoTable = {};
 
 
@@ -89,7 +88,7 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 }]);
 
-App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService', 'userInfoService',  function($scope,  $stateParams, rtoViewService, userInfoService) {
+App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', function($scope,  $stateParams, $filter, rtoViewService, userInfoService) {
     var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
@@ -100,44 +99,58 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
     $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
 
 
-    $scope.viewTables = function() {
-        setTimeout(function () {
-            $('#rtotable').DataTable(
-                {
-                    "order": [[4, "desc"]],
-                    "searching": false,
-                    "paging": false,
-                    "info": false
-                }
-            );
+        $scope.viewTables = function () {
+            setTimeout(function () {
 
-            $('#approvaltable').DataTable(
-                {
-                    "oder": [[4, "desc"]],
-                    "searching": false,
-                    "paging": false,
-                    "info": false
-                }
-            );
 
-            $('#formtable').DataTable(
-                {
-                    "searching": false,
-                    "paging": false,
-                    "info": false
-                }
-            )
-        }, 0);
-    };
-    
+        /*        $scope.rtoTable = $('#rtotable').DataTable(
+                    {
+                        "order": [[4, "desc"]],
+                        "searching": false,
+                        "paging": false,
+                        "info": false
+                    }
+                );
+
+                $scope.approvalTable = $('#approvaltable').DataTable(
+                    {
+                        "oder": [[4, "desc"]],
+                        "searching": false,
+                        "paging": false,
+                        "info": false
+                    }
+                );
+
+                $scope.formtable = $('#formtable').DataTable(
+                    {
+                        "searching": false,
+                        "paging": false,
+                        "info": false
+                    }
+                );*/
+
+
+
+            }, 0);
+        };
+
+
+
+
+
 
 
     $scope.viewTables();
 
     $scope.postRtotime = function() {
-        console.log($scope.hours);
-        console.log($scope.type);
-        console.log($scope.date);
+
+        var params = {
+            "hours": $scope.hours,
+            "type": $scope.type,
+            "date": "2016-01-01"
+
+        };
+       $scope.rtoData.requested_time.push(rtoViewService.postRtotime(params,request_id));
 
     }
 
@@ -146,22 +159,47 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
 
         $scope.show_form = true;
         $scope.formMode = 'Create New RTO';
+
         //clear fields
+        $scope.hours ="";
+        $scope.type = null;
+        $scope.date="";
+
 
     }
-    $scope.editForm = function(rtotime_id){
 
-        $scope.rtotimeData = rtoViewService.getRtotime(rtotime_id);
-        console.log($scope.rtotimeData);
 
+    $scope.editForm = function(rtotime_id, $filter){
+
+        $scope.rtotime = $scope.rtoData.requested_time;
+
+        // Set object to accurate rtotime table values.
+       for (i = 0; i < $scope.rtotime.length; i++)
+       {
+           if ($scope.rtotime[i].rtotimeID == rtotime_id)
+           {
+               $scope.rtotime = $scope.rtotime[i];
+           }
+       }
+        console.log($scope.rtotime.date);
+        //set values to pop up in tables.
+        $scope.hours = $scope.rtotime.hours;
+        $scope.type = $scope.rtotime.type;
+        $scope.date=new Date($scope.rtotime.date);
 
         $scope.show_form = true;
         $scope.formMode = 'Edit Existing RTO';
-        //clear fields
 
     }
-    $scope.deleteForm = function(rtotime_id){
-        console.log('deleted');
+    $scope.deleteForm = function(rtotime_id, index){
+        console.log('deleted' + rtotime_id);
+        console.log(index);
+       if(rtoViewService.deleteRtotime(rtotime_id)) {
+
+           $scope.rtoData.requested_time.splice(index, 1);
+       }
+
+        
     }
 
 //    $scope.submittTimeoff();

@@ -9,7 +9,7 @@ App.service(
       function send (httpVerb,path,params){
 			
 					var apiUrl = "http://apps.edm.quantiam.com:2000";
-
+			console.log(params);
           var response = {};
 
               $.ajax({
@@ -90,13 +90,25 @@ App.service("rtoViewService", function($http, apiRequest) {
 	     return ({
 
 			 rtoViewData: rtoViewData,
-			 getRtotime: getRtotime
+			 getRtotime: getRtotime,
+			 postRtotime: postRtotime,
+			 deleteRtotime: deleteRtotime
     });
+	
+	
+		function postRtotime(params,requestID)
+		{
+			return apiRequest.send('post', '/rto/' + requestID + '/requestTime', params);
+		}
+
+		function deleteRtotime(rtotime_id)
+		{
+			return apiRequest.send('delete', '/rto/time/' + rtotime_id, null);
+		}
 
 
 
-
-        function rtoViewData(request_id)
+	function rtoViewData(request_id)
 		{
              return  apiRequest.send('get','/rto/' + request_id, null);
 
