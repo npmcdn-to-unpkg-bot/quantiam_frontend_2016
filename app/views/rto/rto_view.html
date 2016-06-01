@@ -1,6 +1,6 @@
 <div>
-    <button  type="button" id="0" ng-if="rtoData.status == 'Approved'" class="btn btn-block ink-reaction btn-xs btn-success">Approved</button>
-    <button  type="button" id="1" ng-if="rtoData.status == 'Pending'" class="btn btn-block ink-reaction btn-xs btn-warning">Pending</button>
+    <button  type="button" id="0" ng-if="rtoData.status == 'Approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
+    <button  type="button" id="1" ng-if="rtoData.status == 'Pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
     <button  type="button" id="2" ng-if="rtoData.status == 'Denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
 </div>
     <h1>
@@ -15,7 +15,7 @@
             <div class="card-head">
                 <header>Requested Time</header>
                 <div class="tools">
-                    <a  ng-click="showForm();" class="btn btn-icon-toggle btn-refresh" data-toggle="offcanvas">
+                    <a  ng-click="newForm();" class="btn btn-icon-toggle btn-refresh">
 
                         <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
                     </a>
@@ -32,39 +32,57 @@
                         <th>Time Code</th>
                         <th>Created</th>
                         <th>Updated</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
 
                     <tbody>
                         <tr ng-repeat="obj in rtoData.requested_time">
-                            <td>{{ obj.date }}</td>
+                            <td>{{ obj.date | date: 'longDate'}}</td>
                             <td>{{ obj.hours }} hours</td>
                             <td>{{ obj.type }}</td>
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
+                            <td id="edit/delete">
+                               <a ng-click="editForm(obj.rtotimeID);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a ng-click="deleteForm(obj.rtotimeID);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-delete" style="color:red"></i></a>
+                            </td>
                         </tr>
                     </tbody>
 
                 </table>
-
-                    <form>
-
-
-
-
-                    </form>
 
             </div>
         </div>
 
         <div ng-show="show_form" class="card card-underline">
             <div class="card-head">
-                <header>dsfasfd</header>
-                </div>
-            <div class="card-body">
+                <header>{{ formMode }}</header>
+            </div>
 
-                dsff
-                </div>
+            <div class="card-body">
+                <table id="formtable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
+                    <thead>
+                    <tr >
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Time Code</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td id="submitButton">
+                            <i class="md md-edit" style="color:royalblue"></i>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
         </div>
 
     </div>
@@ -80,7 +98,7 @@
                         <th>Supervisor</th>
                         <th>Employee ID</th>
                         <th>Approval</th>
-                        <th>Reason</th>
+                        <th>Comments</th>
                         <th>Updated</th>
                     </tr>
                     </thead>
@@ -103,41 +121,3 @@
         </div>
     </div>
 </div>
-
-<!--
-<div class="offcanvas">
-<div id="offcanvas-demo-size4" class="offcanvas-pane width-12" style="width: 800px; transform: translate(-800px, 0px);">
-    <div class="offcanvas-head">
-        <header>Size 4</header>
-        <div class="offcanvas-tools">
-            <a class="btn btn-icon-toggle btn-default-light pull-right" data-dismiss="offcanvas">
-                <i class="md md-close"></i>
-            </a>
-        </div>
-    </div>
-    <div class="nano has-scrollbar" style="height: 621px;"><div class="nano-content" tabindex="0" style="right: -17px;"><div class="offcanvas-body">
-        <p>
-            An off-canvas can hold any content you want.
-        </p>
-        <p>
-            Close this off-canvas by clicking on the backdrop or press the close button in the upper right corner.
-        </p>
-        <p>&nbsp;</p>
-        <h4>Some details</h4>
-        <ul class="list-divided">
-            <li><strong>Width</strong><br><span class="opacity-75">800px</span></li>
-            <li><strong>Height</strong><br><span class="opacity-75">100%</span></li>
-            <li><strong>Body scroll</strong><br><span class="opacity-75">disabled</span></li>
-            <li><strong>Background color</strong><br><span class="opacity-75">Default</span></li>
-        </ul>
-    </div></div><div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 604px; transform: translate(0px, 0px);"></div></div></div>
-    <div class="force-padding stick-bottom-right">
-        <a class="btn btn-floating-action btn-accent" href="#offcanvas-demo-size3" data-toggle="offcanvas">
-            <i class="md md-arrow-back"></i>
-        </a>
-    </div>
-</div>
- </div>
-
-
-<div class="backdrop"></div>

@@ -101,6 +101,13 @@ App.service("rtoViewService", function($http, apiRequest) {
 
         }
 
+
+        function rtotimeData(rtotime_id)
+		{
+             return  apiRequest.send('get','/rto/' + request_id, null);
+
+        }
+
     }
 );
 App.service("userInfoService", function($http, apiRequest) {

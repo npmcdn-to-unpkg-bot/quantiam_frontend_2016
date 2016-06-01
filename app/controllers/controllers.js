@@ -82,7 +82,7 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService', 'userInfoService',  function($scope,  $stateParams, rtoViewService, userInfoService) {
     var request_id = $stateParams.rtoid;
 
-    $scope.show_form = true;
+    $scope.show_form = false;
 
     $scope.rtoData = rtoViewService.rtoViewData(request_id);
 
@@ -101,17 +101,6 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
                 }
             );
 
-            $('#addRow').on('click', function () {
-                t.row.add([
-                    $scope.name,
-                    1,
-                    2,
-                    3
-                ]).draw(false);
-
-                counter++;
-            });
-
             $('#approvaltable').DataTable(
                 {
                     "oder": [[4, "desc"]],
@@ -120,6 +109,14 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
                     "info": false
                 }
             );
+
+            $('#formtable').DataTable(
+                {
+                    "searching": false,
+                    "paging": false,
+                    "info": false
+                }
+            )
         }, 0);
     };
     
@@ -127,11 +124,22 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
 
     $scope.viewTables();
 
-    $scope.showForm = function(){
+    $scope.newForm = function(){
 
         $scope.show_form = true;
+        $scope.formMode = 'Create New RTO';
         //clear fields
 
+    }
+    $scope.editForm = function(rtotime_id){
+        console.log(rtotime_id);
+        $scope.show_form = true;
+        $scope.formMode = 'Edit Existing RTO';
+        //clear fields
+
+    }
+    $scope.deleteForm = function(rtotime_id){
+        console.log('deleted');
     }
 
 //    $scope.submittTimeoff();
