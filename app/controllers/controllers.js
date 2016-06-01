@@ -41,27 +41,48 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 
   //  console.log(rtoService);
-		$scope.rtoList = rtoService.rtoList();
-    $scope.rtoData = $scope.rtoList.data;
+    $scope.rtoTable = {};
 
 
+   $scope.getTable = function () {
 
-   setTimeout(function() {
-       $('#rtotable').DataTable(
-           {
-               "order": [[3, "desc"], [2, "desc"]]
-           }
-       );
-   }, 0);
+       $scope.rtoList = rtoService.rtoList();
+       $scope.rtoData = $scope.rtoList.data;
 
-    $scope.showRto = function(request_id) {
-        $location.path('/rto/' + request_id);
-    };
+       
+       setTimeout(function () {
+
+
+           $scope.rtoTable = $('#rtotable').DataTable(
+                                   {
+                                       "order": [[3, "desc"], [2, "desc"]]
+                                   }
+                               );
+                           }, 0);
+   };
+
+       $scope.showRto = function (request_id) {
+           $location.path('/rto/' + request_id);
+       };
+
+    $scope.getTable();
+
+    $scope.addRto = function() {
+    // console.log('test');
+        
+        $scope.results = rtoService.addRto();
+
+        $scope.showRto($scope.results.requestID);
+    }
+
+
 
 }]);
 
 App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService', 'userInfoService',  function($scope,  $stateParams, rtoViewService, userInfoService) {
     var request_id = $stateParams.rtoid;
+
+    $scope.show_form = true;
 
     $scope.rtoData = rtoViewService.rtoViewData(request_id);
 
@@ -69,36 +90,71 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
     $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
 
 
-    setTimeout(function() {
-        $('#rtotable').DataTable(
-            {
-                "order": [[4, "desc" ]],
-                "searching": false,
-                "paging": false,
-                "info": false
-            }
-        );
+    $scope.viewTables = function() {
+        setTimeout(function () {
+            $('#rtotable').DataTable(
+                {
+                    "order": [[4, "desc"]],
+                    "searching": false,
+                    "paging": false,
+                    "info": false
+                }
+            );
 
-        $('#addRow').on( 'click', function () {
-            t.row.add( [
-                $scope.name,
-                1,
-                2,
-                3
-            ] ).draw( false );
+            $('#addRow').on('click', function () {
+                t.row.add([
+                    $scope.name,
+                    1,
+                    2,
+                    3
+                ]).draw(false);
 
-            counter++;
-        } );
+                counter++;
+            });
 
-        $('#approvaltable').DataTable(
-            {
-                "oder": [[4, "desc"]],
-                "searching": false,
-                "paging": false,
-                "info": false
-            }
-        );
-    }, 0);
+            $('#approvaltable').DataTable(
+                {
+                    "oder": [[4, "desc"]],
+                    "searching": false,
+                    "paging": false,
+                    "info": false
+                }
+            );
+        }, 0);
+    };
+    
+
+
+    $scope.viewTables();
+
+    $scope.showForm = function(){
+
+        $scope.show_form = true;
+        //clear fields
+
+    }
+
+    $scope.submittTimeoff()
+
+
+    //loop through all requests
+
+    //#scopeshow_form = false;
+
+    }
+
+
+
+
+
+
+
+
+}]);
+
+App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $stateParams) {
+
+    console.log($stateParams);
 
 
 }]);

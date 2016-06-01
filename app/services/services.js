@@ -58,7 +58,8 @@ App.service("rtoService", function($http, apiRequest) {
         // Return public API.
         return ({
 
-            rtoList: rtoList
+            rtoList: rtoList,
+			addRto: addRto
     });
 		
         function rtoList()
@@ -74,6 +75,12 @@ App.service("rtoService", function($http, apiRequest) {
              return  apiRequest.send('post','/rto', params);
      
         }
+
+
+		function addRto()
+		{
+			return apiRequest.send('post', '/rto/new', null);
+		}
 
     }
 );
