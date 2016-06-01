@@ -134,14 +134,14 @@ App.controller('RtoViewController', ['$scope', '$stateParams',  'rtoViewService'
 
     }
 
-    $scope.submittTimeoff()
+//    $scope.submittTimeoff();
 
 
     //loop through all requests
 
     //#scopeshow_form = false;
 
-    }
+
 
 
 
