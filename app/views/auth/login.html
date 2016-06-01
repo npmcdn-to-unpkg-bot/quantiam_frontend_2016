@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="col-lg-12">
+		
+		<div class="col-md-offset-4 col-md-4">
+			<div class="card">
+				<div class='card-head style-primary'>
+					<header> User Authentication </header>
+				</div>
+				<div class='card-body'>
+					
+					<form class='form' ng-submit="authenticate()" ng-controller="AuthController">
+						
+						
+						<div class="form-group">
+							<input type="text" class="form-control input-lg" ng-model="username">
+							<label for="regular1">Username</label>
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control input-lg" ng-model="password">
+							<label for="regular1">Password</label>
+						</div>
+						
+						<button style="float:right;" class='btn btn-primary' type="submit" > Submitt </button>
+					</form>
+					
+				</div>
+			</div>
+			
+		</div>
+	</div></div>	

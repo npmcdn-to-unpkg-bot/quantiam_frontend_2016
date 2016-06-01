@@ -12,6 +12,10 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/dashboard.html',
             controller: 'HomeController as HC'
         })
+        .state('login', {
+            url:'/login',
+            templateUrl: 'views/auth/login.html',
+				})
         .state('rto', {
             url:'/rto',
             templateUrl: 'views/rto/rto_dashboard.html',
@@ -21,6 +25,15 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             url:'/rto/:rtoid',
             templateUrl: 'views/rto/rto_view.html',
             controller: 'RtoViewController as RVC'
-        });
+        })
+
+        .state('newRto', {
+            url:'/rto/new',
+            templateUrl: 'views/rto/rto_view.html',
+            controller: 'NewRtoController as NRC'
+      });
+				
+				
+				
 
 }]);
