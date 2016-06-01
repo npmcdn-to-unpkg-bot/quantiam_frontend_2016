@@ -1,5 +1,5 @@
 
-App.controller('IndexController', ['$scope', 'userService', function($scope, userService) {
+App.controller('IndexController', ['$scope', '$location','userService', function($scope, $location, userService) {
   var vm = this;
 
   vm.AppName = "Quantiam";
@@ -8,7 +8,16 @@ App.controller('IndexController', ['$scope', 'userService', function($scope, use
 
   vm.body.title = "Thing";
 	
-	userService.refreshUser();
+	$scope.user = userService.refreshUser();
+	console.log($scope.user);
+	
+	
+	$scope.isActive = false;
+	
+$scope.isActive = function (viewLocation) { 
+        return viewLocation === $location.path();
+    };
+	
 
 }]);
 
@@ -25,6 +34,7 @@ App.controller('AuthController', ['$scope', 'userService', function ($scope, use
     $scope.authenticate = function() {
 				if(userService.authenticateUser($scope.username,$scope.password))
 				{
+					//broadcast an event to update the controller. 
 					$(location).attr('href', '#/dashboard');
 				}
 				else

@@ -164,6 +164,7 @@ App.service("userInfoService", function($http, apiRequest) {
 				var request = apiRequest.send('get','/user');
 				if(	!request)
 					{
+							toastr.error('Your session is no longer valid, please login again.', 'Authentication Error');
 						logoutUser();
 					}
 					else

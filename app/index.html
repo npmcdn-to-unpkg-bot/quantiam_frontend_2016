@@ -51,88 +51,17 @@
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="headerbar-right">
-            <ul class="header-nav header-nav-options">
-                <li>
-                    <!-- Search form -->
-                    <form class="navbar-search" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="headerSearch" placeholder="Enter your keyword">
-                        </div>
-                        <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i></button>
-                    </form>
-                </li>
-                <li class="dropdown hidden-xs">
-                    <a href="javascript:void(0);" class="btn btn-icon-toggle btn-default" data-toggle="dropdown">
-                        <i class="fa fa-bell"></i><sup class="badge style-danger">4</sup>
-                    </a>
-                    <ul class="dropdown-menu animation-expand">
-                        <li class="dropdown-header">Today's messages</li>
-                        <li>
-                            <a class="alert alert-callout alert-warning" href="javascript:void(0);">
-                                <img class="pull-right img-circle dropdown-avatar" src="../../assets/img/avatar2.jpg?1404026449" alt="" />
-                                <strong>Alex Anistor</strong><br/>
-                                <small>Testing functionality...</small>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="alert alert-callout alert-info" href="javascript:void(0);">
-                                <img class="pull-right img-circle dropdown-avatar" src="../../assets/img/avatar3.jpg?1404026799" alt="" />
-                                <strong>Alicia Adell</strong><br/>
-                                <small>Reviewing last changes...</small>
-                            </a>
-                        </li>
-                        <li class="dropdown-header">Options</li>
-                        <li><a href="../../html/pages/login.html">View all messages <span class="pull-right"><i class="fa fa-arrow-right"></i></span></a></li>
-                        <li><a href="../../html/pages/login.html">Mark as read <span class="pull-right"><i class="fa fa-arrow-right"></i></span></a></li>
-                    </ul><!--end .dropdown-menu -->
-                </li><!--end .dropdown -->
-                <li class="dropdown hidden-xs">
-                    <a href="javascript:void(0);" class="btn btn-icon-toggle btn-default" data-toggle="dropdown">
-                        <i class="fa fa-area-chart"></i>
-                    </a>
-                    <ul class="dropdown-menu animation-expand">
-                        <li class="dropdown-header">Server load</li>
-                        <li class="dropdown-progress">
-                            <a href="javascript:void(0);">
-                                <div class="dropdown-label">
-                                    <span class="text-light">Server load <strong>Today</strong></span>
-                                    <strong class="pull-right">93%</strong>
-                                </div>
-                                <div class="progress"><div class="progress-bar progress-bar-danger" style="width: 93%"></div></div>
-                            </a>
-                        </li><!--end .dropdown-progress -->
-                        <li class="dropdown-progress">
-                            <a href="javascript:void(0);">
-                                <div class="dropdown-label">
-                                    <span class="text-light">Server load <strong>Yesterday</strong></span>
-                                    <strong class="pull-right">30%</strong>
-                                </div>
-                                <div class="progress"><div class="progress-bar progress-bar-success" style="width: 30%"></div></div>
-                            </a>
-                        </li><!--end .dropdown-progress -->
-                        <li class="dropdown-progress">
-                            <a href="javascript:void(0);">
-                                <div class="dropdown-label">
-                                    <span class="text-light">Server load <strong>Lastweek</strong></span>
-                                    <strong class="pull-right">74%</strong>
-                                </div>
-                                <div class="progress"><div class="progress-bar progress-bar-warning" style="width: 74%"></div></div>
-                            </a>
-                        </li><!--end .dropdown-progress -->
-                    </ul><!--end .dropdown-menu -->
-                </li><!--end .dropdown -->
-            </ul><!--end .header-nav-options -->
-            <ul class="header-nav header-nav-profile">
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
-                        <img src="../../assets/img/avatar1.jpg?1403934956" alt="" />
+          
+            <ul ng-hide="{{user  === undefined}}"  class="header-nav header-nav-profile">
+                <li class="dropdown" style="padding:18px">
+                
+						
+								
 								<span class="profile-info">
-									Chris Petrone
-									<small>n00b</small>
+								 {{user.firstname}}
+									<small>{{user.title}}</small>
 								</span>
-                    </a>
-                    <ul class="dropdown-menu animation-dock">
-                    </ul><!--end .dropdown-menu -->
+           
                 </li><!--end .dropdown -->
             </ul><!--end .header-nav-profile -->
             <ul class="header-nav header-nav-toggle">
@@ -180,8 +109,8 @@
             <ul id="main-menu" class="gui-controls">
 
                 <!-- BEGIN DASHBOARD -->
-                <li>
-                    <a ui-sref="dashboard" class="active">
+                <li ng-class="{ active: isActive('/dashboard')}">
+                    <a ui-sref="dashboard" >
                         <div class="gui-icon"><i class="md md-home"></i></div>
                         <span class="title">Dashboard</span>
                     </a>
@@ -189,22 +118,18 @@
                 <!-- END DASHBOARD -->
 
                 <!-- BEGIN TEST -->
-                <li>
-                    <a ui-sref="rto">
+                <li ng-class="{ active: isActive('/rto')}" >
+                    <a ui-sref="rto"     >
                         <div class="gui-icon"><i class="fa fa-circle-o-notch fa-2x"></i></div>
                         <span class="title">RTO</span>
                     </a>
                 </li>
-
-
-                <li>
-                    <a href="#/login">
-                        <div><i class="fa fa-circle fa-2x"></i></div>
-                        <span class="title">Login</span>
+								<li>
+                    <a  href="http://apps.edm.quantiam.com/timesheet/"     >
+                        <div class="gui-icon"><i class="fa fa-circle-o-notch fa-2x"></i></div>
+                        <span class="title">Timesheet Test</span>
                     </a>
                 </li>
-
-
 
 
             </ul><!--end .main-menu -->
