@@ -244,6 +244,23 @@ return ({
 	});
 
 
+App.service("rtoApprovalService", function(apiRequest) {
+	return ({
+		approve: approve,
+	});
+
+	function approve(requestID) {
+
+		var response = apiRequest.send('post', '/rto/' + requestID + '/approval');
+
+	}
+});
+
+
+
+
+
+
 /* 
 	This service povides a place to store all api errors. 
 */
