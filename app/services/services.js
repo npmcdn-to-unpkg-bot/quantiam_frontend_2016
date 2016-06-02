@@ -1,56 +1,50 @@
 App.service(
     "apiRequest",
-    function($http, errorService) {
+    function($http,   errorService) {
 
         return {
-            send: send
-        };
+         
 
-      function send (httpVerb,path,params){
+				send: function (httpVerb,path,params){
+				
+			
 			
 					var apiUrl = "http://apps.edm.quantiam.com:2000";
-			console.log(params);
-          var response = {};
+					var response;
+					var token = localStorage.getItem('token');
+				//	console.log(token);
+				//	var response = $q.defer();
+        
 
-              $.ajax({
-                  type: httpVerb,
-                  async: false,
-                  url: apiUrl + path,
-				//dataType: "json",
-                  headers: {
-                      "Authorization": "Bearer " + localStorage.getItem('token'),
-                      "content-type": "application/x-www-form-urlencoded"
-                  },
-                  data: params,
-                  success: function (r) {
-
-                      response = r;
-				console.log(response);
-									
-                      //Do Something
-                  },
-                  error: function (e) {
-                      // We need to build an ovious way to display an error here. 
-											// response = e;
-											errorService.new_error(e);
-											response = false;
-                  }
-              });
-
-								
-			
-						return response;
-					
-					
-			//		return;
 						
+						var req = {
+											 method: httpVerb,
+											 url: apiUrl + path,
+											 headers: {
+												 "Authorization": "Bearer " + token 
+											 },
+											 data: params
+											}
 
-        }
+						 response =	$http(req).success(function(r){
+									
+					
+						 }).error(function(e,s){
+						 
+					return e;
+						 
+						 
+						 });
+						
+						return response;
+					}
+				}
+					
+		});
+							
+					
+		
 
-
-    }
-
-);
 
 App.service("rtoService", function($http, apiRequest) {
 
@@ -59,8 +53,8 @@ App.service("rtoService", function($http, apiRequest) {
         return ({
 
             rtoList: rtoList,
-			addRto: addRto
-    });
+						addRto: addRto
+					});
 		
         function rtoList()
         {
@@ -147,61 +141,86 @@ App.service("userInfoService", function($http, apiRequest) {
 /*
 	This service contains methods used to authenticate and update the user.
 */
-	App.service("userService",function(apiRequest) {
+App.service("userService",  function( $location, apiRequest ) {
 		
-		 return ({
-
-							authenticateUser: authenticateUser,
-							refreshUser: refreshUser,
-							getstoredUser: getstoredUser,
-							logoutUser: logoutUser
-			});
+		 
 			
-		var userObject = {};
+		var storedUserObject = {};
 			
 			
 		// Obtain the user JWT token using credentials
 		function authenticateUser (username, pass)
 		{
+		
+		
 			var params = {"username": username, "pass": pass};
-			var response = apiRequest.send('post','/auth',params);
-				if(response)
-				{
-					localStorage.setItem('token', response. token);
-					return true;
-				}
+			var response = apiRequest.send('post','/auth',params).success(function(r){
+							
+							localStorage.setItem('token', r.token);
+								return true;
+									 
+					 }) 
+					.error(function(e){
+						
+						return false;
+						
+						 });
+			
+			return response;
+			
+				
 		}
 		
 		function getstoredUser(){
 						
-						return userObject; //returns stored object
+						return storedUserObject; //returns stored object
 					
 		}
 		
 		// Use the stored token to refresh the user object.
 		function refreshUser() 
 		{
+			
+					
+					
+					var response = apiRequest.send('get','/user').success(function(r){
+							
+							storedUserObject = r;
+							return r; 
+							
+									 
+					 })
+					 .error(function(e){
+							//	console.log(e);
+							return false;
+						 		logoutUser();
+						 });
+			
 		
-				var request = apiRequest.send('get','/user');
-				if(	!request)
-					{
-							toastr.error('Your session is no longer valid, please login again.', 'Authentication Error');
-						logoutUser();
-					}
-					else
-					{
-							userObject = request;
-							return userObject;
-					}
+				
+	
+					return response;
+						
 			
 		}
 		
 		// Used to redirect the user to the login screen and delete the stored token.
 		function logoutUser()
 		{
-					localStorage.clear(); // clear stored data
-					$(location).attr('href', '#/login'); // send user to default screen. 
+				localStorage.clear(); // clear stored data
+				$location.path('/login');
+				
 		}
+		
+		
+return ({
+
+							authenticateUser: authenticateUser,
+							refreshUser: refreshUser,
+							getstoredUser: getstoredUser,
+							logoutUser: logoutUser,
+							storedUserObject: storedUserObject
+			});
 
 	});
 

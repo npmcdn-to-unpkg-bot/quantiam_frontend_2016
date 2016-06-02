@@ -4,12 +4,13 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 
   vm.AppName = "Quantiam";
 
-  vm.body = {};
-
-  vm.body.title = "Thing";
+			 userService.refreshUser().then(function(r){
 	
-	$scope.user = userService.refreshUser();
-	console.log($scope.user);
+						$scope.user = userService.getstoredUser();
+			
+					
+			 });
+		
 	
 	
 	$scope.isActive = false;
@@ -32,6 +33,8 @@ App.controller('HomeController', ['$scope', function($scope) {
 App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
 	
     $scope.authenticate = function() {
+		
+		
 				if(userService.authenticateUser($scope.username,$scope.password))
 				{
 					//broadcast an event to update the controller. 
@@ -55,10 +58,15 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
    $scope.getTable = function () {
 
-       $scope.rtoList = rtoService.rtoList();
-       $scope.rtoData = $scope.rtoList.data;
+        rtoService.rtoList().success(function(r){
+				 
+						$scope.rtoList = r;
+						 $scope.rtoData = $scope.rtoList.data;
+					
+				 });
+    
 
-       
+     /*  
        setTimeout(function () {
 
 
@@ -67,7 +75,7 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
                                        "order": [[3, "desc"], [2, "desc"]]
                                    }
                                );
-                           }, 0);
+                           }, 0);  */
    };
 
        $scope.showRto = function (request_id) {
@@ -76,12 +84,19 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
     $scope.getTable();
 
+		
+		
     $scope.addRto = function() {
     // console.log('test');
         
-        $scope.results = rtoService.addRto();
+       rtoService.addRto().then(function(r){
+					
+					 $scope.results = r;
+					  $scope.showRto($scope.results.requestID);
+					
+					});
 
-        $scope.showRto($scope.results.requestID);
+       
     }
 
 
@@ -92,55 +107,24 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
     var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
-
-    $scope.rtoData = rtoViewService.rtoViewData(request_id);
-
-    $scope.userInfo = userInfoService.getUserData($scope.rtoData.employeeID);
-    $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
+		
+		rtoViewService.rtoViewData(request_id).then(function(r){
+			
+			$scope.rtoData = r.data;
+		
+				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
+								
+								$scope.userInfo = r.data;
+								 $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
+					
+					});
+				
+   	});
 
 
         $scope.viewTables = function () {
-            setTimeout(function () {
-
-
-        /*        $scope.rtoTable = $('#rtotable').DataTable(
-                    {
-                        "order": [[4, "desc"]],
-                        "searching": false,
-                        "paging": false,
-                        "info": false
-                    }
-                );
-
-                $scope.approvalTable = $('#approvaltable').DataTable(
-                    {
-                        "oder": [[4, "desc"]],
-                        "searching": false,
-                        "paging": false,
-                        "info": false
-                    }
-                );
-
-                $scope.formtable = $('#formtable').DataTable(
-                    {
-                        "searching": false,
-                        "paging": false,
-                        "info": false
-                    }
-                );*/
-
-
-
-            }, 0);
+     
         };
-
-
-
-
-
-
-
-    $scope.viewTables();
 
     $scope.postRtotime = function() {
 
@@ -150,6 +134,7 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
             "date": "2016-01-01"
 
         };
+				
        $scope.rtoData.requested_time.push(rtoViewService.postRtotime(params,request_id));
 
     }

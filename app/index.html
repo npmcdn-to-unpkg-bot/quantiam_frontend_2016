@@ -17,8 +17,7 @@
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/rickshaw/rickshaw.css" />
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/morris/morris.core.css" />
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/DataTables/jquery.dataTables.css" />
-    <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/DataTables/extensions/dataTables.colVis.css" />
-    <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/DataTables/extensions/dataTables.tableTools.css" />
+		  <link type="text/css" rel="stylesheet" href="assets/js/libs/angular-datatables/css/angular-dataTables.css" />
 		<link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/toastr/toastr.css" />
 
 
@@ -52,7 +51,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="headerbar-right">
           
-            <ul ng-hide="{{user  === undefined}}"  class="header-nav header-nav-profile">
+            <ul ng-hide="{{user.firstname}}"  class="header-nav header-nav-profile">
                 <li class="dropdown" style="padding:18px">
                 
 						
@@ -118,8 +117,9 @@
                 <!-- END DASHBOARD -->
 
                 <!-- BEGIN TEST -->
-                <li ng-class="{ active: isActive('/rto')}" >
-                    <a ui-sref="rto"     >
+							
+                <li ng-class="{ active: isActive('/rto')}"    >
+                    <a ui-sref="rto"   >
                         <div class="gui-icon"><i class="fa fa-circle-o-notch fa-2x"></i></div>
                         <span class="title">RTO</span>
                     </a>
@@ -160,21 +160,35 @@
 
 
 
-
 </body>
 
 
 
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="assets/js/libs/jquery/jquery-1.11.2.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="assets/js/libs/bootstrap/bootstrap.min.js"></script>
+
+<!-- JQUERY / Non Angular JS  -->
 
 
-<!-- angular --->
-<script src="assets/js/libs/angular/angular.min.js"></script>
-<script src="assets/js/libs/angular/angular-route.min.js" charset="utf-8"></script>
+<script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+<script src="assets/js/libs/DataTables/jquery.dataTables.min.js"></script>
+<script src="assets/js/libs/spin.js/spin.min.js"></script>
+<script src="assets/js/libs/moment/moment.min.js"></script>
+<script src="assets/js/libs/toastr/toastr.js"></script>
+<script src="assets/js/libs/microtemplating/microtemplating.min.js"></script>
+
+
+<!-- END JAVASCRIPT -->
+
+<!-- angular JS--->
+
+<script src="assets/js/libs/angular/angular.js"></script>
+<script src="assets/js/libs/angular/angular-animate.js"></script>
+<script src="assets/js/libs/angular/angular-touch.js"></script>
+<script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="assets/js/libs/angular-datatables/dist/angular-datatables.min.js"></script>
+<script src="assets/js/libs/bootstrap-angular-ui/ui-bootstrap-1.3.3.min.js"></script>
+
+
 
 <!--- App JS -->
 
@@ -185,37 +199,7 @@
 <script src="directives/directives.js" charset="utf-8"></script>
 <script src="factories/factories.js" charset="utf-8"></script>
 <script src="filters/filters.js" charset="utf-8"></script>
-<script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-
-<!-- BEGIN JAVASCRIPT -->
-<script src="assets/js/libs/jquery/jquery-1.12.3.min.js"></script>
-<script src="assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script>
-<script src="assets/js/libs/bootstrap/bootstrap.min.js"></script>
-<script src="assets/js/libs/spin.js/spin.min.js"></script>
-<script src="assets/js/libs/autosize/jquery.autosize.min.js"></script>
-<script src="assets/js/libs/inputmask/jquery.inputmask.bundle.min.js"></script>
-<script src="assets/js/libs/moment/moment.min.js"></script>
-<script src="assets/js/libs/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-<script src="assets/js/libs/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-<script src="assets/js/libs/bootstrap-rating/bootstrap-rating-input.min.js"></script>
-<script src="assets/js/libs/nanoscroller/jquery.nanoscroller.min.js"></script>
-<script src="assets/js/libs/toastr/toastr.js"></script>
-<script src="assets/js/libs/microtemplating/microtemplating.min.js"></script>
-<script src="assets/js/libs/summernote/summernote.min.js"></script>
-<script src="assets/js/core/source/App.js"></script>
-<script src="assets/js/core/source/AppNavigation.js"></script>
-<script src="assets/js/core/source/AppOffcanvas.js"></script>
-<script src="assets/js/core/source/AppCard.js"></script>
-<script src="assets/js/core/source/AppForm.js"></script>
-<script src="assets/js/core/source/AppNavSearch.js"></script>
-<script src="assets/js/core/source/AppVendor.js"></script>
-<script src="assets/js/core/demo/Demo.js"></script>
-<script src="assets/js/core/demo/DemoPageContacts.js"></script>
-<script src="assets/js/libs/DataTables/jquery.dataTables.min.js"></script>
-<script src="assets/js/libs/DataTables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
-<script src="assets/js/libs/DataTables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
-<!-- END JAVASCRIPT -->
 
 
 
