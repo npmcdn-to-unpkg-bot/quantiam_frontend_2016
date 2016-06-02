@@ -46,6 +46,18 @@ App.service(
 		
 
 
+App.service("dateStringService", function($filter) {
+
+	return ({
+		dateToString: dateToString
+	});
+
+	function dateToString(date)
+	{
+		return $filter('date')(date, "yyyy-MM-dd");
+	};
+})
+
 App.service("rtoService", function($http, apiRequest) {
 
 

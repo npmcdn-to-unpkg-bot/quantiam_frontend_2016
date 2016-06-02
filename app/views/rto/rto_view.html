@@ -37,9 +37,9 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="obj in rtoData.requested_time">
+                        <tr ng-repeat="obj in rtoData.requested_time | orderBy:'+date'">
                             <td>{{ obj.date | date: 'longDate'}}</td>
-                            <td>{{ obj.hours }} hours</td>
+                            <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
                             <td>{{ obj.type }}</td>
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
@@ -64,8 +64,8 @@
 
                  <form class="form-inline" name="input">
                      <div class="form-group">
-                         <input style="font: 'Comic Sans MS'" class="form-control" type="date" ng-model="date" id="datePicker" required>
-                         <label for="datePicker">Date </label>
+                         <input class="form-control" type="date" ng-model="date" id="datePicker" required>
+                         <label for="datePicker">Date</label>
                      </div>
                      <div class="form-group">
                          <input class="form-control" type="number" min="0.5" max="8" step="0.5" ng-model="hours" id="reqHours" required>

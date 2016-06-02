@@ -33,8 +33,6 @@ App.controller('HomeController', ['$scope', function($scope) {
 App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
 	
     $scope.authenticate = function() {
-		
-		
 				if(userService.authenticateUser($scope.username,$scope.password))
 				{
 					//broadcast an event to update the controller. 
@@ -103,7 +101,9 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 }]);
 
-App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', function($scope,  $stateParams, $filter, rtoViewService, userInfoService) {
+App.controller('RtoViewController',
+    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'dateStringService',
+        function($scope,  $stateParams, $filter, rtoViewService, userInfoService, dateStringService) {
     var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
@@ -127,11 +127,10 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
         };
 
     $scope.postRtotime = function() {
-
         var params = {
             "hours": $scope.hours,
             "type": $scope.type,
-            "date": "2016-01-01"
+            "date": dateStringService.dateToString($scope.date),
 
         };
 				
@@ -145,7 +144,7 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
             "rtotimeID": $scope.rtotimeID,
             "hours": $scope.hours,
             "type": $scope.type,
-            "date": "2016-01-01",
+            "date": dateStringService.dateToString($scope.date),
         };
 
         $scope.rtoData.requested_time.splice($scope.index, 1, rtoViewService.putRtotime(params));
@@ -172,7 +171,6 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
 
 
     $scope.editForm = function(rtotime_id, index){
-
         $scope.rtotime = $scope.rtoData.requested_time;
 
         // Set object to accurate rtotime table values.
