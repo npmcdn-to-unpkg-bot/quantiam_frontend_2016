@@ -174,13 +174,13 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
     $scope.newForm = function(){
 
         $scope.show_form = true;
-        $scope.formTitle = 'Create New RTO';
-        $scope.formMode = 'new';
+            $scope.formTitle = 'Create New RTO';
+            $scope.formMode = 'new';
 
         //clear fields
-        $scope.hours ="";
-        $scope.type = null;
-        $scope.date="";
+            $scope.hours ="";
+            $scope.type = null;
+            $scope.date="";
 
 
     }
@@ -198,18 +198,16 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
                $scope.rtotime = $scope.rtotime[i];
            }
        }
-        console.log($scope.rtotime);
         //set values to pop up in tables.
             $scope.hours = $scope.rtotime.hours;
             $scope.type = $scope.rtotime.type;
-            $scope.date=new Date($scope.rtotime.date);
+            $scope.date = new Date($scope.rtotime.date);
             $scope.rtotimeID = $scope.rtotime.rtotimeID;
             $scope.index = index;
 
         $scope.show_form = true;
-
-        $scope.formTitle = 'Edit Existing RTO';
-        $scope.formMode = 'edit';
+            $scope.formTitle = 'Edit Existing RTO';
+            $scope.formMode = 'edit';
 
     }
     $scope.deleteForm = function(rtotime_id, index){
