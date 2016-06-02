@@ -44,7 +44,7 @@
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td id="edit/delete">
-                               <a ng-click="editForm(obj.rtotimeID);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-edit" style="color:royalblue"></i></a>
                                <a ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-delete" style="color:red"></i></a>
                             </td>
                         </tr>
@@ -57,7 +57,7 @@
 
         <div ng-show="show_form" class="card card-underline">
             <div class="card-head">
-                <header>{{ formMode }}</header>
+                <header>{{ formTitle }}</header>
             </div>
 
             <div class="card-body">
@@ -81,7 +81,8 @@
                          <label for="classPicker">Type</label>
                      </div>
                      <div class="form-group">
-                         <button ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit" >Submitt</button>
+                         <button ng-if="formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit" >Submitt</button>
+                         <button ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submitt</button>
                      </div>
 
                 </form>

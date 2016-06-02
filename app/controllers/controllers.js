@@ -154,11 +154,28 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
 
     }
 
+    $scope.editRtotime = function()
+    {
+        var params = {
+            "rtotimeID": $scope.rtotimeID,
+            "hours": $scope.hours,
+            "type": $scope.type,
+            "date": "2016-01-01",
+        };
+
+        $scope.rtoData.requested_time.splice($scope.index, 1, rtoViewService.putRtotime(params));
+
+
+    /*    $scope.rtoData.requested_time.splice($scope.index, 0, rtoViewService.putRtotime(params));
+        $scope.rtoData.requested_time.splice($scope.index, 1);*/
+    }
+
 
     $scope.newForm = function(){
 
         $scope.show_form = true;
-        $scope.formMode = 'Create New RTO';
+        $scope.formTitle = 'Create New RTO';
+        $scope.formMode = 'new';
 
         //clear fields
         $scope.hours ="";
@@ -169,7 +186,7 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
     }
 
 
-    $scope.editForm = function(rtotime_id, $filter){
+    $scope.editForm = function(rtotime_id, index){
 
         $scope.rtotime = $scope.rtoData.requested_time;
 
@@ -181,14 +198,18 @@ App.controller('RtoViewController', ['$scope', '$stateParams', '$filter', 'rtoVi
                $scope.rtotime = $scope.rtotime[i];
            }
        }
-        console.log($scope.rtotime.date);
+        console.log($scope.rtotime);
         //set values to pop up in tables.
-        $scope.hours = $scope.rtotime.hours;
-        $scope.type = $scope.rtotime.type;
-        $scope.date=new Date($scope.rtotime.date);
+            $scope.hours = $scope.rtotime.hours;
+            $scope.type = $scope.rtotime.type;
+            $scope.date=new Date($scope.rtotime.date);
+            $scope.rtotimeID = $scope.rtotime.rtotimeID;
+            $scope.index = index;
 
         $scope.show_form = true;
-        $scope.formMode = 'Edit Existing RTO';
+
+        $scope.formTitle = 'Edit Existing RTO';
+        $scope.formMode = 'edit';
 
     }
     $scope.deleteForm = function(rtotime_id, index){

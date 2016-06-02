@@ -92,6 +92,7 @@ App.service("rtoViewService", function($http, apiRequest) {
 			 rtoViewData: rtoViewData,
 			 getRtotime: getRtotime,
 			 postRtotime: postRtotime,
+			 putRtotime: putRtotime,
 			 deleteRtotime: deleteRtotime
     });
 	
@@ -100,6 +101,12 @@ App.service("rtoViewService", function($http, apiRequest) {
 		{
 			return apiRequest.send('post', '/rto/' + requestID + '/requestTime', params);
 		}
+
+		function putRtotime(params)
+		{
+			return apiRequest.send('put', '/rto/requestTime', params);
+		}
+
 
 		function deleteRtotime(rtotime_id)
 		{
