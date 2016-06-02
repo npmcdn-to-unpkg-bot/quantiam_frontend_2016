@@ -118,25 +118,93 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 }]);
 
 App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'dateStringService',
-        function($scope,  $stateParams, $filter, rtoViewService, userInfoService, dateStringService) {
+    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userService', 'userInfoService', 'dateStringService',
+        function($scope,  $stateParams, $filter, rtoViewService, userService, userInfoService, dateStringService) {
+				
+				
     var request_id = $stateParams.rtoid;
-
+		
+		
+		
+		
     $scope.show_form = false;
+		
+		
+	
+		
+		
+		
 		
 		rtoViewService.rtoViewData(request_id).then(function(r){
 			
 			$scope.rtoData = r.data;
 		
+		
+				
+
+		
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 								
 								$scope.userInfo = r.data;
-								 $scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
+								$scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
+								userInfoService.QueryUserRtoBank($scope.rtoData.employeeID).then(function(r){
+									
+									$scope.bankTotals = userInfoService.getUserRtoBank();
+									console.log($scope.bankTotals);
+									calculate_BankTotalsDifference ();
+									
+									});
+					
+					
+				
 					
 					});
 				
    	});
 
+function calculate_BankTotalsDifference (){
+			
+			var requestedTime = {};
+			var resultTime = {};
+
+		
+			
+			for (var i = 0; i < $scope.rtoData.requested_time.length; i++) {
+				
+				if(!requestedTime[$scope.rtoData.requested_time[i].type])
+				{
+				requestedTime[$scope.rtoData.requested_time[i].type] = $scope.rtoData.requested_time[i].hours;
+				}
+				else
+				{
+					requestedTime[$scope.rtoData.requested_time[i].type] = requestedTime[$scope.rtoData.requested_time[i].type] + $scope.rtoData.requested_time[i].hours;
+				}
+
+			}
+			
+			//compare 
+			
+			for (var key in $scope.bankTotals.remaining )
+			{
+					if(requestedTime[key])
+					{
+					resultTime[key] = $scope.bankTotals.remaining[key] - requestedTime[key];
+					}
+					else
+					{
+						resultTime[key] = $scope.bankTotals.remaining[key];
+					}
+				
+			}
+			
+		
+			
+			$scope.requestedTime = requestedTime;
+			$scope.resultTime = resultTime;
+			
+}
+		
+		
 
         $scope.viewTables = function () {
      
@@ -154,6 +222,7 @@ App.controller('RtoViewController',
 
 
              $scope.rtoData.requested_time.push(r);
+						 	calculate_BankTotalsDifference ();
 
         }).error(function(e){
 
@@ -177,6 +246,7 @@ App.controller('RtoViewController',
         rtoViewService.putRtotime(params).success(function(r) {
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
+							calculate_BankTotalsDifference ();
 
         }).error(function(e) {
 
@@ -234,6 +304,7 @@ App.controller('RtoViewController',
        if(rtoViewService.deleteRtotime(rtotime_id)) {
 
            $scope.rtoData.requested_time.splice(index, 1);
+					 	calculate_BankTotalsDifference ();
        }
 
         

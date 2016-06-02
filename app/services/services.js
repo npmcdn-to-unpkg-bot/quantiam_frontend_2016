@@ -99,9 +99,11 @@ App.service("rtoViewService", function($http, apiRequest) {
 			 getRtotime: getRtotime,
 			 postRtotime: postRtotime,
 			 putRtotime: putRtotime,
-			 deleteRtotime: deleteRtotime
+			 deleteRtotime: deleteRtotime,
+			 rtoObject: rtoObject
     });
 	
+		var rtoObject = {};
 	
 		function postRtotime(params,requestID)
 		{
@@ -123,7 +125,11 @@ App.service("rtoViewService", function($http, apiRequest) {
 
 	function rtoViewData(request_id)
 		{
-             return  apiRequest.send('get','/rto/' + request_id, null);
+            return  apiRequest.send('get','/rto/' + request_id, null).success(function(r){
+	
+							rtoObject = r;
+		
+							});
 
         }
 
@@ -135,19 +141,67 @@ App.service("rtoViewService", function($http, apiRequest) {
 
         }
 
-    }
-);
+    
+		
+		function getRtoObject(){
+			
+			
+			return rtoObject;
+			
+			}
+		
+});
 App.service("userInfoService", function($http, apiRequest) {
 
 	return ({
 
-		getUserData: getUserData
+		getUserData: getUserData,
+		getUserRtoBank: getUserRtoBank,
+		QueryUserRtoBank: QueryUserRtoBank
 	});
-
+	var UserRtoBank = {};
+	
 	function getUserData(employee_id)
 	{
-		return apiRequest.send('get', '/user/' + employee_id, null);
+	
+		
+		return apiRequest.send('get', '/user/' + employee_id, null).success(function(r){
+			
+			
+		
+			
+			});
 	}
+	function getUserRtoBank ()
+	{
+	
+				return UserRtoBank;
+	}
+	
+	function QueryUserRtoBank (employee_id)
+	{
+	
+		
+		return apiRequest.send('get', '/u/rtobank', null).success(function(r){
+			
+			
+			for( var employeeID in r)
+			{
+
+			    if (employeeID == employee_id) {
+						
+									
+									
+							UserRtoBank = r[employeeID];
+				
+					}
+				
+			}
+			
+			
+			});
+		
+		}
 });
 
 /*

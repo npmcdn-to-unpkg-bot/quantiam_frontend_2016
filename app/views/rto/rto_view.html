@@ -10,7 +10,7 @@
 
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="card card-underline">
             <div class="card-head">
                 <header>Requested Time</header>
@@ -99,10 +99,10 @@
                      <div class="form-group" id="classPicker">
                          <select class="form-control" ng-model="type" required>
                              <option value="">&nbsp;</option>
-                             <option value="PTO">PTO</option>
-                             <option value="Vacation">Vacation</option>
-                             <option value="Unpaid">Unpaid</option>
-                             <option value="CTO">CTO</option>
+                             <option value="pto">PTO</option>
+                             <option value="vacation">Vacation</option>
+                             <option value="unpaid">Unpaid</option>
+                             <option value="cto">CTO</option>
                          </select>
                          <label for="classPicker">Type</label>
                      </div>
@@ -116,8 +116,44 @@
         </div>
 
     </div>
-    <div class="col-lg-6" ng-controller="rtoApprovalController">
-        <div class="card card-underline">
+    <div class="col-lg-4" >
+				
+		   <div ng-show="true" class="card card-underline" >
+            <div class="card-head">
+							<header> Banked Hours Impact? </header>
+						</div>
+						<div class="card-body">
+						
+	
+						<table class='table table-striped table-hover'>
+						
+						 <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Current</th>
+                        <th>Impact </th>
+                        <th>Result</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="(key,value) in bankTotals.remaining">
+                        <td>{{key}}</td>
+                        <td>{{value}}</td>
+                        <td><span ng-if="requestedTime[key]">- {{requestedTime[key]}}</span></td>
+                        <td>{{resultTime[key]}}</td>
+                    </tr>
+                    </tbody>
+						
+						</table>
+						
+						
+						</div>
+			
+			 </div>
+		
+		
+        <div class="card card-underline" ng-controller="rtoApprovalController">
             <div class="card-head">
                 <header>Approvals</header>
                 <div style="float: right; padding:10px; width:33.33%">
