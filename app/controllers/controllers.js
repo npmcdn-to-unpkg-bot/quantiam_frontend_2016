@@ -117,11 +117,11 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 }]);
 
 App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'dateStringService', 'rtoApprovalService',
-        function($scope,  $stateParams, $filter, rtoViewService, userService, dateStringService, rtoApprovalService) {
+    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService',
+        function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService) {
     var request_id = $stateParams.rtoid;
 
-    $scope.userID = userInfoService.getstoredUser();
+    $scope.userID = userService.getstoredUser();
             console.log($scope.userID);
 
     $scope.show_form = false;
