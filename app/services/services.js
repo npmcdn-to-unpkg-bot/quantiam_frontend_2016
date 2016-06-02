@@ -175,6 +175,7 @@ App.service("userService",  function( $location, apiRequest ) {
 					.error(function(e){
 						
 						return false;
+				
 						
 						 });
 			
@@ -194,8 +195,8 @@ App.service("userService",  function( $location, apiRequest ) {
 		{
 			
 					
-					var params = {"truth":"false"};
-					var response = apiRequest.send('get','/user', params).success(function(r){
+					
+					var response = apiRequest.send('get','/user').success(function(r){
 							
 							storedUserObject = r;
 							return r; 
@@ -203,9 +204,10 @@ App.service("userService",  function( $location, apiRequest ) {
 									 
 					 })
 					 .error(function(e){
-							//	console.log(e);
-							return false;
+							
+						
 						 		logoutUser();
+									return false;
 						 });
 			
 		
@@ -219,6 +221,7 @@ App.service("userService",  function( $location, apiRequest ) {
 		// Used to redirect the user to the login screen and delete the stored token.
 		function logoutUser()
 		{
+		
 				localStorage.clear(); // clear stored data
 				$location.path('/login');
 				
