@@ -41,8 +41,6 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 App.controller('HomeController', ['$scope', function($scope) {
   var vm = this;
   vm.title = 'Dashboard';
-	
-
 
 }]);
 
@@ -163,7 +161,7 @@ App.controller('RtoViewController',
 
 
 
-    }
+    };
 
     $scope.editRtotime = function()
     {
@@ -182,13 +180,13 @@ App.controller('RtoViewController',
         }).error(function(e) {
 
             toastr.error('Failed to update RTO');
-        })
+        });
 
 
 
     /*    $scope.rtoData.requested_time.splice($scope.index, 0, rtoViewService.putRtotime(params));
         $scope.rtoData.requested_time.splice($scope.index, 1);*/
-    }
+    };
 
 
     $scope.newForm = function(){
@@ -203,7 +201,7 @@ App.controller('RtoViewController',
             $scope.date="";
 
 
-    }
+    };
 
 
     $scope.editForm = function(rtotime_id, index){
@@ -228,7 +226,7 @@ App.controller('RtoViewController',
             $scope.formTitle = 'Edit Existing RTO';
             $scope.formMode = 'edit';
 
-    }
+    };
     $scope.deleteForm = function(rtotime_id, index){
         console.log('deleted' + rtotime_id);
         console.log(index);
@@ -238,7 +236,7 @@ App.controller('RtoViewController',
        }
 
         
-    }
+    };
 
 //    $scope.submittTimeoff();
 
@@ -248,27 +246,30 @@ App.controller('RtoViewController',
     //#scopeshow_form = false;
 
 
-
-
-		/////   Date picker ////
-		
-		
-		$scope.popup1 = {
-    opened: false
-  };
-
-	
-	$scope.open1 = function() {
-    $scope.popup1.opened = true;
-  };
-
-
-
-
-
-
-
 }]);
+
+
+App.controller('rtoApprovalController', ['$scope', 'rtoApprovalService', function($scope, rtoApprovalService) {
+
+    $scope.testController = function() {
+
+        console.log('wasap');
+    };
+
+    $scope.approveRto = function(data) {
+
+        rtoApprovalService.approve($scope.requestID).success(function(r) {
+
+            $scope.rtoData.approvals.splice($scope.index, 1, r);
+
+        }).error(function(e) {
+
+            toastr.error('Approval Failed');
+        });
+    };
+    
+}]);
+
 
 App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $stateParams) {
 

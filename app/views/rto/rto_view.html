@@ -1,7 +1,7 @@
 <div>
-    <button  type="button" id="0" ng-if="rtoData.status == 'Approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
-    <button  type="button" id="1" ng-if="rtoData.status == 'Pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
-    <button  type="button" id="2" ng-if="rtoData.status == 'Denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
+    <button  type="button" ng-if="rtoData.status == 'Approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
+    <button  type="button" ng-if="rtoData.status == 'Pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
+    <button  type="button" ng-if="rtoData.status == 'Denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
 </div>
     <h1>
         Request ID: {{rtoData.requestID}} for {{name}}
@@ -116,19 +116,27 @@
         </div>
 
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6" ng-controller="rtoApprovalController">
         <div class="card card-underline">
             <div class="card-head">
                 <header>Approvals</header>
+                <div style="float: right; padding:10px; width:33.33%">
+                    <a  ng-click="approveRto()">
+                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success">Approve</button>
+                    </a>
+                </div>
+                <div style="float: right; padding:10px; width:33.33%">
+                    <a  ng-click="testController()">
+                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-danger">Deny</button>
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <table id="approvaltable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
                     <thead>
-                    <tr >
+                    <tr>
                         <th>Supervisor</th>
-                        <th>Employee ID</th>
                         <th>Approval</th>
-                        <th>Comments</th>
                         <th>Updated</th>
                     </tr>
                     </thead>
@@ -136,12 +144,9 @@
                     <tbody>
                     <tr ng-repeat="obj in rtoData.approvals">
                         <td>{{ obj.name }}</td>
-                        <td>{{ obj.employeeID }}</td>
                         <td><span id="0" ng-if="obj.approval == 'Approved'" class="btn btn-block ink-reaction btn-flat btn-xs btn-success">Approved</span>
-                            <span id="1" ng-if="obj.approval == 'Pending'"  class="btn btn-block ink-reaction btn-flat btn-xs btn-warning">Pending</span>
-                            <span id="2" ng-if="obj.approval == 'Denied'"  class="btn btn-block ink-reaction btn-flat btn-xs btn-danger">Denied</span>
+                            <span id="1" ng-if="obj.approval == 'Denied'"  class="btn btn-block ink-reaction btn-flat btn-xs btn-danger">Denied</span>
                         </td>
-                        <td>{{ obj.reason }}</td>
                         <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                     </tr>
                     </tbody>
