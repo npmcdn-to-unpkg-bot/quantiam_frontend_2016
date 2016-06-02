@@ -62,17 +62,18 @@
 
             <div class="card-body">
 
-                 <form class="form-inline">
+                 <form class="form-inline" name="input">
                      <div class="form-group">
-                         <input style="font: 'Comic Sans MS'" class="form-control" type="date" ng-model="date" id="datePicker">
+                         <input style="font: 'Comic Sans MS'" class="form-control" type="date" ng-model="date" id="datePicker" required>
                          <label for="datePicker">Date </label>
                      </div>
                      <div class="form-group">
-                         <input class="form-control" type="number" min="0" max="8" step="0.5" ng-model="hours" id="reqHours">
+                         <input class="form-control" type="number" min="0.5" max="8" step="0.5" ng-model="hours" id="reqHours" required>
                          <label for="reqHours">Hours Absent</label>
                      </div>
                      <div class="form-group" id="classPicker">
-                         <select class="form-control" ng-model="type">
+                         <select class="form-control" ng-model="type" required>
+                             <option value="">&nbsp;</option>
                              <option value="PTO">PTO</option>
                              <option value="Vacation">Vacation</option>
                              <option value="Unpaid">Unpaid</option>
@@ -81,8 +82,8 @@
                          <label for="classPicker">Type</label>
                      </div>
                      <div class="form-group">
-                         <button ng-if="formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit" >Submitt</button>
-                         <button ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submitt</button>
+                         <button ng-disabled="input.$invalid" ng-if="formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit">Submitt</button>
+                         <button ng-disabled="input.$invalid" ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submitt</button>
                      </div>
 
                 </form>
