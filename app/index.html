@@ -29,7 +29,7 @@
 <body class="menubar-hoverable header-fixed menubar-pin" ng-controller="IndexController as IC">
 
 <!-- BEGIN HEADER-->
-<header id="header" >
+<header ng-show="user" id="header" >
     <div class="headerbar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="headerbar-left">
@@ -82,14 +82,14 @@
 
     <!-- BEGIN CONTENT-->
     <div id="content">
-            <div class="section-body contain-lg">
+            <div class="section-body">
                 <div ui-view></div>
 
     </div><!--end #content-->
     <!-- END CONTENT -->
 
     <!-- BEGIN MENUBAR-->
-    <div id="menubar" class="menubar-inverse ">
+    <div ng-show="user" id="menubar" class="menubar-inverse ">
         <div class="menubar-fixed-panel">
             <div>
                 <a class="btn btn-icon-toggle btn-default menubar-toggle" data-toggle="menubar" href="javascript:void(0);">

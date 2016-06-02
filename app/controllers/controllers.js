@@ -1,9 +1,16 @@
 
 App.controller('IndexController', ['$scope', '$location','userService', function($scope, $location, userService) {
   var vm = this;
-
+	
+	$scope.isActive = false;
   vm.AppName = "Quantiam";
 
+	
+	
+	
+	function updateIndexUserObject (){
+		
+		
 			 userService.refreshUser().then(function(r){
 	
 						$scope.user = userService.getstoredUser();
@@ -12,14 +19,20 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 			
 					
 			 });
+	}
 		
-	
-	
-	$scope.isActive = false;
-	
-$scope.isActive = function (viewLocation) { 
-        return viewLocation === $location.path();
+		$scope.isActive = function (viewLocation) { 
+	return viewLocation === $location.path();
     };
+	
+	
+	$scope.$on("updateIndexUserObject", function(){
+			
+			updateIndexUserObject ();
+		
+		});
+
+	updateIndexUserObject ();
 	
 
 }]);

@@ -153,7 +153,7 @@ App.service("userInfoService", function($http, apiRequest) {
 /*
 	This service contains methods used to authenticate and update the user.
 */
-App.service("userService",  function( $location, apiRequest ) {
+App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		
 		 
 			
@@ -169,11 +169,14 @@ App.service("userService",  function( $location, apiRequest ) {
 			var response = apiRequest.send('post','/auth',params).success(function(r){
 							
 							localStorage.setItem('token', r.token);
-								return true;
+							
+							$rootScope.$broadcast('updateIndexUserObject');
+							return true;
 									 
 					 }) 
 					.error(function(e){
 						
+				
 						return false;
 				
 						
@@ -199,6 +202,7 @@ App.service("userService",  function( $location, apiRequest ) {
 					var response = apiRequest.send('get','/user').success(function(r){
 							
 							storedUserObject = r;
+							 
 							return r; 
 							
 									 
