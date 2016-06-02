@@ -159,7 +159,16 @@ App.controller('RtoViewController',
             "date": dateStringService.dateToString($scope.date),
         };
 
-        $scope.rtoData.requested_time.splice($scope.index, 1, rtoViewService.putRtotime(params).data);
+
+        rtoViewService.putRtotime(params).success(function(r) {
+
+            $scope.rtoData.requested_time.splice($scope.index, 1, r);
+
+        }).error(function(e) {
+
+            toastr.error('Failed to update RTO');
+        })
+
 
 
     /*    $scope.rtoData.requested_time.splice($scope.index, 0, rtoViewService.putRtotime(params));
