@@ -41,6 +41,8 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 App.controller('HomeController', ['$scope', function($scope) {
   var vm = this;
   vm.title = 'Dashboard';
+	
+
 
 }]);
 
@@ -248,6 +250,18 @@ App.controller('RtoViewController',
 
 
 
+		/////   Date picker ////
+		
+		
+		$scope.popup1 = {
+    opened: false
+  };
+
+	
+	$scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
 
 
 
@@ -262,3 +276,5 @@ App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $
 
 
 }]);
+
+

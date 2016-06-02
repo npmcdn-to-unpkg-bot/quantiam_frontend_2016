@@ -62,14 +62,39 @@
 
             <div class="card-body">
 
+									
+						
                  <form class="form-inline" name="input">
                      <div class="form-group">
-                         <input class="form-control" type="date" ng-model="date" id="datePicker" required>
-                         <label for="datePicker">Date</label>
+										
+									
+												 <div class="input-group">
+												   
+													 <span class="input-group-content">
+														   <input  id="datePicker2" class="form-control" type="text" uib-datepicker-popup="yyyy-MM-dd" 
+																	ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+																	close-text="Close"   required>
+																<label for="datePicker2">Date</label>
+														</span>
+														<span class="input-group-addon">
+															   <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+														</span>
+												 </div>
+													<div uib-datepicker-popup-wrap="" ng-model="date" ng-change="dateSelection(date)"
+										template-url="uib/template/datepickerPopup/popup.html" class="ng-not-empty ng-valid ng-valid-date-disabled" style="">
+											</div>
+											
+												
                      </div>
-                     <div class="form-group">
+									
+                     <div class="form-group" >
+										
+									
+										
                          <input class="form-control" type="number" min="0.5" max="8" step="0.5" ng-model="hours" id="reqHours" required>
                          <label for="reqHours">Hours Absent</label>
+												
+										
                      </div>
                      <div class="form-group" id="classPicker">
                          <select class="form-control" ng-model="type" required>
