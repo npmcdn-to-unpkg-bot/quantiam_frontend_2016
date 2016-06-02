@@ -37,8 +37,8 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="obj in rtoData.requested_time | orderBy:'+date'">
-                            <td>{{ obj.date | date: 'longDate'}}</td>
+                        <tr ng-repeat="obj in rtoData.requested_time ">
+                            <td>{{ obj.date }}</td>
                             <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
                             <td>{{ obj.type }}</td>
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
@@ -72,7 +72,7 @@
 												   
 													 <span class="input-group-content">
 														   <input  id="datePicker2" class="form-control" type="text" uib-datepicker-popup="yyyy-MM-dd" 
-																	ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+																	ng-model="date" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
 																	close-text="Close"   required>
 																<label for="datePicker2">Date</label>
 														</span>
@@ -99,10 +99,10 @@
                      <div class="form-group" id="classPicker">
                          <select class="form-control" ng-model="type" required>
                              <option value="">&nbsp;</option>
-                             <option value="pto">PTO</option>
-                             <option value="vacation">Vacation</option>
-                             <option value="unpaid">Unpaid</option>
-                             <option value="cto">CTO</option>
+                             <option value="PTO">PTO</option>
+                             <option value="Vacation">Vacation</option>
+                             <option value="Unpaid">Unpaid</option>
+                             <option value="CTO">CTO</option>
                          </select>
                          <label for="classPicker">Type</label>
                      </div>
@@ -155,14 +155,14 @@
 		
         <div class="card card-underline" ng-controller="rtoApprovalController">
             <div class="card-head">
-                <header>Approvals</header>
+                <header>Approvals {{ userID}}</header>
                 <div style="float: right; padding:10px; width:33.33%">
-                    <a  ng-click="approveRto()">
-                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success">Approve</button>
+                    <a  ng-click="approveRto('Approved')">
+                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success" data-ng-disabled="">Approve</button>
                     </a>
                 </div>
                 <div style="float: right; padding:10px; width:33.33%">
-                    <a  ng-click="testController()">
+                    <a  ng-click="approveRto('Denied')">
                         <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-danger">Deny</button>
                     </a>
                 </div>
@@ -180,8 +180,8 @@
                     <tbody>
                     <tr ng-repeat="obj in rtoData.approvals">
                         <td>{{ obj.name }}</td>
-                        <td><span id="0" ng-if="obj.approval == 'Approved'" class="btn btn-block ink-reaction btn-flat btn-xs btn-success">Approved</span>
-                            <span id="1" ng-if="obj.approval == 'Denied'"  class="btn btn-block ink-reaction btn-flat btn-xs btn-danger">Denied</span>
+                        <td><span id="0" ng-if="obj.approval == 'Approved'" class="btn btn-block ink-reaction btn-xs btn-success">Approved</span>
+                            <span id="1" ng-if="obj.approval == 'Denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</span>
                         </td>
                         <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                     </tr>

@@ -46,9 +46,8 @@ App.controller('HomeController', ['$scope', function($scope) {
 
 
 App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
-	
+
     $scope.authenticate = function() {
-		
 			userService.authenticateUser($scope.username,$scope.password).success(function(r){
 				
 									$(location).attr('href', '#/dashboard');
@@ -59,8 +58,8 @@ App.controller('AuthController', ['$scope', 'userService', function ($scope, use
 				});
 		
     };
-	
-	
+
+
 	}]);
 
 
@@ -73,14 +72,14 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
    $scope.getTable = function () {
 
         rtoService.rtoList().success(function(r){
-				 
+
 						$scope.rtoList = r;
 						 $scope.rtoData = $scope.rtoList.data;
-					
-				 });
-    
 
-     /*  
+				 });
+
+
+     /*
        setTimeout(function () {
 
 
@@ -98,53 +97,41 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
     $scope.getTable();
 
-		
-		
+
+
     $scope.addRto = function() {
     // console.log('test');
-        
+
        rtoService.addRto().then(function(r){
-					
+
 					 $scope.results = r;
 					  $scope.showRto($scope.results.requestID);
-					
+
 					});
 
-       
+
     }
 
-	
+
 
 }]);
 
 App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userService', 'userInfoService', 'dateStringService',
-        function($scope,  $stateParams, $filter, rtoViewService, userService, userInfoService, dateStringService) {
-				
-				
+    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'dateStringService', 'rtoApprovalService',
+        function($scope,  $stateParams, $filter, rtoViewService, userService, dateStringService, rtoApprovalService) {
     var request_id = $stateParams.rtoid;
-		
-		
-		
-		
-    $scope.show_form = false;
-		
-		
-	
-		
-		
-		
-		
-		rtoViewService.rtoViewData(request_id).then(function(r){
-			
-			$scope.rtoData = r.data;
-		
-		
-				
 
-		
+    $scope.userID = userInfoService.getstoredUser();
+            console.log($scope.userID);
+
+    $scope.show_form = false;
+
+		rtoViewService.rtoViewData(request_id).then(function(r){
+
+			$scope.rtoData = r.data;
+
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
-								
+
 								$scope.userInfo = r.data;
 								$scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
 								userInfoService.QueryUserRtoBank($scope.rtoData.employeeID).then(function(r){
@@ -159,7 +146,7 @@ App.controller('RtoViewController',
 				
 					
 					});
-				
+
    	});
 
 function calculate_BankTotalsDifference (){
@@ -207,7 +194,7 @@ function calculate_BankTotalsDifference (){
 		
 
         $scope.viewTables = function () {
-     
+
         };
 
     $scope.postRtotime = function() {
@@ -287,9 +274,14 @@ function calculate_BankTotalsDifference (){
            }
        }
         //set values to pop up in tables.
+
+
+            var s = $scope.rtotime.date.split('-');
+
+
             $scope.hours = $scope.rtotime.hours;
             $scope.type = $scope.rtotime.type;
-            $scope.date = new Date($scope.rtotime.date);
+            $scope.date = new Date(Number(s[0]),Number(s[1]) -1 ,Number(s[2]));
             $scope.rtotimeID = $scope.rtotime.rtotimeID;
             $scope.index = index;
 
@@ -300,57 +292,51 @@ function calculate_BankTotalsDifference (){
     };
     $scope.deleteForm = function(rtotime_id, index){
         console.log('deleted' + rtotime_id);
-        console.log(index);
+
        if(rtoViewService.deleteRtotime(rtotime_id)) {
 
            $scope.rtoData.requested_time.splice(index, 1);
 					 	calculate_BankTotalsDifference ();
        }
 
-        
-    };
-		
-			$scope.popup1 = {
-				opened: false
-			};
 
-			$scope.open1 = function() {
-				$scope.popup1.opened = true;
-				console.log('things');
-			};
-		
-
-//    $scope.submittTimeoff();
-
-
-    //loop through all requests
-
-    //#scopeshow_form = false;
-
-
-}]);
-
-
-App.controller('rtoApprovalController', ['$scope', 'rtoApprovalService', function($scope, rtoApprovalService) {
-
-    $scope.testController = function() {
-
-        console.log('wasap');
     };
 
-    $scope.approveRto = function(data) {
+    $scope.approveRto = function(approval) {
 
-        rtoApprovalService.approve($scope.requestID).success(function(r) {
+        var params = {
+            "requestID": $scope.rtoData.requestID,
+            "approval": approval,
+        }
 
-            $scope.rtoData.approvals.splice($scope.index, 1, r);
+        rtoApprovalService.approve(params).success(function(r) {
+            console.log($scope.rtoData.approvals);
+            console.log('hello')
+            $scope.rtoData.approvals.push(r);
 
         }).error(function(e) {
 
             toastr.error('Approval Failed');
         });
     };
-    
+
+    //loop through all requests
+
+    //#scopeshow_form = false;
+
+            $scope.popup1 = {
+                opened: false
+            };
+
+
+            $scope.open1 = function() {
+                $scope.popup1.opened = true;
+            };
+
+
 }]);
+
+
 
 
 App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $stateParams) {

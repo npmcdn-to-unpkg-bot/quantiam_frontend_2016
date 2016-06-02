@@ -303,9 +303,9 @@ App.service("rtoApprovalService", function(apiRequest) {
 		approve: approve,
 	});
 
-	function approve(requestID) {
+	function approve(params) {
 
-		var response = apiRequest.send('post', '/rto/' + requestID + '/approval');
+		return apiRequest.send('post', '/rto/approval/' + params.requestID, params);
 
 	}
 });
