@@ -112,7 +112,7 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
        
     }
 
-
+	
 
 }]);
 
@@ -237,6 +237,16 @@ App.controller('RtoViewController',
 
         
     };
+		
+			$scope.popup1 = {
+				opened: false
+			};
+
+			$scope.open1 = function() {
+				$scope.popup1.opened = true;
+				console.log('things');
+			};
+		
 
 //    $scope.submittTimeoff();
 
