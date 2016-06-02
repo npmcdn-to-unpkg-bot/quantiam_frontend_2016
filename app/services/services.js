@@ -194,8 +194,8 @@ App.service("userService",  function( $location, apiRequest ) {
 		{
 			
 					
-					
-					var response = apiRequest.send('get','/user').success(function(r){
+					var params = {"truth":"false"};
+					var response = apiRequest.send('get','/user', params).success(function(r){
 							
 							storedUserObject = r;
 							return r; 

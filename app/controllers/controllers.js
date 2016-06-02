@@ -7,6 +7,8 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 			 userService.refreshUser().then(function(r){
 	
 						$scope.user = userService.getstoredUser();
+
+                 console.log($scope.user);
 			
 					
 			 });
@@ -133,8 +135,18 @@ App.controller('RtoViewController',
             "date": dateStringService.dateToString($scope.date),
 
         };
-				
-       $scope.rtoData.requested_time.push(rtoViewService.postRtotime(params,request_id));
+
+        rtoViewService.postRtotime(params,request_id).success(function(r){
+
+
+             $scope.rtoData.requested_time.push(r);
+
+        }).error(function(e){
+
+            toastr.error('Failed to create RTO', 'Authentication Error');
+        });
+
+
 
     }
 
@@ -147,7 +159,7 @@ App.controller('RtoViewController',
             "date": dateStringService.dateToString($scope.date),
         };
 
-        $scope.rtoData.requested_time.splice($scope.index, 1, rtoViewService.putRtotime(params));
+        $scope.rtoData.requested_time.splice($scope.index, 1, rtoViewService.putRtotime(params).data);
 
 
     /*    $scope.rtoData.requested_time.splice($scope.index, 0, rtoViewService.putRtotime(params));
