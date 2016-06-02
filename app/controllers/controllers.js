@@ -48,15 +48,16 @@ App.controller('HomeController', ['$scope', function($scope) {
 App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
 	
     $scope.authenticate = function() {
-				if(userService.authenticateUser($scope.username,$scope.password))
-				{
-					//broadcast an event to update the controller. 
-					$(location).attr('href', '#/dashboard');
-				}
-				else
-				{
+		
+			userService.authenticateUser($scope.username,$scope.password).success(function(r){
+				
+									$(location).attr('href', '#/dashboard');
+				}).error(function(e){
+				
 					toastr.error('Your username or password are incorrect.', 'Authentication Error');
-				}
+				
+				});
+		
     };
 	
 	
