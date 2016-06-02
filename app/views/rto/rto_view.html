@@ -44,8 +44,8 @@
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td id="edit/delete">
-                               <a ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-edit" style="color:royalblue"></i></a>
-                               <a ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs"><i class="md md-delete" style="color:red"></i></a>
+                               <a ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -140,7 +140,7 @@
                     <tr ng-repeat="(key,value) in bankTotals.remaining">
                         <td>{{key}}</td>
                         <td>{{value}}</td>
-                        <td><span ng-if="requestedTime[key]">- {{requestedTime[key]}}</span></td>
+                        <td><span style="color:red; font-weight:bold;" ng-if="requestedTime[key]">- {{requestedTime[key]}}</span></td>
                         <td>{{resultTime[key]}}</td>
                     </tr>
                     </tbody>
