@@ -121,9 +121,6 @@ App.controller('RtoViewController',
         function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService) {
     var request_id = $stateParams.rtoid;
 
-    $scope.userID = userService.getstoredUser();
-            console.log($scope.userID);
-
     $scope.show_form = false;
 
 		rtoViewService.rtoViewData(request_id).then(function(r){
@@ -139,6 +136,10 @@ App.controller('RtoViewController',
 									$scope.bankTotals = userInfoService.getUserRtoBank();
 									console.log($scope.bankTotals);
 									calculate_BankTotalsDifference ();
+
+                                    $scope.user = userService.getstoredUser();
+                                    console.log($scope.user);
+
 									
 									});
 					
@@ -304,14 +305,15 @@ function calculate_BankTotalsDifference (){
 
     $scope.approveRto = function(approval) {
 
+        $scope.user = userService.getstoredUser();
+        console.log($scope.user);
         var params = {
             "requestID": $scope.rtoData.requestID,
             "approval": approval,
         }
 
         rtoApprovalService.approve(params).success(function(r) {
-            console.log($scope.rtoData.approvals);
-            console.log('hello')
+            console.log($scope.user);
             $scope.rtoData.approvals.push(r);
 
         }).error(function(e) {
