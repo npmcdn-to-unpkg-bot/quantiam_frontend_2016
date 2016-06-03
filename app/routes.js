@@ -27,4 +27,5 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             controller: 'RtoViewController as RVC'
         })
     
+    
 }]);

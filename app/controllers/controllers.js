@@ -126,6 +126,7 @@ App.controller('RtoViewController',
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
+            console.log($scope.rtoData.requested_time[0].date);
 
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 
@@ -138,7 +139,6 @@ App.controller('RtoViewController',
 									calculate_BankTotalsDifference ();
 
                                     $scope.user = userService.getstoredUser();
-                                    console.log($scope.user);
 
 									
 									});
@@ -230,7 +230,6 @@ function calculate_BankTotalsDifference (){
             "date": dateStringService.dateToString($scope.date),
         };
 
-
         rtoViewService.putRtotime(params).success(function(r) {
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
@@ -292,7 +291,6 @@ function calculate_BankTotalsDifference (){
 
     };
     $scope.deleteForm = function(rtotime_id, index){
-        console.log('deleted' + rtotime_id);
 
        if(rtoViewService.deleteRtotime(rtotime_id)) {
 
@@ -315,10 +313,27 @@ function calculate_BankTotalsDifference (){
         rtoApprovalService.approve(params).success(function(r) {
             console.log($scope.user);
             $scope.rtoData.approvals.push(r);
+            $scope.rtoData.status = (r.check);
 
         }).error(function(e) {
 
             toastr.error('Approval Failed');
+        });
+
+    };
+
+
+    $scope.removeApproval = function(approvalID, index)
+    {
+        
+        rtoApprovalService.remove(approvalID).success(function(r) {
+            $scope.rtoData.approvals.splice(index, 1);
+            $scope.rtoData.status = (r);
+
+        }).error(function(e) {
+
+            toastr.error('Deletion Failed');
+
         });
     };
 

@@ -21,7 +21,7 @@ App.service(
 											 method: httpVerb,
 											 url: apiUrl + path,
 											 headers: {
-												 "Authorization": "Bearer " + token 
+												 "Authorization": "Bearer " + token,
 											 },
 											 data: params
 											}
@@ -301,12 +301,18 @@ return ({
 App.service("rtoApprovalService", function(apiRequest) {
 	return ({
 		approve: approve,
+		remove: remove,
 	});
 
 	function approve(params) {
 
-		return apiRequest.send('post', '/rto/approval/' + params.requestID, params);
+		return apiRequest.send('post', '/approval/' + params.requestID, params);
 
+	}
+
+	function remove(approvalID)
+	{
+		return apiRequest.send('delete', '/approval/' + approvalID, null);
 	}
 });
 

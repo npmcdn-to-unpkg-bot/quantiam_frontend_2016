@@ -33,9 +33,9 @@
             <td>{{ obj.firstname }} {{ obj.lastname }}</td>
             <td> {{ obj.requestID }}</td>
             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
-            <td ><span id="0" ng-if="obj.status == 'Approved'" class="btn btn-block ink-reaction btn-flat btn-success">Approved</span>
-                <span id="1" ng-if="obj.status == 'Pending'"  class="btn btn-block ink-reaction btn-flat btn-warning">Pending</span>
-                <span id="2" ng-if="obj.status == 'Denied'"  class="btn btn-block ink-reaction btn-flat btn-danger">Denied</span>
+            <td ><span id="0" ng-if="obj.status == 'approved'" class="btn btn-block ink-reaction btn-flat btn-success">Approved</span>
+                 <span id="1" ng-if="obj.status == 'pending'"  class="btn btn-block ink-reaction btn-flat btn-warning">Pending</span>
+                 <span id="2" ng-if="obj.status == 'denied'"  class="btn btn-block ink-reaction btn-flat btn-danger">Denied</span>
             </td>
 
     </tr>
