@@ -350,3 +350,22 @@ App.service("errorService", function (){
 	
 	
 });
+
+App.service("emailService", function(apiRequest) {
+
+	return {
+		sendRtoNotification: sendRtoNotification,
+	}
+
+
+	function sendRtoNotification(supervisorID, requestID) {
+
+		var params = {
+			"subject": "New Time Off Request Awaiting Approval",
+			"body": "<a href='"+document.location.href+"'>Click here to enter your approval brah.</a>",
+			"employeeID": supervisorID
+		}
+
+		return apiRequest.send('post', '/mail/send', params);
+	}
+})

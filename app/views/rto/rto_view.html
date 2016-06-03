@@ -1,19 +1,15 @@
 <div>
-    <button  type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
-    <button  type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
-    <button  type="button" ng-if="rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
+    <button style="border-radius: 2px;"  type="button" ng-if="rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
 </div>
-    <h1>
-        Request ID: {{rtoData.requestID}} for {{name}}
-    </h1>
-
-
+<br>
 
 <div class="row">
     <div class="col-lg-8">
         <div class="card card-underline">
             <div class="card-head">
-                <header>Requested Time</header>
+                <header>Requested Time for {{ name }}</header>
                 <div class="tools">
                     <a ng-click="newForm();" class="btn btn-icon-toggle btn-refresh">
 
@@ -47,6 +43,9 @@
                                <a ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
                                <a ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
+                        </tr>
+                        <tr ng-hide="rtoData.requested_time[0]">
+                            <td style="text-align:center" colspan="6">Please add a time-off request.</td>
                         </tr>
                     </tbody>
 
@@ -138,19 +137,10 @@
                         </button>
                     </a>
                 </div>
-                <!-- ng-show="user.employeeID == rtoData.employeeID" style="float: right; padding-right: 24px; padding-top: 8px; width:50%" -->
-                <div class="btn-group dropdown" uib-dropdown="" style="float: right; padding-right: 24px; padding-top: 10px;">
-                    <button id="split-button" type="button" class="btn btn-accent" >Notify {{ supervisor }}</button>
-                    <button type="button" class="btn btn-accent-dark dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="split-button">
-                        <li></li>
-                    </ul>
-                </div>
+
             </div>
             <div class="card-body">
-                <table id="approvaltable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
+                <table ng-show="rtoData.approvals[0]" id="approvaltable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
                     <thead>
                     <tr>
                         <th>Supervisor</th>
@@ -173,9 +163,27 @@
                             </button>
                         </td>
                     </tr>
+                    <tr ng-hide="rtoData.approvals[0]">
+                        <td style="text-align:center" colspan="3">No Approvals Created</td>
+                    </tr>
                     </tbody>
-
                 </table>
+                <div align="center" ng-show="user.employeeID == rtoData.employeeID" ng-hide="rtoData.approvals[0]" class="tools">
+                    <form class="form-inline">
+                        <div class="form-group" style="margin:0px; padding:0px">
+                            <select ng-model="supervisorID" class="form-control" style="margin:0px; margin-right:10px;" required>
+                                <option ng-repeat="obj in user.supervisors" ng-selected="last" value="{{obj.employeeID}}">{{obj.firstname}} {{obj.lastname}}</option>
+                            </select>
+
+                            <button ng-hide="notifyloady == 1 " ng-click="emailSupervisor()" type="submit" style="margin:0px;" class="btn btn-accent btn-sm ink-reaction">Notify</button>
+                            <i ng-hide="notifyloady == 0" class="fa fa-circle-o-notch fa-spin fa-2x " aria-hidden="true" ></i>
+                        </div>
+                    </form>
+                    <br>
+                    <p>
+                        Notify a supervisor via email to approve your request.
+                    </p>
+                </div>
             </div>
         </div>
 

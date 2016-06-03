@@ -102,7 +102,7 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
     $scope.addRto = function() {
 
        rtoService.addRto().then(function(r){
-           
+
 					 $scope.requestID = r.data.requestID;
 					  $scope.showRto($scope.requestID);
 
@@ -116,8 +116,8 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 }]);
 
 App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService',
-        function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService) {
+    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
+        function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
     var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
@@ -334,6 +334,24 @@ function calculate_BankTotalsDifference (){
 
         });
     };
+
+
+
+    $scope.notifyloady = 0;
+
+
+    $scope.emailSupervisor = function()
+    {
+        $scope.notifyloady = 1;
+        emailService.sendRtoNotification($scope.supervisorID, $scope.rtoData.requestID).success(function(r) {
+            console.log(r);
+            toastr.success('Notification Sent');
+            $scope.notifyloady = 0;
+        }).error(function(e) {
+            toastr.error('Email Notification Failed');
+            $scope.notifyloady = 0;
+        });
+    }
 
     //loop through all requests
 
