@@ -100,12 +100,11 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 
     $scope.addRto = function() {
-    // console.log('test');
 
        rtoService.addRto().then(function(r){
-
-					 $scope.results = r;
-					  $scope.showRto($scope.results.requestID);
+           
+					 $scope.requestID = r.data.requestID;
+					  $scope.showRto($scope.requestID);
 
 					});
 
@@ -126,7 +125,6 @@ App.controller('RtoViewController',
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
-            console.log($scope.rtoData.requested_time[0].date);
 
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 
@@ -332,7 +330,7 @@ function calculate_BankTotalsDifference (){
 
         }).error(function(e) {
 
-            toastr.error('Deletion Failed');
+            toastr.error('Deletion Failed: ');
 
         });
     };
