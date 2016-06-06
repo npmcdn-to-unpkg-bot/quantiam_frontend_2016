@@ -1,10 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h3>ww</h3>
-</body>
-</html>
+<div>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
+    <button style="border-radius: 2px;"  type="button" ng-if="rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-underline">
+            <div class="card-head">
+                <header>Requested Time for {{ name }}</header>
+                <div class="tools">
+                    <a ng-click="newForm();" class="btn btn-icon-toggle btn-refresh">
+
+                        <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+                    </a>
+
+                </div>
+            </div>
+
+                <div class="card-body">
+                <table id="rtotable"  class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
+                    <thead>
+                    <tr >
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Time Code</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr ng-repeat="obj in rtoData.requested_time ">
+                            <td>{{ obj.date | date : 'longDate' }}</td>
+                            <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
+                            <td>{{ obj.type }}</td>
+                            <td>{{ obj.created | datetime | date : 'longDate' }}</td>
+                            <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
+                            <td id="edit/delete">
+                               <a ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                            </td>
+                        </tr>
+                        <tr ng-hide="rtoData.requested_time[0]">
+                            <td style="text-align:center" colspan="6">Please add a time-off request.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        <div ng-show="show_form" class="card card-underline">
+            <div class="card-head">
+                <header>{{ formTitle }}</header>
+            </div>
+
+            <div class="card-body">
+
+									
+						
+                 <form class="form-inline" name="input">
+                     <div class="form-group">
+										
+									
+												 <div class="input-group">
+												   
+													 <span class="input-group-content">
+														   <input  id="datePicker2" class="form-control" type="text" uib-datepicker-popup="yyyy-MM-dd" 
+																	ng-model="date" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+																	close-text="Close"  required>
+																<label for="datePicker2">Date</label>
+														</span>
+														<span class="input-group-addon">
+															   <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+														</span>
+												 </div>
+													<div uib-datepicker-popup-wrap="" ng-model="date" ng-change="dateSelection(date)"
+										template-url="uib/template/datepickerPopup/popup.html" class="ng-not-empty ng-valid ng-valid-date-disabled" style="">
+											</div>
+											
+												
+                     </div>
+									
+                     <div class="form-group" >
+										
+									
+										
+                         <input class="form-control" type="number" min="0.5" max="8" step="0.5" ng-model="hours" id="reqHours" required>
+                         <label for="reqHours">Hours Absent</label>
+												
+										
+                     </div>
+                     <div class="form-group" id="classPicker">
+                         <select class="form-control" ng-model="type" required>
+                             <option value="">&nbsp;</option>
+                             <option value="pto">PTO</option>
+                             <option value="vacation">Vacation</option>
+                             <option value="unpaid">Unpaid</option>
+                             <option value="cto">CTO</option>
+                         </select>
+                         <label for="classPicker">Type</label>
+                     </div>
+                     <div class="form-group">
+                         <button ng-disabled="input.$invalid" ng-if="formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                         <button ng-disabled="input.$invalid" ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                     </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4" >
+        <div class="card card-underline">
+            <div class="card-head">
+                <header>Approvals</header>
+                <div ng-show="user.employeeID != rtoData.employeeID" style="float: right; padding:10px; width:25%" >
+                    <a  ng-click="approveRto('approved')">
+                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success"
+                                data-ng-disabled="user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
+
+                            Approve
+                        </button>
+                    </a>
+                </div>
+                <div ng-show="user.employeeID != rtoData.employeeID" style="float: right; padding:10px; width:25%" >
+                    <a  ng-click="approveRto('denied')">
+                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-danger"
+                                data-ng-disabled="user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
+
+                            Deny
+                        </button>
+                    </a>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <table ng-show="rtoData.approvals[0]" id="approvaltable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
+                    <thead>
+                    <tr>
+                        <th>Supervisor</th>
+                        <th>Approval</th>
+                        <th>Updated</th>
+                        <th ng-hide="user.employeeID != rtoData.approvals.employeeID">Remove</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="obj in rtoData.approvals">
+                        <td>{{ obj.name }}</td>
+                        <td><span id="0" ng-if="obj.approval == 'approved'" class="btn btn-block ink-reaction btn-xs btn-success">Approved</span>
+                            <span id="1" ng-if="obj.approval == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</span>
+                        </td>
+                        <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
+                        <td ng-hide="user.employeeID != rtoData.approvals.employeeID">
+                            <button  data-ng-disabled="user.employeeID != obj.employeeID" ng-click="removeApproval(obj.approvalID, $index)" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Remove">
+                                <i class="md md-delete" style="color:red" ></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-hide="rtoData.approvals[0]">
+                        <td style="text-align:center" colspan="3">No Approvals Created</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div align="center" ng-show="user.employeeID == rtoData.employeeID" ng-hide="rtoData.approvals[0]" class="tools">
+                    <form class="form-inline">
+                        <div class="form-group" style="margin:0px; padding:0px">
+                            <select ng-model="supervisorID" class="form-control" style="margin:0px; margin-right:10px;" required>
+                                <option ng-repeat="obj in user.supervisors" ng-selected="last" value="{{obj.employeeID}}">{{obj.firstname}} {{obj.lastname}}</option>
+                            </select>
+
+                            <button ng-hide="notifyloady == 1 " ng-click="emailSupervisor()" type="submit" style="margin:0px;" class="btn btn-accent btn-sm ink-reaction">Notify</button>
+                            <i ng-hide="notifyloady == 0" class="fa fa-circle-o-notch fa-spin fa-2x " aria-hidden="true" ></i>
+                        </div>
+                    </form>
+                    <br>
+                    <p>
+                        Notify a supervisor via email to approve your request.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="true" class="card card-underline" >
+            <div class="card-head">
+                <header> Banked Hours Impact? </header>
+            </div>
+            <div class="card-body">
+
+
+                <table class='table table-striped table-hover'>
+
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Current</th>
+                        <th>Impact </th>
+                        <th>Result</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="(key,value) in bankTotals.remaining">
+                        <td>{{key}}</td>
+                        <td>{{value}}</td>
+                        <td><span style="color:red; font-weight:bold;" ng-if="requestedTime[key]">- {{requestedTime[key]}}</span></td>
+                        <td>{{resultTime[key]}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
