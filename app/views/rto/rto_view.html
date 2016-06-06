@@ -11,7 +11,7 @@
             <div class="card-head">
                 <header>Requested Time for {{ name }}</header>
                 <div class="tools">
-                    <a ng-click="newForm();" class="btn btn-icon-toggle btn-refresh">
+                    <a data-ng-disabled="user.employeeID != rtoData.employeeID" ng-click="newForm();" class="btn btn-icon-toggle btn-refresh">
 
                         <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
                     </a>
@@ -40,8 +40,8 @@
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td id="edit/delete">
-                               <a data-ng-disabled="user.employeeID != obj.employeeID"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
-                               <a data-ng-disabled="user.employeeID != obj.employeeID"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                               <a data-ng-disabled="user.employeeID != rtoData.employeeID"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a data-ng-disabled="user.employeeID != rtoData.employeeID"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
                         </tr>
                         <tr ng-hide="rtoData.requested_time[0]">
@@ -189,7 +189,7 @@
 
         <div ng-show="true" class="card card-underline" >
             <div class="card-head">
-                <header> Banked Hours Impact? </header>
+                <header> Banked Hours Impact </header>
             </div>
             <div class="card-body">
 
