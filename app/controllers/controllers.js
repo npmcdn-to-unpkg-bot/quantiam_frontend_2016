@@ -366,7 +366,7 @@ function calculate_BankTotalsDifference (){
     $scope.emailSupervisor = function()
     {
         $scope.notifyloady = 1;
-        emailService.sendRtoNotification($scope.supervisorID, $scope.rtoData.requestID).success(function(r) {
+        emailService.sendRtoNotification($scope.supervisorID, $scope.user.name).success(function(r) {
             console.log(r);
             toastr.success('Notification Sent');
             $scope.notifyloady = 0;
