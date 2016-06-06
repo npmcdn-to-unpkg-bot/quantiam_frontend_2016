@@ -1,13 +1,10 @@
 
 App.controller('IndexController', ['$scope', '$location','userService', function($scope, $location, userService) {
   var vm = this;
-	
-	$scope.isActive = false;
   vm.AppName = "Quantiam";
 
-	
-	
-	
+
+	/// Store the user object in the index controller, such that we can use it everywhere.
 	function updateIndexUserObject (){
 		
 		
@@ -21,7 +18,29 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 			 });
 	}
 		
-		$scope.isActive = function (viewLocation) { 
+
+	$scope.$on("updateIndexUserObject", function(){
+			
+			updateIndexUserObject ();
+		
+		});
+
+	updateIndexUserObject ();
+	
+	
+	
+	/// Expanded Class Javascript Logics
+	$scope.expanded = ""; //default close all "expanded"
+  $scope.expandSidebar = function(){
+    if ($scope.class === "expanded")
+      $scope.class = "";
+    else
+      $scope.class = "expanded";
+  };
+	
+	/// Logic for determining is something is active or not with respect to a route. 
+	$scope.isActive = false;
+	$scope.isActive = function (viewLocation) { 
 
 			 if($location.path().indexOf(viewLocation) > -1) {
 					return true;
@@ -35,35 +54,18 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 	
 	
 	
-	/// Sidebar Javascript
-	$scope.$on("updateIndexUserObject", function(){
-			
-			updateIndexUserObject ();
-		
-		});
-
-	updateIndexUserObject ();
-	
-	
-	$scope.class = ""; //default close all "expanded"
-  $scope.expandSidebar = function(){
-	console.log('worked');
-	
-    if ($scope.class === "expanded")
-      $scope.class = "";
-    else
-      $scope.class = "expanded";
-  };
-	
-	
 
 }]);
 
 
 App.controller('HomeController', ['$scope', function($scope) {
+	
   var vm = this;
   vm.title = 'Dashboard';
 
+	
+	
+	
 }]);
 
 
@@ -100,17 +102,6 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 
 				 });
 
-
-     /*
-       setTimeout(function () {
-
-
-           $scope.rtoTable = $('#rtotable').DataTable(
-                                   {
-                                       "order": [[3, "desc"], [2, "desc"]]
-                                   }
-                               );
-                           }, 0);  */
    };
 
        $scope.showRto = function (request_id) {
@@ -250,14 +241,13 @@ function calculate_BankTotalsDifference (){
             "type": $scope.type,
             "date": dateStringService.dateToString($scope.date),
         };
-
+        $scope.notifyloady = 1;
         rtoViewService.putRtotime(params).success(function(r) {
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
 							calculate_BankTotalsDifference ();
 
         }).error(function(e) {
-
             toastr.error('Failed to update RTO');
         });
 
@@ -322,17 +312,18 @@ function calculate_BankTotalsDifference (){
 
     };
 
-    $scope.approveRto = function(approval) {
+    $scope.approveRto = function(approval)
+    {
+        $scope.click = true;
 
         $scope.user = userService.getstoredUser();
-        console.log($scope.user);
         var params = {
             "requestID": $scope.rtoData.requestID,
             "approval": approval,
         }
 
         rtoApprovalService.approve(params).success(function(r) {
-            console.log($scope.user);
+            console.log(r);
             $scope.rtoData.approvals.push(r);
             $scope.rtoData.status = (r.check);
 
@@ -346,7 +337,7 @@ function calculate_BankTotalsDifference (){
 
     $scope.removeApproval = function(approvalID, index)
     {
-        
+        $scope.click = false;
         rtoApprovalService.remove(approvalID).success(function(r) {
             $scope.rtoData.approvals.splice(index, 1);
             $scope.rtoData.status = (r);
@@ -357,6 +348,13 @@ function calculate_BankTotalsDifference (){
 
         });
     };
+
+    $scope.removeRTO = function (requestID)
+    {
+        rtoService
+
+
+    }
 
 
 
