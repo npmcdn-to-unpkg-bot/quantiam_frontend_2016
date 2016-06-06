@@ -250,14 +250,13 @@ function calculate_BankTotalsDifference (){
             "type": $scope.type,
             "date": dateStringService.dateToString($scope.date),
         };
-
+        $scope.notifyloady = 1;
         rtoViewService.putRtotime(params).success(function(r) {
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
 							calculate_BankTotalsDifference ();
 
         }).error(function(e) {
-
             toastr.error('Failed to update RTO');
         });
 
@@ -324,7 +323,7 @@ function calculate_BankTotalsDifference (){
 
     $scope.approveRto = function(approval)
     {
-
+        $scope.click = true;
 
         $scope.user = userService.getstoredUser();
         var params = {
@@ -347,7 +346,7 @@ function calculate_BankTotalsDifference (){
 
     $scope.removeApproval = function(approvalID, index)
     {
-        
+        $scope.click = false;
         rtoApprovalService.remove(approvalID).success(function(r) {
             $scope.rtoData.approvals.splice(index, 1);
             $scope.rtoData.status = (r);

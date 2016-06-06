@@ -122,7 +122,7 @@
                 <div ng-show="user.employeeID != rtoData.employeeID" style="float: right; padding:10px; width:25%" >
                     <a  ng-click="approveRto('approved')">
                         <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success"
-                                data-ng-disabled="user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
+                                data-ng-disabled="click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
 
                             Approve
                         </button>
@@ -131,7 +131,7 @@
                 <div ng-show="user.employeeID != rtoData.employeeID" style="float: right; padding:10px; width:25%" >
                     <a  ng-click="approveRto('denied')">
                         <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-danger"
-                                data-ng-disabled="user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
+                                data-ng-disabled="click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
 
                             Deny
                         </button>
