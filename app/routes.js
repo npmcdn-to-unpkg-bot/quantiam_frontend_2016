@@ -1,29 +1,31 @@
-App.config(function($routeProvider) {
-    $routeProvider
-        .when('/', {
+App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/dashboard');
+
+    $stateProvider
+        .state('home', {
+            url:'/',
             templateUrl: 'views/dashboard.html',
             controller: 'HomeController as HC'
         })
-				.when('/login', {
+        .state('dashboard', {
+            url:'/dashboard',
+            templateUrl: 'views/dashboard.html',
+            controller: 'HomeController as HC'
+        })
+        .state('login', {
+            url:'/login',
             templateUrl: 'views/auth/login.html',
-   
-        })
-        .when('/dashboard', {
-            templateUrl: 'views/dashboard.html',
-            controller: 'HomeController as HC'
-        })
-        .when('/rto', {
+				})
+        .state('rto', {
+            url:'/rto',
             templateUrl: 'views/rto/rto_dashboard.html',
             controller: 'RtoController as RC'
-        }) 
-        .when('/rto/:rtoid', {
+        })
+        .state('rtoView', {
+            url:'/rto/:rtoid',
             templateUrl: 'views/rto/rto_view.html',
-            controller: 'RtoViewController as RVC',
-
-
-        });
-				
-				
-				
-
-});
+            controller: 'RtoViewController as RVC'
+        })
+    
+    
+}]);

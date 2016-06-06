@@ -14,3 +14,43 @@ body {
 	
 }
 
+.section-body {
+	
+	padding-left: 3em;
+	padding-right: 3em;
+	
+}
+
+.uib-weeks .btn 
+{
+	
+	margin-top: 0px;
+	margin-right: 0px;
+	
+	
+}
+
+#menubar.menubar-inverse:before {
+	
+	    background: #384b5f;
+}
+.menubar-inverse .gui-controls li .title {
+	    color: rgb(255, 255, 255);
+	
+}
+
+
+.menubar-inverse .gui-controls li.gui-folder > a .title {
+	  color: rgb(255, 255, 255,0.75);
+}
+
+.menubar-inverse .gui-controls li.gui-folder.expanded > a .title, .menubar-inverse .gui-controls li.gui-folder.active > a .title {
+	
+	color: rgb(255, 255, 255);
+}
+
+.gui-controls li.expanded > ul {
+    margin-top: 5px;
+		
+}
+

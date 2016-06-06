@@ -1,49 +1,62 @@
 App.service(
     "apiRequest",
-    function($http, errorService) {
+    function($http,   errorService) {
 
         return {
-            send: send
-        };
+         
 
-      function send (httpVerb,path,params){
+				send: function (httpVerb,path,params){
+				
+			
 			
 					var apiUrl = "http://apps.edm.quantiam.com:2000";
+					var response;
+					var token = localStorage.getItem('token');
+				//	console.log(token);
+				//	var response = $q.defer();
+        
 
-          var response = {};
+						
+						var req = {
+											 method: httpVerb,
+											 url: apiUrl + path,
+											 headers: {
+												 "Authorization": "Bearer " + token,
+											 },
+											 data: params
+											}
 
-              $.ajax({
-                  type: httpVerb,
-                  async: false,
-                  url: apiUrl + path,
-                  headers: {
-                      "Authorization": "Bearer " + localStorage.getItem('token'),
-                      "content-type": "application/x-www-form-urlencoded"
-                  },
-                  data: params,
-                  success: function (r) {
-
-                      response = r;
-                      //Do Something
-                  },
-                  error: function (e) {
-                      // We need to build an ovious way to display an error here. 
-											// response = e;
-											errorService.new_error(e);
-                  }
-              });
-
-					if(Object.keys(response).length != 0 && response.constructor === Object)
-					{
+						 response =	$http(req).success(function(r){
+									
+					
+						 }).error(function(e,s){
+						 
+					return e;
+						 
+						 
+						 });
+						
 						return response;
 					}
+				}
+					
+		});
+							
+					
+		
 
-        }
 
+App.service("dateStringService", function($filter) {
 
-    }
+	return ({
+		dateToString: dateToString
+	});
 
-);
+	function dateToString(date)
+	{
+		return $filter('date')(date, "yyyy-MM-dd");
+	};
+})
 
 App.service("rtoService", function($http, apiRequest) {
 
@@ -51,12 +64,10 @@ App.service("rtoService", function($http, apiRequest) {
         // Return public API.
         return ({
 
-            rtoList: rtoList
-    });
-
-
-
-
+            rtoList: rtoList,
+						addRto: addRto
+					});
+		
         function rtoList()
         {
             var params =  {
@@ -71,53 +82,243 @@ App.service("rtoService", function($http, apiRequest) {
      
         }
 
+
+		function addRto()
+		{
+			return apiRequest.send('post', '/rto/new', null);
+		}
+
     }
 );
 
+App.service("rtoViewService", function($http, apiRequest) {
+        // Return public API.
+	     return ({
 
-/* 
+			 rtoViewData: rtoViewData,
+			 getRtotime: getRtotime,
+			 postRtotime: postRtotime,
+			 putRtotime: putRtotime,
+			 deleteRtotime: deleteRtotime,
+			 rtoObject: rtoObject
+    });
+	
+		var rtoObject = {};
+	
+		function postRtotime(params,requestID)
+		{
+			return apiRequest.send('post', '/rto/' + requestID + '/requestTime', params);
+		}
+
+		function putRtotime(params)
+		{
+			return apiRequest.send('put', '/rto/requestTime', params);
+		}
+
+
+		function deleteRtotime(rtotime_id)
+		{
+			return apiRequest.send('delete', '/rto/time/' + rtotime_id, null);
+		}
+
+
+
+	function rtoViewData(request_id)
+		{
+            return  apiRequest.send('get','/rto/' + request_id, null).success(function(r){
+	
+							rtoObject = r;
+		
+							});
+
+        }
+
+
+        function getRtotime(request_id)
+		{
+            return apiRequest.send('get','/rto/' + request_id, null);
+
+
+        }
+
+    
+		
+		function getRtoObject(){
+			
+			
+			return rtoObject;
+			
+			}
+		
+});
+App.service("userInfoService", function($http, apiRequest) {
+
+	return ({
+
+		getUserData: getUserData,
+		getUserRtoBank: getUserRtoBank,
+		QueryUserRtoBank: QueryUserRtoBank
+	});
+	var UserRtoBank = {};
+	
+	function getUserData(employee_id)
+	{
+	
+		
+		return apiRequest.send('get', '/user/' + employee_id, null).success(function(r){
+			
+			
+		
+			
+			});
+	}
+	function getUserRtoBank ()
+	{
+	
+				return UserRtoBank;
+	}
+	
+	function QueryUserRtoBank (employee_id)
+	{
+	
+		
+		return apiRequest.send('get', '/u/rtobank', null).success(function(r){
+			
+			
+			for( var employeeID in r)
+			{
+
+			    if (employeeID == employee_id) {
+						
+									
+									
+							UserRtoBank = r[employeeID];
+				
+					}
+				
+			}
+			
+			
+			});
+		
+		}
+});
+
+/*
 	This service contains methods used to authenticate and update the user.
 */
-	App.service("userService",function(apiRequest) {
+App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		
-		 return ({
-
-							authenticateUser: authenticateUser,
-							refreshUser: refreshUser,
-							logoutUser: logoutUser
-			});
+		 
+			
+		var storedUserObject = {};
 			
 			
 		// Obtain the user JWT token using credentials
 		function authenticateUser (username, pass)
 		{
+		
+		
 			var params = {"username": username, "pass": pass};
-			var response = apiRequest.send('post','/auth',params);
+			var response = apiRequest.send('post','/auth',params).success(function(r){
+							
+							localStorage.setItem('token', r.token);
+							
+							$rootScope.$broadcast('updateIndexUserObject');
+							return true;
+									 
+					 }) 
+					.error(function(e){
+						
 				
-				if(response)
-				{
-					localStorage.setItem('token', response. token);
-					return true;
-				}
+						return false;
+				
+						
+						 });
+			
+			return response;
+			
+				
+		}
+		
+		function getstoredUser(){
+						
+						return storedUserObject; //returns stored object
+					
 		}
 		
 		// Use the stored token to refresh the user object.
 		function refreshUser() 
 		{
 			
+					
+					
+					var response = apiRequest.send('get','/user').success(function(r){
+							
+							storedUserObject = r;
+							 
+							return r; 
+							
+									 
+					 })
+					 .error(function(e){
+							
+						
+						 		logoutUser();
+									return false;
+						 });
 			
-			
+		
+				
+	
+					return response;
+						
 			
 		}
 		
 		// Used to redirect the user to the login screen and delete the stored token.
 		function logoutUser()
 		{
-			
-			
+		
+				localStorage.clear(); // clear stored data
+				$location.path('/login');
+				
 		}
+		
+		
+return ({
+
+							authenticateUser: authenticateUser,
+							refreshUser: refreshUser,
+							getstoredUser: getstoredUser,
+							logoutUser: logoutUser,
+							storedUserObject: storedUserObject
+			});
 
 	});
+
+
+App.service("rtoApprovalService", function(apiRequest) {
+	return ({
+		approve: approve,
+		remove: remove,
+	});
+
+	function approve(params) {
+
+		return apiRequest.send('post', '/approval/' + params.requestID, params);
+
+	}
+
+	function remove(approvalID)
+	{
+		return apiRequest.send('delete', '/approval/' + approvalID, null);
+	}
+});
+
+
+
+
 
 
 /* 
@@ -149,3 +350,22 @@ App.service("errorService", function (){
 	
 	
 });
+
+App.service("emailService", function(apiRequest) {
+
+	return {
+		sendRtoNotification: sendRtoNotification,
+	}
+
+
+	function sendRtoNotification(supervisorID, employeeName) {
+
+		var params = {
+			"subject": "New Time Off Request from "+employeeName+" Awaiting Approval",
+			"body": "<a href='"+document.location.href+"'>Click here to view time-off request.</a>",
+			"employeeID": supervisorID
+		}
+
+		return apiRequest.send('post', '/mail/send', params);
+	}
+})
