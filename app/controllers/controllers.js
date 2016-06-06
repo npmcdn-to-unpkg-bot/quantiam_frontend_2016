@@ -322,17 +322,18 @@ function calculate_BankTotalsDifference (){
 
     };
 
-    $scope.approveRto = function(approval) {
+    $scope.approveRto = function(approval)
+    {
+
 
         $scope.user = userService.getstoredUser();
-        console.log($scope.user);
         var params = {
             "requestID": $scope.rtoData.requestID,
             "approval": approval,
         }
 
         rtoApprovalService.approve(params).success(function(r) {
-            console.log($scope.user);
+            console.log(r);
             $scope.rtoData.approvals.push(r);
             $scope.rtoData.status = (r.check);
 

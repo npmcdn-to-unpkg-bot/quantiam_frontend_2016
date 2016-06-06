@@ -40,8 +40,8 @@
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td id="edit/delete">
-                               <a ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
-                               <a ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                               <a data-ng-disabled="user.employeeID != obj.employeeID"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a data-ng-disabled="user.employeeID != obj.employeeID"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
                         </tr>
                         <tr ng-hide="rtoData.requested_time[0]">
@@ -146,7 +146,7 @@
                         <th>Supervisor</th>
                         <th>Approval</th>
                         <th>Updated</th>
-                        <th ng-hide="user.employeeID != rtoData.approvals.employeeID">Remove</th>
+                        <th ng-hide="user.employeeID == rtoData.approvals.employeeID">Remove</th>
                     </tr>
                     </thead>
 
@@ -157,7 +157,7 @@
                             <span id="1" ng-if="obj.approval == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</span>
                         </td>
                         <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
-                        <td ng-hide="user.employeeID != rtoData.approvals.employeeID">
+                        <td ng-hide="user.employeeID == rtoData.approvals.employeeID">
                             <button  data-ng-disabled="user.employeeID != obj.employeeID" ng-click="removeApproval(obj.approvalID, $index)" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Remove">
                                 <i class="md md-delete" style="color:red" ></i>
                             </button>
@@ -168,7 +168,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div align="center" ng-show="user.employeeID == rtoData.employeeID" ng-hide="rtoData.approvals[0]" class="tools">
+                <div align="center" ng-hide="user.employeeID != rtoData.employeeID || rtoData.approvals[0]" class="tools">
                     <form class="form-inline">
                         <div class="form-group" style="margin:0px; padding:0px">
                             <select ng-model="supervisorID" class="form-control" style="margin:0px; margin-right:10px;" required>
