@@ -22,10 +22,20 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 	}
 		
 		$scope.isActive = function (viewLocation) { 
-	return viewLocation === $location.path();
+
+			 if($location.path().indexOf(viewLocation) > -1) {
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+	
     };
 	
 	
+	
+	/// Sidebar Javascript
 	$scope.$on("updateIndexUserObject", function(){
 			
 			updateIndexUserObject ();
@@ -33,6 +43,18 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 		});
 
 	updateIndexUserObject ();
+	
+	
+	$scope.class = ""; //default close all "expanded"
+  $scope.expandSidebar = function(){
+	console.log('worked');
+	
+    if ($scope.class === "expanded")
+      $scope.class = "";
+    else
+      $scope.class = "expanded";
+  };
+	
 	
 
 }]);
@@ -125,6 +147,7 @@ App.controller('RtoViewController',
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
+           // console.log($scope.rtoData.requested_time[0].date);
 
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 

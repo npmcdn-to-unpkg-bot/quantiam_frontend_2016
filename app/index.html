@@ -18,8 +18,9 @@
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/morris/morris.core.css" />
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/DataTables/jquery.dataTables.css" />
 		  <link type="text/css" rel="stylesheet" href="assets/js/libs/angular-datatables/css/angular-dataTables.css" />
+		  <link type="text/css" rel="stylesheet" href="assets/js/libs/angular-fullcalendar/fullcalendar.min.css" />
 		<link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/toastr/toastr.css" />
-
+	
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 </head>
@@ -108,7 +109,7 @@
             <ul id="main-menu" class="gui-controls">
 
                 <!-- BEGIN DASHBOARD -->
-                <li ng-class="{ active: isActive('/dashboard')}">
+                <li ng-class="{ 'expanded active': isActive('/dashboard')  } ">
                     <a ui-sref="dashboard" >
                         <div class="gui-icon"><i class="md md-home"></i></div>
                         <span class="title">Dashboard</span>
@@ -118,19 +119,31 @@
 
                 <!-- BEGIN TEST -->
 							
-                <li ng-class="{ active: isActive('/rto')}"    >
+              <!--   <li    >
                     <a ui-sref="rto"   >
                         <div class="gui-icon"><i class="fa fa-circle-o-notch fa-2x"></i></div>
                         <span class="title">RTO</span>
                     </a>
-                </li>
-								<li>
-                    <a  href="http://apps.edm.quantiam.com/timesheet/"     >
-                        <div class="gui-icon"><i class="fa fa-circle-o-notch fa-2x"></i></div>
-                        <span class="title">Timesheet Test</span>
-                    </a>
-                </li>
-
+                </li> -->
+							
+						<li class="gui-folder"   ng-class="{ 'expanded active': isActive('/rto'), 'expanded': class}" >
+							<a   ng-click="expandSidebar()">
+								<div class="gui-icon"><i class="fa fa-calendar"></i></div>
+								<span class="title">Timesheet</span>
+							</a>
+							<!--start submenu -->
+							<ul>
+<!-- 							<li><a href="http://apps.edm.quantiam.com/timesheet/" target="_blank" ><span class="title">Timesheet </span></a></li>
+							<li><a href="http://apps.edm.quantiam.com/timesheet/calendar/" target="_blank" ><span class="title">Calendar </span></a></li>
+							<li><a href="http://apps.edm.quantiam.com/timesheet/reports/" target="_blank" ><span class="title">Reports </span></a></li> -->
+							<li><a href="#/rto"  ng-class="{ active: isActive('/rto')}" ><span class="title">RTO</span></a></li>
+							<li><a  href=""><span class="title">Placeholder</span></a></li>
+								
+								
+							</ul><!--end /submenu -->
+						</li>
+					
+								
 
             </ul><!--end .main-menu -->
             <!-- END MAIN MENU -->
@@ -170,8 +183,10 @@
 
 
 <script src="assets/js/libs/jquery/dist/jquery.min.js"></script>
+<script src="assets/js/libs/jquery-ui/jquery-ui.min.js"></script>
 <script src="assets/js/libs/DataTables/jquery.dataTables.min.js"></script>
 <script src="assets/js/libs/spin.js/spin.min.js"></script>
+<script src="assets/js/libs/bootstrap/bootstrap.min.js"></script>
 <script src="assets/js/libs/moment/moment.min.js"></script>
 <script src="assets/js/libs/toastr/toastr.js"></script>
 <script src="assets/js/libs/microtemplating/microtemplating.min.js"></script>
@@ -187,6 +202,7 @@
 <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="assets/js/libs/angular-datatables/dist/angular-datatables.min.js"></script>
 <script src="assets/js/libs/bootstrap-angular-ui/ui-bootstrap-custom-tpls-1.3.3.min.js"></script>
+<script src="assets/js/libs/angular-fullcalendar/fullcalendar.js"></script>
 
 
 
