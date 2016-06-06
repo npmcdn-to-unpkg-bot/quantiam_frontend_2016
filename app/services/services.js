@@ -358,11 +358,11 @@ App.service("emailService", function(apiRequest) {
 	}
 
 
-	function sendRtoNotification(supervisorID, requestID) {
+	function sendRtoNotification(supervisorID, employeeName) {
 
 		var params = {
-			"subject": "New Time Off Request Awaiting Approval",
-			"body": "<a href='"+document.location.href+"'>Click here to enter your approval brah.</a>",
+			"subject": "New Time Off Request from "+employeeName+" Awaiting Approval",
+			"body": "<a href='"+document.location.href+"'>Click here to view time-off request.</a>",
 			"employeeID": supervisorID
 		}
 
