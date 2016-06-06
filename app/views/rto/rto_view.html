@@ -1,5 +1,6 @@
 <div>
     <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'new'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
     <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
     <button style="border-radius: 2px;"  type="button" ng-if="rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
 </div>
@@ -93,7 +94,7 @@
                      </div>
 
                      <div class="form-group" id="classPicker">
-                         
+
                          <select class="form-control" ng-model="type" required>
                              <option value="">&nbsp;</option>
                              <option value="pto">PTO</option>

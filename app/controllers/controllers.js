@@ -349,6 +349,13 @@ function calculate_BankTotalsDifference (){
         });
     };
 
+    $scope.removeRTO = function (requestID)
+    {
+        rtoService
+
+
+    }
+
 
 
     $scope.notifyloady = 0;
