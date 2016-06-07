@@ -171,7 +171,6 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
     }
 
 
-
 }]);
 
 App.controller('RtoViewController',
@@ -408,12 +407,21 @@ function calculate_BankTotalsDifference (){
         });
     };
 
-    $scope.removeRTO = function (requestID)
-    {
-        rtoService
+    $scope.deleteRto = function() {
+
+        console.log($scope.rtoData.requestID);
+
+        rtoViewService.deleteRto($scope.rtoData.requestID).success(function(r) {
+
+            console.log(r);
+
+        }).error(function(e) {
+
+            console.log(e);
+        })
 
 
-    }
+    };
 
 
 

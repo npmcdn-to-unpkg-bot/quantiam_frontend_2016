@@ -141,6 +141,11 @@ App.service("rtoViewService", function($http, apiRequest) {
 			return rtoObject;
 			
 			}
+
+		function deleteRto(requestID)
+		{
+			return apiRequest.send('delete', '/rto/' + requestID, null);
+		}
 			
 			
 			function refreshRtoExistingAbsencesObject(dateArray)
