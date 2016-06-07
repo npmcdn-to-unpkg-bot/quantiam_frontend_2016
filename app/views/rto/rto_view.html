@@ -1,7 +1,7 @@
 <div>
-    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-success">Approved</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block btn-refresh btn-xs btn-success">Approved</button>
     <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'new'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
-    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning" md-ink-ripple="FF0000">Pending</button>
     <button style="border-radius: 2px;"  type="button" ng-if="rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
 </div>
 <br>
@@ -48,8 +48,8 @@
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td id="edit/delete">
-                               <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
-                               <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                               <a data-ng-disabled="rtoData.approvals[0]"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a data-ng-disabled="rtoData.approvals[0]"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
                         </tr>
                         <tr ng-hide="rtoData.requested_time[0]">
