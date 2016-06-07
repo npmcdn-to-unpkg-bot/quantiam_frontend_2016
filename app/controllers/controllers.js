@@ -182,6 +182,7 @@ App.controller('RtoViewController',
 
     $scope.show_form = false;
     $scope.notifyloady = 0;
+
 		$scope.rtoData = {};
 		
 		
@@ -296,7 +297,6 @@ function calculate_BankTotalsDifference (){
             "type": $scope.type,
             "date": dateStringService.dateToString($scope.date),
         };
-        $scope.notifyloady = 1;
         rtoViewService.putRtotime(params).success(function(r) {
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
