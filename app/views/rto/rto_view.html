@@ -113,6 +113,44 @@
                 </form>
             </div>
         </div>
+				
+				
+				  <div ng-show="isEmptyObject(existingAbsencesObject)" class="card card-underline" >
+            <div class="card-head">
+                <header> Potential Absence Conflicts </header>
+            </div>
+            <div class="card-body">
+
+						
+							
+						<div ng-repeat="(key,array) in existingAbsencesObject" class='col-md-6'>
+               <h3 class='page-header' style='margin-top:5px'> {{key}} </h3>
+							 <table class='table table-striped table-hover'>
+
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Duration</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr   ng-repeat="value in array"  >
+                        <td>{{value.firstname}} {{value.lastname}}</td>
+                        <td>{{value.type}}</td>
+                        <td>{{value.hours}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+								
+							</div>
+
+            </div>
+
+        </div>
+				
 
     </div>
 

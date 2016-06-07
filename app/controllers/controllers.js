@@ -177,23 +177,32 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 App.controller('RtoViewController',
     ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
         function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
-    var request_id = $stateParams.rtoid;
+  
+  
+		var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
-
+    $scope.notifyloady = 0;
+		$scope.rtoData = {};
+		
+		
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
            // console.log($scope.rtoData.requested_time[0].date);
+					 
+			$scope.checkExistingAbsences();
 
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 
 								$scope.userInfo = r.data;
 								$scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
+								
+								
+								
 								userInfoService.QueryUserRtoBank($scope.rtoData.employeeID).then(function(r){
 									
 									$scope.bankTotals = userInfoService.getUserRtoBank();
-									console.log($scope.bankTotals);
 									calculate_BankTotalsDifference ();
 
                                     $scope.user = userService.getstoredUser();
@@ -252,9 +261,9 @@ function calculate_BankTotalsDifference (){
 		
 		
 
-        $scope.viewTables = function () {
+		$scope.viewTables = function () {
 
-        };
+		};
 
     $scope.postRtotime = function() {
         var params = {
@@ -269,6 +278,7 @@ function calculate_BankTotalsDifference (){
 
              $scope.rtoData.requested_time.push(r);
 						 	calculate_BankTotalsDifference ();
+							$scope.checkExistingAbsences();
 
         }).error(function(e){
 
@@ -292,6 +302,7 @@ function calculate_BankTotalsDifference (){
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
 							calculate_BankTotalsDifference ();
+							$scope.checkExistingAbsences();
 
         }).error(function(e) {
             toastr.error('Failed to update RTO');
@@ -347,18 +358,20 @@ function calculate_BankTotalsDifference (){
             $scope.formMode = 'edit';
 
     };
-    $scope.deleteForm = function(rtotime_id, index){
+   
+		$scope.deleteForm = function(rtotime_id, index){
 
        if(rtoViewService.deleteRtotime(rtotime_id)) {
 
            $scope.rtoData.requested_time.splice(index, 1);
 					 	calculate_BankTotalsDifference ();
+						$scope.checkExistingAbsences();
        }
 
 
     };
 
-    $scope.approveRto = function(approval)
+		$scope.approveRto = function(approval)
     {
         $scope.click = true;
 
@@ -404,7 +417,7 @@ function calculate_BankTotalsDifference (){
 
 
 
-    $scope.notifyloady = 0;
+ 
 
 
     $scope.emailSupervisor = function()
@@ -420,20 +433,47 @@ function calculate_BankTotalsDifference (){
         });
     }
 
-    //loop through all requests
 
-    //#scopeshow_form = false;
-
-            $scope.popup1 = {
-                opened: false
-            };
+		$scope.popup1 = {
+				opened: false
+		};
 
 
-            $scope.open1 = function() {
-                $scope.popup1.opened = true;
-            };
+		$scope.open1 = function() {
+				$scope.popup1.opened = true;
+		};
 
+		$scope.isEmptyObject = function(obj) {
+    /* logic of your choosing here */
+				return Object.keys(obj).length; 
+		};
+		
+		
+		$scope.showExistingAbsences = false;
+		$scope.existingAbsencesObject = {};
+		
+		$scope.checkExistingAbsences = function()
+		{
+			var dateArray = [];
+			
+		
+			for (var i = 0; i < $scope.rtoData.requested_time.length; i++) {
+				
+				dateArray.push($scope.rtoData.requested_time[i].date);
+			}
+			
+					rtoViewService.refreshRtoExistingAbsencesObject(dateArray).success(function(r){
+				
+					$scope.existingAbsencesObject = r;
 
+				
+				});
+		
+		
+		}
+		
+		
+		
 }]);
 
 

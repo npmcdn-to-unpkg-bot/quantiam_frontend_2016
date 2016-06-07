@@ -92,18 +92,10 @@ App.service("rtoService", function($http, apiRequest) {
 );
 
 App.service("rtoViewService", function($http, apiRequest) {
-        // Return public API.
-	     return ({
-
-			 rtoViewData: rtoViewData,
-			 getRtotime: getRtotime,
-			 postRtotime: postRtotime,
-			 putRtotime: putRtotime,
-			 deleteRtotime: deleteRtotime,
-			 rtoObject: rtoObject
-    });
+ 
 	
 		var rtoObject = {};
+		var rtoExistingAbsencesObject = {};
 	
 		function postRtotime(params,requestID)
 		{
@@ -149,6 +141,45 @@ App.service("rtoViewService", function($http, apiRequest) {
 			return rtoObject;
 			
 			}
+			
+			
+			function refreshRtoExistingAbsencesObject(dateArray)
+			{
+				var params = {'dateArray': dateArray}
+			
+					return apiRequest.send('post','/rto/existingabsences', params).success(function(r){
+	
+							rtoExistingAbsencesObject = r;
+					
+		
+				}).error(function(e){
+					
+							toastr.error('The fetching of existing absences failed miserably. ', 'Authentication Error');
+					});
+				
+			}
+			
+			
+			function getRtoExistingAbsencesObject(){
+			
+			
+			return rtoExistingAbsencesObject;
+			
+			}
+		
+		
+		       // Return public API.
+	     return ({
+
+			 rtoViewData: rtoViewData,
+			 getRtotime: getRtotime,
+			 postRtotime: postRtotime,
+			 putRtotime: putRtotime,
+			 deleteRtotime: deleteRtotime,
+			 rtoObject: rtoObject,
+			 refreshRtoExistingAbsencesObject: refreshRtoExistingAbsencesObject
+    });
+		
 		
 });
 App.service("userInfoService", function($http, apiRequest) {
