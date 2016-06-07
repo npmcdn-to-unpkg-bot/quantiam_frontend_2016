@@ -91,7 +91,7 @@ App.service("rtoService", function($http, apiRequest) {
     }
 );
 
-App.service("rtoViewService", function($http, apiRequest) {
+App.service("rtoViewService", function($http, $location, apiRequest) {
  
 	
 		var rtoObject = {};
@@ -110,7 +110,11 @@ App.service("rtoViewService", function($http, apiRequest) {
 
 		function deleteRtotime(rtotime_id)
 		{
-			return apiRequest.send('delete', '/rto/time/' + rtotime_id, null);
+			return apiRequest.send('delete', '/rto/time/' + rtotime_id, null).success(function(r){
+				
+				
+				
+				});
 		}
 
 
@@ -144,7 +148,12 @@ App.service("rtoViewService", function($http, apiRequest) {
 
 		function deleteRto(requestID)
 		{
-			return apiRequest.send('delete', '/rto/' + requestID, null);
+			return apiRequest.send('delete', '/rto/' + requestID, null).success(function(r){
+				
+					toastr.success('RTO '+requestID+' was sucessfully deleted.', 'Success');
+				$location.path('/rto');
+				
+				});
 		}
 			
 			
@@ -159,7 +168,7 @@ App.service("rtoViewService", function($http, apiRequest) {
 		
 				}).error(function(e){
 					
-							toastr.error('The fetching of existing absences failed miserably. ', 'Authentication Error');
+							toastr.error('The fetching of existing absences failed miserably. ', 'API Error');
 					});
 				
 			}
