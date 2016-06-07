@@ -1,7 +1,7 @@
-<div>
+<div md-ink-ripple="FF0000">
     <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'approved'" class="btn btn-block btn-refresh btn-xs btn-success">Approved</button>
     <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'new'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
-    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning" md-ink-ripple="FF0000">Pending</button>
+    <button style="border-radius: 2px;" type="button" ng-if="rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
     <button style="border-radius: 2px;"  type="button" ng-if="rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
 </div>
 <br>
