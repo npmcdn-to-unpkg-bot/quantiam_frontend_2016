@@ -86,7 +86,7 @@ App.controller('HomeController', ['$scope', function($scope) {
   }],
   //Title configuration (optional)
   title: {
-     text: 'Hello'
+     text: 'This is a test chart. '
   },
   //Boolean to control showing loading status on chart (optional)
   //Could be a string if you want to show specific loading text.
