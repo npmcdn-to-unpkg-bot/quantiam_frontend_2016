@@ -181,6 +181,7 @@ App.service("rtoViewService", function($http, apiRequest) {
 			 postRtotime: postRtotime,
 			 putRtotime: putRtotime,
 			 deleteRtotime: deleteRtotime,
+			 deleteRto: deleteRto,
 			 rtoObject: rtoObject,
 			 refreshRtoExistingAbsencesObject: refreshRtoExistingAbsencesObject
     });
