@@ -12,7 +12,14 @@
             <div class="card-head">
                 <header>Requested Time for {{ name }}</header>
                 <div class="tools">
-                    <a data-ng-disabled="user.employeeID != rtoData.employeeID" ng-click="newForm();" class="btn btn-icon-toggle btn-refresh">
+                    <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]" ng-click="deleteRto();" class="btn btn-icon-toggle btn-refresh"
+                       tooltip-placement="top" uib-tooltip="Delete Request">
+
+                        <i style="color:red;" class="fa fa-trash-o fa-2x"></i>
+                    </a>
+
+                    <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]" ng-click="newForm();" class="btn btn-icon-toggle btn-refresh"
+                       tooltip-placement="top" uib-tooltip="Add Time">
 
                         <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
                     </a>
@@ -41,8 +48,8 @@
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td id="edit/delete">
-                               <a data-ng-disabled="user.employeeID != rtoData.employeeID"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
-                               <a data-ng-disabled="user.employeeID != rtoData.employeeID"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                               <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
                         </tr>
                         <tr ng-hide="rtoData.requested_time[0]">
@@ -113,6 +120,44 @@
                 </form>
             </div>
         </div>
+				
+				
+				  <div ng-show="isEmptyObject(existingAbsencesObject)" class="card card-underline" >
+            <div class="card-head">
+                <header> Potential Absence Conflicts </header>
+            </div>
+            <div class="card-body">
+
+						
+							
+						<div ng-repeat="(key,array) in existingAbsencesObject" class='col-md-6'>
+               <h3 class='page-header' style='margin-top:5px'> {{key}} </h3>
+							 <table class='table table-striped table-hover'>
+
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Duration</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr   ng-repeat="value in array"  >
+                        <td>{{value.firstname}} {{value.lastname}}</td>
+                        <td>{{value.type}}</td>
+                        <td>{{value.hours}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+								
+							</div>
+
+            </div>
+
+        </div>
+				
 
     </div>
 

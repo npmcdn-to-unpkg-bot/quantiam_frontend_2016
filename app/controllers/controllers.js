@@ -63,7 +63,53 @@ App.controller('HomeController', ['$scope', function($scope) {
   var vm = this;
   vm.title = 'Dashboard';
 
-	
+	$scope.chartConfig = {
+
+  options: {
+      //This is the Main Highcharts chart config. Any Highchart options are valid here.
+      //will be overriden by values specified below.
+      chart: {
+          type: 'bar'
+      },
+      tooltip: {
+          style: {
+              padding: 10,
+              fontWeight: 'bold'
+          }
+      }
+  },
+  //The below properties are watched separately for changes.
+
+  //Series object (optional) - a list of series using normal Highcharts series options.
+  series: [{
+     data: [10, 15, 12, 8, 7]
+  }],
+  //Title configuration (optional)
+  title: {
+     text: 'This is a test chart. '
+  },
+  //Boolean to control showing loading status on chart (optional)
+  //Could be a string if you want to show specific loading text.
+  loading: false,
+  //Configuration for the xAxis (optional). Currently only one x axis can be dynamically controlled.
+  //properties currentMin and currentMax provided 2-way binding to the chart's maximum and minimum
+  xAxis: {
+  currentMin: 0,
+  currentMax: 20,
+  title: {text: 'values'}
+  },
+  //Whether to use Highstocks instead of Highcharts (optional). Defaults to false.
+  useHighStocks: false,
+  //size (optional) if left out the chart will default to size of the div or something sensible.
+  size: {
+   width: 400,
+   height: 300
+  },
+  //function (optional)
+  func: function (chart) {
+   //setup some logic for the chart
+  }
+};
 	
 	
 }]);
@@ -125,29 +171,37 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
     }
 
 
-
 }]);
 
 App.controller('RtoViewController',
     ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
         function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
-    var request_id = $stateParams.rtoid;
+  
+  
+		var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
-
+    $scope.notifyloady = 0;
+		$scope.rtoData = {};
+		
+		
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
            // console.log($scope.rtoData.requested_time[0].date);
+					 
+			$scope.checkExistingAbsences();
 
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 
 								$scope.userInfo = r.data;
 								$scope.name = $scope.userInfo.firstname+' '+$scope.userInfo.lastname;
+								
+								
+								
 								userInfoService.QueryUserRtoBank($scope.rtoData.employeeID).then(function(r){
 									
 									$scope.bankTotals = userInfoService.getUserRtoBank();
-									console.log($scope.bankTotals);
 									calculate_BankTotalsDifference ();
 
                                     $scope.user = userService.getstoredUser();
@@ -206,9 +260,9 @@ function calculate_BankTotalsDifference (){
 		
 		
 
-        $scope.viewTables = function () {
+		$scope.viewTables = function () {
 
-        };
+		};
 
     $scope.postRtotime = function() {
         var params = {
@@ -223,6 +277,7 @@ function calculate_BankTotalsDifference (){
 
              $scope.rtoData.requested_time.push(r);
 						 	calculate_BankTotalsDifference ();
+							$scope.checkExistingAbsences();
 
         }).error(function(e){
 
@@ -246,6 +301,7 @@ function calculate_BankTotalsDifference (){
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
 							calculate_BankTotalsDifference ();
+							$scope.checkExistingAbsences();
 
         }).error(function(e) {
             toastr.error('Failed to update RTO');
@@ -301,18 +357,20 @@ function calculate_BankTotalsDifference (){
             $scope.formMode = 'edit';
 
     };
-    $scope.deleteForm = function(rtotime_id, index){
+   
+		$scope.deleteForm = function(rtotime_id, index){
 
        if(rtoViewService.deleteRtotime(rtotime_id)) {
 
            $scope.rtoData.requested_time.splice(index, 1);
 					 	calculate_BankTotalsDifference ();
+						$scope.checkExistingAbsences();
        }
 
 
     };
 
-    $scope.approveRto = function(approval)
+		$scope.approveRto = function(approval)
     {
         $scope.click = true;
 
@@ -349,16 +407,25 @@ function calculate_BankTotalsDifference (){
         });
     };
 
-    $scope.removeRTO = function (requestID)
-    {
-        rtoService
+    $scope.deleteRto = function() {
+
+        console.log($scope.rtoData.requestID);
+
+        rtoViewService.deleteRto($scope.rtoData.requestID).success(function(r) {
+
+            console.log(r);
+
+        }).error(function(e) {
+
+            console.log(e);
+        })
 
 
-    }
+    };
 
 
 
-    $scope.notifyloady = 0;
+ 
 
 
     $scope.emailSupervisor = function()
@@ -374,20 +441,47 @@ function calculate_BankTotalsDifference (){
         });
     }
 
-    //loop through all requests
 
-    //#scopeshow_form = false;
-
-            $scope.popup1 = {
-                opened: false
-            };
+		$scope.popup1 = {
+				opened: false
+		};
 
 
-            $scope.open1 = function() {
-                $scope.popup1.opened = true;
-            };
+		$scope.open1 = function() {
+				$scope.popup1.opened = true;
+		};
 
+		$scope.isEmptyObject = function(obj) {
+    /* logic of your choosing here */
+				return Object.keys(obj).length; 
+		};
+		
+		
+		$scope.showExistingAbsences = false;
+		$scope.existingAbsencesObject = {};
+		
+		$scope.checkExistingAbsences = function()
+		{
+			var dateArray = [];
+			
+		
+			for (var i = 0; i < $scope.rtoData.requested_time.length; i++) {
+				
+				dateArray.push($scope.rtoData.requested_time[i].date);
+			}
+			
+					rtoViewService.refreshRtoExistingAbsencesObject(dateArray).success(function(r){
+				
+					$scope.existingAbsencesObject = r;
 
+				
+				});
+		
+		
+		}
+		
+		
+		
 }]);
 
 
