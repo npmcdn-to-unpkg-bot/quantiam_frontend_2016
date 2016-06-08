@@ -437,6 +437,7 @@ function calculate_BankTotalsDifference (){
 
             toastr.success('Request Deleted');
             console.log(r);
+            history.go(-1);
 
         }).error(function(e) {
 
@@ -448,7 +449,7 @@ function calculate_BankTotalsDifference (){
 
     $scope.editNotification = function () {
 
-        
+
         $scope.notifyloady = 1;
         emailService.sendEditNotification($scope.rtoData.employeeID, $scope.user.name).success(function(r) {
 
