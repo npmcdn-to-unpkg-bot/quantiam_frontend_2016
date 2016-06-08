@@ -431,24 +431,21 @@ function calculate_BankTotalsDifference (){
 
     $scope.deleteRto = function() {
 
-        console.log($scope.rtoData.requestID);
+            rtoViewService.deleteRto($scope.rtoData.requestID).success(function (r) {
 
-        rtoViewService.deleteRto($scope.rtoData.requestID).success(function(r) {
+                console.log(r);
+                history.go(-1);
 
-            toastr.success('Request Deleted');
-            console.log(r);
+            }).error(function (e) {
 
-        }).error(function(e) {
+                console.log(e);
+            })
+        };
 
-            console.log(e);
-        })
-
-
-    };
 
     $scope.editNotification = function () {
 
-        
+
         $scope.notifyloady = 1;
         emailService.sendEditNotification($scope.rtoData.employeeID, $scope.user.name).success(function(r) {
 
