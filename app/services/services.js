@@ -425,5 +425,7 @@ App.service("emailService", function(apiRequest) {
 			"recipientID": recipientID
 		};
 		console.log(params);
+
+		return apiRequest.send('post', '/mail/send', params);
 	}
 })
