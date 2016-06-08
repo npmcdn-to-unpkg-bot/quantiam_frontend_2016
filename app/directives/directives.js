@@ -6,7 +6,7 @@ App.directive(
             template: '<input class="form-control" type="date" id="datePicker" required>',
             replace: true,
             link: function(scope, elm, attrs, ngModelCtrl) {
-                ngModelCtrl.$formatters.unshift(function (modelValue) {
+							ngModelCtrl.$formatters.unshift(function (modelValue) {
                     return dateFilter(modelValue, 'yyyy-MM-dd');
                 });
 
@@ -16,3 +16,17 @@ App.directive(
             },
         };
     });
+		
+		
+		
+App.directive('comments', function(){
+	
+	
+ return {
+        restrict: 'E',
+        templateUrl: 'views/comment_section.html',
+				replace: true,
+ }
+	
+	
+});

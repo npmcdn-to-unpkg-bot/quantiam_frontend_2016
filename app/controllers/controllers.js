@@ -125,8 +125,6 @@ App.controller('HomeController', ['$scope', function($scope) {
 
 App.controller('AuthController', ['$scope', '$location', 'userService', function ($scope, $location, userService){
 
-		console.log(userService);
-
     $scope.authenticate = function() {
 			userService.authenticateUser($scope.username,$scope.password).success(function(r){
 				
@@ -196,10 +194,12 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
 }]);
 
 App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
-        function($scope,  $stateParams, $filter, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
+    ['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
+        function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
   
   
+	console.log($location.path());
+	
 		var request_id = $stateParams.rtoid;
 
     $scope.show_form = false;
@@ -530,5 +530,27 @@ App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $
 
 
 }]);
+
+
+
+App.controller('CommentsController', function($scope) {
+	
+		$scope.comments;
+	
+		$scope.fetchComments = function () {
+			
+			$scope.comments = ['comment1', 'comment2'];
+			console.log('runs');
+		//	return 'things and stuff';
+			
+			}
+	
+		//run on intiatilizatiopn
+		
+		$scope.fetchComments();
+	
+	
+
+});
 
 

@@ -1,0 +1,43 @@
+<div  ng-controller = "CommentsController">
+	
+
+<!-- Display previous comments -->
+	
+	
+	
+		<div  ng-repeat="key in comments" class='card'>
+
+			<div class='card-body'>
+				<div class="row">
+					<div class="col-md-10">		<p>{{key}}</p></div>
+					<div class="col-md-">
+						
+					</div>
+				</div>
+		
+			</div>
+				<div class="card-actionbar">
+										<div class="card-actionbar-row">
+											<a class="btn btn-flat btn-default ink-reaction">Remove</a>
+											<a class="btn btn-flat btn-default ink-reaction">Edit</a>
+					</div>
+		</div>
+		</div>
+
+	
+	<!--- Comments Editor / Creator  ---->
+<div class='card'>
+	
+	<div class='card-body'>
+		<trix-editor angular-trix ng-model="user_comment" class="trix-content"></trix-editor>
+	</div>
+	<div class="card-actionbar">
+										<div class="card-actionbar-row">
+											<a class="btn btn-flat btn-default ink-reaction">Submit</a>
+										</div>
+		</div>
+</div>	
+
+
+
+</div>
