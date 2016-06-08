@@ -117,10 +117,11 @@
                          <button ng-disabled="input.$invalid" ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
                      </div>
 
-                     <div ng-if="user.employeeID != rtoData.employeeID" class="form-group">
+                     <div ng-hide="notifyloady == 1" ng-if="user.employeeID != rtoData.employeeID" class="form-group">
                          <button ng-disabled="input.$invalid" ng-if="formMode == 'new'" ng-click="postRtotime(); editNotification(formMode)" class="btn btn-block ink-reaction btn-info" type="submit">Subsssmit</button>
                          <button ng-disabled="input.$invalid" ng-if="formMode == 'edit'" ng-click="editRtotime($index); editNotification(formMode)" class="btn btn-block ink-reaction btn-info" type="submit">Subsssmit</button>
                      </div>
+                     <i ng-hide="notifyloady == 0" class="fa fa-circle-o-notch fa-spin fa-2x " aria-hidden="true" ></i>
 
                 </form>
             </div>

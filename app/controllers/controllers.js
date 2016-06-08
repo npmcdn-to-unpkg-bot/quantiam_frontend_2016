@@ -452,6 +452,7 @@ function calculate_BankTotalsDifference (){
         emailService.sendEditNotification($scope.rtoData.employeeID, $scope.user.name, action).success(function(r) {
 
             console.log(r);
+            toastr.success('Request modified');
             $scope.notifyloady=0;
 
         }).error(function(e) {
