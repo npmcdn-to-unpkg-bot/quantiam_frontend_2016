@@ -9,7 +9,8 @@ App.service(
 				
 			
 			
-					var apiUrl = "http://apps.edm.quantiam.com:2000";
+					//var apiUrl = "http://apps.edm.quantiam.com:2000";
+					var apiUrl = "http://localhost/quantiam_api/public";
 					var response;
 					var token = localStorage.getItem('token');
 				//	console.log(token);
@@ -106,6 +107,7 @@ App.service("rtoViewService", function($http, $location, apiRequest) {
 		{
 			return apiRequest.send('put', '/rto/requestTime', params);
 		}
+
 
 
 		function deleteRtotime(rtotime_id)
