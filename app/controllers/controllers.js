@@ -435,7 +435,6 @@ function calculate_BankTotalsDifference (){
 
         rtoViewService.deleteRto($scope.rtoData.requestID).success(function(r) {
 
-            toastr.success('Request Deleted');
             console.log(r);
             history.go(-1);
 

@@ -151,7 +151,7 @@ App.service("rtoViewService", function($http, $location, apiRequest) {
 		{
 			return apiRequest.send('delete', '/rto/' + requestID, null).success(function(r){
 				
-					toastr.success('RTO '+requestID+' was sucessfully deleted.', 'Success');
+				toastr.success('RTO '+requestID+' was sucessfully deleted.', 'Success');
 				$location.path('/rto');
 				
 				});
