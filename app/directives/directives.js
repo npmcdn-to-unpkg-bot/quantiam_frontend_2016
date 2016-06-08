@@ -16,23 +16,16 @@ App.directive(
             },
         };
     });
-App.directive(
-    'confirm', [function() {
-        return {
-            priority: 100,
-            restrict: 'A',
-            link: {
-                pre: function (scope, element, attrs) {
-                    var msg = attrs.confirm | "Are you sure?";
-
-                    element.bind('click', function (event) {
-                        if (!confirm(msg)) {
-                            event.stopImmediatePropagation();
-                            event.preventDefault;
-                        }
-                    })
+App.directive('ngReallyClick', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('click', function() {
+                var message = attrs.ngReallyMessage;
+                if (message && confirm(message)) {
+                    scope.$apply(attrs.ngReallyClick);
                 }
-            }
+            });
         }
-    }]
-);
+    }
+}]);
