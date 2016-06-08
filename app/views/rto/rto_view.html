@@ -268,7 +268,10 @@
                     <tr ng-repeat="(key,value) in bankTotals.remaining">
                         <td>{{key}}</td>
                         <td>{{value}}</td>
-                        <td><span style="color:red; font-weight:bold;" ng-if="requestedTime[key]">- {{requestedTime[key]}}</span></td>
+                        <td>
+													<span style="color:red; font-weight:bold;" ng-if="requestedTime[key] > 0">-{{requestedTime[key]}}</span>
+													<span style="color:green; font-weight:bold;" ng-if="requestedTime[key] < 0">+{{requestedTime[key]*-1}}</span>
+												</td>
                         <td>{{resultTime[key]}}</td>
                     </tr>
                     </tbody>
