@@ -112,9 +112,14 @@
                          <label for="classPicker">Type</label>
                      </div>
 
-                     <div class="form-group">
+                     <div ng-if="user.employeeID == rtoData.employeeID" class="form-group">
                          <button ng-disabled="input.$invalid" ng-if="formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
                          <button ng-disabled="input.$invalid" ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                     </div>
+
+                     <div ng-if="user.employeeID != rtoData.employeeID" class="form-group">
+                         <button ng-disabled="input.$invalid" ng-if="formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit">Subsssmit</button>
+                         <button ng-disabled="input.$invalid" ng-if="formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Subsssmit</button>
                      </div>
 
                 </form>

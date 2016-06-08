@@ -403,17 +403,27 @@ App.service("emailService", function(apiRequest) {
 
 	return {
 		sendRtoNotification: sendRtoNotification,
+		sendEditNotification: sendEditNotification,
 	}
 
 
-	function sendRtoNotification(supervisorID, employeeName) {
+	function sendRtoNotification(recipientID, employeeName) {
 
 		var params = {
 			"subject": "New Time Off Request from "+employeeName+" Awaiting Approval",
 			"body": "<a href='"+document.location.href+"'>Click here to view time-off request.</a>",
-			"employeeID": supervisorID
-		}
+			"recipientID": recipientID
+		};
 
 		return apiRequest.send('post', '/mail/send', params);
+	}
+
+	function sendEditNotification(recipientID, name, action) {
+		var params = {
+			"subject": "A supervisor has modified your time off request.",
+			"body": "<a href='"+document.location.href+"'>Click here to view modified time-off request.</a>",
+			"recipientID": recipientID
+		};
+		console.log(params);
 	}
 })

@@ -413,6 +413,7 @@ function calculate_BankTotalsDifference (){
 
         rtoViewService.deleteRto($scope.rtoData.requestID).success(function(r) {
 
+            toastr.success('Request Deleted');
             console.log(r);
 
         }).error(function(e) {
@@ -423,11 +424,23 @@ function calculate_BankTotalsDifference (){
 
     };
 
+    $scope.editNotification = function (action) {
+        console.log($scope.rtoData);
+        $scope.notifyloady = 1;
+        emailService.sendEditNotification($scope.rtoData.employeeID, $scope.user.name, action).success(function(r) {
 
+            console.log(r);
+            $scope.notifyloady=0;
 
- 
+        }).error(function(e) {
 
+            toastr.error('Could not edit request');
+            $scope.notifyloady=0;
 
+        })
+    }
+
+            
     $scope.emailSupervisor = function()
     {
         $scope.notifyloady = 1;
