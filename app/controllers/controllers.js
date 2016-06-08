@@ -431,10 +431,6 @@ function calculate_BankTotalsDifference (){
 
     $scope.deleteRto = function() {
 
-        var confirmDelete = $window.confirm('Are you sure you want to permanenently delete this request?');
-
-        if (confirmDelete) {
-
             rtoViewService.deleteRto($scope.rtoData.requestID).success(function (r) {
 
                 console.log(r);
@@ -444,13 +440,8 @@ function calculate_BankTotalsDifference (){
 
                 console.log(e);
             })
-        }
-        else
-        {
-            toastr.warning("Deletion Cancelled");
-        }
+        };
 
-    };
 
     $scope.editNotification = function () {
 
