@@ -425,7 +425,8 @@ App.service("emailService", function(apiRequest) {
 		return apiRequest.send('post', '/mail/send', params);
 	}
 
-	function sendEditNotification(recipientID, name, action) {
+	function sendEditNotification(recipientID, name) {
+		
 		var params = {
 			"subject": "A supervisor has modified your time off request.",
 			"body": "<a href='"+document.location.href+"'>Click here to view modified time-off request.</a>",
