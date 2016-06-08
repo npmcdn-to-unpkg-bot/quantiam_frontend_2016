@@ -259,7 +259,8 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		 
 			
 		var storedUserObject = {};
-			
+		var lastPath;
+
 			
 		// Obtain the user JWT token using credentials
 		function authenticateUser (username, pass)
@@ -328,9 +329,15 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		{
 		
 				localStorage.clear(); // clear stored data
+				lastPath = $location.path();
+				console.log(lastPath);
 				$location.path('/login');
 				
 		}
+		function getlastPath (){
+					return lastPath;
+			
+			}
 		
 		
 return ({
@@ -339,7 +346,8 @@ return ({
 							refreshUser: refreshUser,
 							getstoredUser: getstoredUser,
 							logoutUser: logoutUser,
-							storedUserObject: storedUserObject
+							storedUserObject: storedUserObject,
+							getlastPath: getlastPath
 			});
 
 	});

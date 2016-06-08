@@ -53,6 +53,14 @@ App.controller('IndexController', ['$scope', '$location','userService', function
     };
 	
 	
+	$scope.logout = function (){
+			
+			$scope.user = null;
+			userService.logoutUser();
+			
+			}
+
+	
 	
 
 }]);
@@ -115,12 +123,25 @@ App.controller('HomeController', ['$scope', function($scope) {
 }]);
 
 
-App.controller('AuthController', ['$scope', 'userService', function ($scope, userService){
+App.controller('AuthController', ['$scope', '$location', 'userService', function ($scope, $location, userService){
+
+		console.log(userService);
 
     $scope.authenticate = function() {
 			userService.authenticateUser($scope.username,$scope.password).success(function(r){
 				
-									$(location).attr('href', '#/dashboard');
+			
+				var lastPath = userService.getlastPath();
+				console.log(lastPath);
+				if(lastPath)
+				{
+					$location.path(lastPath);
+				}
+				else
+				{
+				$location.path('/dashboard');
+				}
+				
 				}).error(function(e){
 				
 					toastr.error('Your username or password are incorrect.', 'Authentication Error');
@@ -128,7 +149,8 @@ App.controller('AuthController', ['$scope', 'userService', function ($scope, use
 				});
 		
     };
-
+		
+	
 
 	}]);
 
