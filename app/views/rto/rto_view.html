@@ -33,7 +33,7 @@
                     <tr >
                         <th>Date</th>
                         <th>Time</th>
-                        <th>Time Code</th>
+                        <th>Type</th>
                         <th>Created</th>
                         <th>Updated</th>
                         <th>Actions</th>
@@ -202,7 +202,7 @@
                     <tr>
                         <th>Supervisor</th>
                         <th>Approval</th>
-                        <th>Updated</th>
+                        <th>Date</th>
                         <th ng-hide="user.employeeID == rtoData.approvals.employeeID">Remove</th>
                     </tr>
                     </thead>
@@ -246,7 +246,7 @@
             </div>
         </div>
 
-        <div ng-show="true" class="card card-underline" >
+        <div ng-if="rtoData.status == 'pending' || rtoData.status == 'new'" class="card card-underline" >
             <div class="card-head">
                 <header> Banked Hours Impact </header>
             </div>
