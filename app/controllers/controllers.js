@@ -431,18 +431,24 @@ function calculate_BankTotalsDifference (){
 
     $scope.deleteRto = function() {
 
-        console.log($scope.rtoData.requestID);
+        var confirmDelete = $window.confirm('Are you sure you want to permanenently delete this request?');
 
-        rtoViewService.deleteRto($scope.rtoData.requestID).success(function(r) {
+        if (confirmDelete) {
 
-            console.log(r);
-            history.go(-1);
+            rtoViewService.deleteRto($scope.rtoData.requestID).success(function (r) {
 
-        }).error(function(e) {
+                console.log(r);
+                history.go(-1);
 
-            console.log(e);
-        })
+            }).error(function (e) {
 
+                console.log(e);
+            })
+        }
+        else
+        {
+            toastr.warning("Deletion Cancelled");
+        }
 
     };
 
