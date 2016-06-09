@@ -1,4 +1,3 @@
-
 App.controller('IndexController', ['$scope', '$location','userService', function($scope, $location, userService) {
   var vm = this;
   vm.AppName = "Quantiam";
@@ -517,6 +516,10 @@ function calculate_BankTotalsDifference (){
 		
 		
 		
+}]);
+
+App.controller('usersController', ['$scope', function ($scope) {
+    console.log($scope);
 }]);
 
 
