@@ -2,24 +2,32 @@
 	
 
 <!-- Display previous comments -->
-	
-	
-	
-		<div  ng-repeat="key in comments" class='card'>
+<div  ng-if="comments" class='card'>
 
-			<div class='card-body'>
-				<div class="row">
-					<div class="col-md-10">		<p>{{key}}</p></div>
-					<div class="col-md-">
-						
-					</div>
+			<div class='card-body' >
+				
+									<h4 style="text-align:center"> No comments have been posted yet. <h4>
 				</div>
+</div>
+	
+<div  ng-repeat="key in comments" class='card'>
+
+			<div class='card-body' style='padding:10px;'>
+		
+					<div class="col-md-3" style="border-right: 2px solid #ff0000;">
+						<div style="padding-left:10px; padding-top:10px">
+							<b>{{key.lastname}}, {{key.firstname}}</b><br>
+							<i><small>{{key.comment_datetime}}</small></i>
+						</div>
+					</div>
+					<div class="col-md-9">		<p>{{key.comment_text}}</p></div>
+		
 		
 			</div>
 				<div class="card-actionbar">
 										<div class="card-actionbar-row">
-											<a class="btn btn-flat btn-default ink-reaction">Remove</a>
-											<a class="btn btn-flat btn-default ink-reaction">Edit</a>
+											<a class="btn btn-flat btn-danger ink-reaction" ngclick="removeComment({{key.comment_entry_id}})">Remove</a>
+											<a class="btn btn-flat btn-default ink-reaction" ngclick="editCommentPrep()">Edit</a>
 					</div>
 		</div>
 		</div>
@@ -33,7 +41,7 @@
 	</div>
 	<div class="card-actionbar">
 										<div class="card-actionbar-row">
-											<a class="btn btn-flat btn-default ink-reaction">Submit</a>
+											<a class="btn btn-flat btn-primary ink-reaction" ng-click="addComment()">Add comment</a>
 										</div>
 		</div>
 </div>	

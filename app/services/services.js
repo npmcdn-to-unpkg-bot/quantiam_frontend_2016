@@ -14,7 +14,7 @@ App.service(
 					var token = localStorage.getItem('token');
 				//	console.log(token);
 				//	var response = $q.defer();
-        
+        console.log(params);
 
 						
 						var req = {
@@ -23,7 +23,8 @@ App.service(
 											 headers: {
 												 "Authorization": "Bearer " + token,
 											 },
-											 data: params
+											 data: params,
+											 params: params
 											}
 
 						 response =	$http(req).success(function(r){
@@ -436,3 +437,7 @@ App.service("emailService", function(apiRequest) {
 		return apiRequest.send('post', '/mail/send', params);
 	}
 })
+
+
+
+

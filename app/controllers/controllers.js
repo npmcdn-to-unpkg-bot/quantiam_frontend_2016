@@ -534,11 +534,28 @@ App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $
 
 
 
-App.controller('CommentsController', function($scope) {
+App.controller('CommentsController', function($scope,apiRequest, $location) {
 	
 		$scope.comments;
 	
 		$scope.fetchComments = function () {
+			
+				
+			var params = {
+				'path': $location.path(),
+				
+				};
+			apiRequest.send('get', '/comment', params).success(function(r){
+				
+				
+				$scope.comments = r;
+				
+				}).error(function(e){
+				
+				
+				toastr.error('Comments could nto be loaded');
+				
+				});
 			
 			$scope.comments = ['comment1', 'comment2'];
 			console.log('runs');
@@ -553,5 +570,6 @@ App.controller('CommentsController', function($scope) {
 	
 
 });
+
 
 
