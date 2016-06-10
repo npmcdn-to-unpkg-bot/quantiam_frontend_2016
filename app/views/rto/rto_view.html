@@ -217,7 +217,7 @@
                         </td>
                         <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                         <td ng-hide="user.employeeID == rtoData.approvals.employeeID">
-                            <button  data-ng-disabled="user.employeeID != obj.employeeID" ng-click="removeApproval(obj.approvalID, $index)" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Remove">
+                            <button  data-ng-disabled="user.employeeID != obj.employeeID" ng-really-message="Are you sure you want to delete this approval?" ng-really-click="removeApproval(obj.approvalID, $index)" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Remove">
                                 <i class="md md-delete" style="color:red" ></i>
                             </button>
                         </td>
