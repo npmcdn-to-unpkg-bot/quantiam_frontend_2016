@@ -11,7 +11,7 @@
 
             <div class="card-head">
                 <header>
-                    User Info for {{ userData.name }}
+                    User Info for {{ userInfoData.name }}
                 </header>
 
             </div>
@@ -27,7 +27,7 @@
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="(key, value) in userData | filter: ['supervisors'] ">
+                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates'">
                         <td>{{ key }}</td>
                         <td>{{ value }}</td>
 
@@ -44,7 +44,7 @@
 
             <div class="card-head">
                 <header>
-                    Hierarchal Info for {{ userData.name }}
+                    Hierarchal Info for {{ userInfoData.name }}
                 </header>
 
             </div>
@@ -54,14 +54,22 @@
                 <table  class="table table-striped table-hover"  cellspacing="0" width="100%" >
                     <thead>
                     <tr>
-                        <th>supervisor</th>
+                        <th>current supervisor</th>
+                        <th>change supervisor</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <tr>
-                        <td>{{ userData.supervisors[(userData.supervisors).length -1 ].name }}</td>
-
+                        <td>{{ userInfoData.supervisors[(userInfoData.supervisors).length -1 ].name }}</td>
+                        <td>
+                            <div class="form form-inline">
+                                <select name="supervisors">
+                                    <option ng-repeat="people in userData" value="people.employeeid" ng-if="people.employeeid>0">{{ people.firstname }} {{ people.lastname }}</option>
+                                </select>
+                                <button type="submit" class="btn btn-succcess">BUTTON</button>
+                                </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

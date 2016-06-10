@@ -36,7 +36,7 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         .state('user', {
           url:'/user/:employeeID',
             templateUrl: 'views/users/user_info.html',
-            controller: 'userInfoController as UC'
+            controller: 'usersController as UC'
         })
     
     

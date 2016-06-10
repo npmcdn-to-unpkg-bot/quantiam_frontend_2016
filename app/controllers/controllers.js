@@ -519,7 +519,7 @@ function calculate_BankTotalsDifference (){
 		
 }]);
 
-App.controller('usersController', ['$scope', '$location', 'userInfoService', 'DTOptionsBuilder', function ($scope, $location, userInfoService, DTOptionsBuilder) {
+App.controller('usersController', ['$scope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', function ($scope, $location, $stateParams, userInfoService, DTOptionsBuilder) {
     
    $scope.userData = {};
 
@@ -537,24 +537,26 @@ App.controller('usersController', ['$scope', '$location', 'userInfoService', 'DT
     }
 
 
-}]);
-
-App.controller('userInfoController', ['$scope', '$stateParams', 'userInfoService', function($scope, $stateParams, userInfoService) {
-    console.log($stateParams.employeeID);
-
-    $scope.userData = {};
+    $scope.userInfoData = {};
 
     userInfoService.getUserData($stateParams.employeeID).then(function(r) {
 
-        $scope.userData = r.data;
+        $scope.userInfoData = r.data;
         $scope.dtOptions = {
             order: [],
         };
 
         console.log($scope.userData);
     });
+    
+    userInfoService.getHierarchyData().then(function(r) {
+
+    });
+
+
 
 }]);
+
 
 
 

@@ -202,6 +202,7 @@ App.service("userInfoService", function($http, apiRequest) {
 	return ({
 
 		getUserData: getUserData,
+		getHierarchyData: getHierarchyData,
 		getUserRtoBank: getUserRtoBank,
 		QueryUserRtoBank: QueryUserRtoBank,
 		getUsers: getUsers,
@@ -254,6 +255,11 @@ App.service("userInfoService", function($http, apiRequest) {
 	{
 		return apiRequest.send('get', '/users', null);
 
+	}
+
+	function getHierarchyData()
+	{
+		return apiRequest.send('get', '/user/tree')
 	}
 });
 
