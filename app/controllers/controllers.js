@@ -464,6 +464,7 @@ function calculate_BankTotalsDifference (){
             
     $scope.emailSupervisor = function()
     {
+        console.log($scope.supervisorID);
         $scope.notifyloady = 1;
         emailService.sendRtoNotification($scope.supervisorID, $scope.user.name).success(function(r) {
             console.log(r);
@@ -518,8 +519,41 @@ function calculate_BankTotalsDifference (){
 		
 }]);
 
-App.controller('usersController', ['$scope', function ($scope) {
-    console.log($scope);
+App.controller('usersController', ['$scope', '$location', 'userInfoService', 'DTOptionsBuilder', function ($scope, $location, userInfoService, DTOptionsBuilder) {
+    
+   $scope.userData = {};
+
+    userInfoService.getUsers().then(function(r) {
+
+        $scope.userData = r.data;
+        $scope.dtOptions = {
+            order: [],
+        };
+    });
+
+    $scope.showUserInfo = function(employeeID) {
+        $location.path('/user/' + employeeID);
+        console.log('click');
+    }
+
+
+}]);
+
+App.controller('userInfoController', ['$scope', '$stateParams', 'userInfoService', function($scope, $stateParams, userInfoService) {
+    console.log($stateParams.employeeID);
+
+    $scope.userData = {};
+
+    userInfoService.getUserData($stateParams.employeeID).then(function(r) {
+
+        $scope.userData = r.data;
+        $scope.dtOptions = {
+            order: [],
+        };
+
+        console.log($scope.userData);
+    });
+
 }]);
 
 

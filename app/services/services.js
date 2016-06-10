@@ -10,6 +10,7 @@ App.service(
 			
 			
 					var apiUrl = "http://apps.edm.quantiam.com:2000";
+
 					var response;
 					var token = localStorage.getItem('token');
 
@@ -202,7 +203,8 @@ App.service("userInfoService", function($http, apiRequest) {
 
 		getUserData: getUserData,
 		getUserRtoBank: getUserRtoBank,
-		QueryUserRtoBank: QueryUserRtoBank
+		QueryUserRtoBank: QueryUserRtoBank,
+		getUsers: getUsers,
 	});
 	var UserRtoBank = {};
 	
@@ -247,6 +249,12 @@ App.service("userInfoService", function($http, apiRequest) {
 			});
 		
 		}
+
+	function getUsers()
+	{
+		return apiRequest.send('get', '/users', null);
+
+	}
 });
 
 /*
