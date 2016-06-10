@@ -12,9 +12,7 @@ App.service(
 					var apiUrl = "http://apps.edm.quantiam.com:2000";
 					var response;
 					var token = localStorage.getItem('token');
-				//	console.log(token);
-				//	var response = $q.defer();
-        console.log(params);
+
 
 						
 						var req = {

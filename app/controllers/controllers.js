@@ -197,7 +197,7 @@ App.controller('RtoViewController',
         function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
   
   
-	console.log($location.path());
+	//console.log($location.path());
 	
 		var request_id = $stateParams.rtoid;
 
@@ -534,9 +534,15 @@ App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $
 
 
 
-App.controller('CommentsController', function($scope,apiRequest, $location) {
+App.controller('CommentsController', function($scope,apiRequest, $location, $sce) {
 	
 		$scope.comments;
+		$scope.user_comment;
+		
+		$scope.to_trusted = function(html_code) {
+    return $sce.trustAsHtml(html_code);
+}
+		
 	
 		$scope.fetchComments = function () {
 			
@@ -545,6 +551,8 @@ App.controller('CommentsController', function($scope,apiRequest, $location) {
 				'path': $location.path(),
 				
 				};
+				
+				
 			apiRequest.send('get', '/comment', params).success(function(r){
 				
 				
@@ -558,11 +566,59 @@ App.controller('CommentsController', function($scope,apiRequest, $location) {
 				});
 			
 			$scope.comments = ['comment1', 'comment2'];
-			console.log('runs');
-		//	return 'things and stuff';
-			
+		
 			}
 	
+		$scope.addComment = function (user_comment) {
+				var params = {
+				'comment_text': user_comment,
+				'comment_path': $location.path(),
+				
+				};
+				
+			
+			apiRequest.send('post', '/comment', params).success(function(r){
+				
+				 $scope.user_comment = null;
+				$scope.comments.unshift(r[0]);
+				
+				}).error(function(e){
+				
+				
+				toastr.error('Comments failed to create.');
+				
+				});
+
+			
+			}
+			
+			
+		$scope.removeComment = function (commentID, commentArrayIndex){
+		
+	
+		console.log('works');
+			
+			apiRequest.send('delete', '/comment/'+commentID, null).success(function(r){
+				
+				
+			$scope.comments.splice(commentArrayIndex, 1);
+				
+				toastr.success('Comment removed.');
+				
+				}).error(function(e){
+				
+				
+				toastr.error('Comment failed to remove.');
+				
+				});
+			
+			
+		}
+			
+			
+		
+		
+		
 		//run on intiatilizatiopn
 		
 		$scope.fetchComments();

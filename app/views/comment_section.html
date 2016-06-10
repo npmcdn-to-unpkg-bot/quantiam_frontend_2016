@@ -2,34 +2,38 @@
 	
 
 <!-- Display previous comments -->
-<div  ng-if="comments" class='card'>
+<div  ng-hide="comments[0]" class='card'>
 
 			<div class='card-body' >
 				
-									<h4 style="text-align:center"> No comments have been posted yet. <h4>
+									<h4 style="text-align:center"> Feel free to add comments here. <h4>
 				</div>
 </div>
 	
-<div  ng-repeat="key in comments" class='card'>
+<div  ng-repeat="key in comments"    class='card'>
 
 			<div class='card-body' style='padding:10px;'>
 		
-					<div class="col-md-3" style="border-right: 2px solid #ff0000;">
-						<div style="padding-left:10px; padding-top:10px">
+					<div  style="border-right: 2px solid #ff0000; display:inline-table; padding: 10px 10px 0px 10px;">
+						<div style="">
 							<b>{{key.lastname}}, {{key.firstname}}</b><br>
 							<i><small>{{key.comment_datetime}}</small></i>
 						</div>
 					</div>
-					<div class="col-md-9">		<p>{{key.comment_text}}</p></div>
-		
+					<div  style="display:inline-table; align:center; padding:5px 5px 0px 15px;"><div  ng-bind-html="to_trusted(key.comment_text)"></div>	</div>
+					<div style="display:inline-table; float:right; padding:5px 0px 0px 15px;">
+						<a class="btn btn-flat btn-danger ink-reaction" ng-click="removeComment(key.comment_entry_id, $index)">Remove</a> 
+											<!-- <a class="btn btn-flat btn-default ink-reaction" ngclick="editCommentPrep()">Edit</a> -->
+					
+					</div>
 		
 			</div>
-				<div class="card-actionbar">
+			<!-- 	<div class="card-actionbar">
 										<div class="card-actionbar-row">
 											<a class="btn btn-flat btn-danger ink-reaction" ngclick="removeComment({{key.comment_entry_id}})">Remove</a>
 											<a class="btn btn-flat btn-default ink-reaction" ngclick="editCommentPrep()">Edit</a>
-					</div>
-		</div>
+			</div> 
+			</div>-->
 		</div>
 
 	
@@ -41,7 +45,7 @@
 	</div>
 	<div class="card-actionbar">
 										<div class="card-actionbar-row">
-											<a class="btn btn-flat btn-primary ink-reaction" ng-click="addComment()">Add comment</a>
+											<a class="btn btn-flat btn-primary ink-reaction" ng-click="addComment(user_comment)">Add comment</a>
 										</div>
 		</div>
 </div>	
