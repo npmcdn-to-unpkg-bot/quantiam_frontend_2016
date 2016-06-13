@@ -271,7 +271,7 @@ App.service("userInfoService", function($http, apiRequest) {
 
 	function editUserInfo(params)
 	{
-		return apiRequest.send('put', '/user', params);
+		return apiRequest.send('put', '/user/edit', params);
 	}
 });
 
