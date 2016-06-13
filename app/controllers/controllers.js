@@ -1,6 +1,6 @@
 App.controller('IndexController', ['$scope', '$location','userService', function($scope, $location, userService) {
-  var vm = this;
-  vm.AppName = "Quantiam";
+  //var vm = this;
+  $scope.AppName = "Quantiam";
 
 
 	/// Store the user object in the index controller, such that we can use it everywhere.
@@ -593,6 +593,7 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 				
 				
 				$scope.comments = r;
+				console.log(r);
 				
 				}).error(function(e){
 				
@@ -632,7 +633,7 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 		$scope.removeComment = function (commentID, commentArrayIndex){
 		
 	
-		console.log('works');
+	
 			
 			apiRequest.send('delete', '/comment/'+commentID, null).success(function(r){
 				

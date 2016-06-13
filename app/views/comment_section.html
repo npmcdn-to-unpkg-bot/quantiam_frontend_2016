@@ -22,7 +22,8 @@
 					</div>
 					<div  style="display:inline-table; align:center; padding:5px 5px 0px 15px;"><div  ng-bind-html="to_trusted(key.comment_text)"></div>	</div>
 					<div style="display:inline-table; float:right; padding:5px 0px 0px 15px;">
-						<a class="btn btn-flat btn-danger ink-reaction" ng-click="removeComment(key.comment_entry_id, $index)">Remove</a> 
+						<a ng-if="key.comment_employee_id == user.employeeID" class="btn btn-flat btn-danger ink-reaction" ng-click="removeComment(key.comment_entry_id, $index)">Remove</a> 
+		
 											<!-- <a class="btn btn-flat btn-default ink-reaction" ngclick="editCommentPrep()">Edit</a> -->
 					
 					</div>
