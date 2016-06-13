@@ -207,6 +207,7 @@ App.service("userInfoService", function($http, apiRequest) {
 		QueryUserRtoBank: QueryUserRtoBank,
 		getUsers: getUsers,
 		changeSupervisor: changeSupervisor,
+		editUserInfo: editUserInfo,
 	});
 	var UserRtoBank = {};
 	
@@ -266,6 +267,11 @@ App.service("userInfoService", function($http, apiRequest) {
 	function changeSupervisor(params)
 	{
 		return apiRequest.send('post', '/user/move', params);
+	}
+
+	function editUserInfo(params)
+	{
+		return apiRequest.send('put', '/user', params);
 	}
 });
 

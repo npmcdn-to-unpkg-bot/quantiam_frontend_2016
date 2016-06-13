@@ -519,8 +519,47 @@ function calculate_BankTotalsDifference (){
 }]);
 
 App.controller('usersController', ['$scope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', function ($scope, $location, $stateParams, userInfoService, DTOptionsBuilder) {
+
+    $scope.popup1 = {
+        opened: false
+    };
+    $scope.open1 = function() {
+        $scope.popup1.opened = true;
+    };
+
+    $scope.popup2 = {
+        opened: false
+    };
+    $scope.open2 = function() {
+        $scope.popup2.opened = true;
+    };
+
+    $scope.popup3 = {
+        opened: false
+    };
+    $scope.open3 = function() {
+        $scope.popup3.opened = true;
+    };
+
     
-   $scope.userData = {};
+    
+    
+    $scope.editUserInfo = function(email, key, value)
+    {
+        var params = {
+            "email": email,
+            "key": key,
+            "value": value,
+        };
+        console.log(params);      userInfoService.editUserInfo(params).success(function(r) {
+            toastr.success('good job');
+        }).error(function(e) {
+            console.log(e);
+            toastr.error('e', e);
+        })
+    };
+
+    $scope.userData = {};
 
     userInfoService.getUsers().then(function(r) {
 

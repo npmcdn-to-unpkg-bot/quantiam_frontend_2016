@@ -11,7 +11,7 @@
 
             <div class="card-head">
                 <header>
-                    User Info for {{ userInfoData.name }}
+                   {{ userInfoData.name }}
                 </header>
 
             </div>
@@ -23,6 +23,7 @@
                     <tr>
                         <th>key</th>
                         <th>value</th>
+                        <th width="65px">actions</th>
                     </tr>
                     </thead>
 
@@ -31,8 +32,18 @@
                         ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups' || key == 'employeeid' || key == 'administrative_supervisor'
                                 || key == 'hide_employee' || key == 'sidebar_collapse' || key == 'employee_hash' || key == 'name' || key == 'depth'">
                         <td>{{ key }}</td>
-                        <td>{{ value }}</td>
 
+                        <td ng-hide="editForm == true">{{ value }}</td>
+                        <td ng-show="editForm == true">
+
+                            <input type="text" ng-model="value">
+                        </td>
+                        <td ng-hide="editForm == true">
+                            <button ng-hide="key == 'email' || key == 'ldap_username'" ng-click="editForm = true">Edit</button>
+                        </td>
+                        <td ng-show="editForm == true">
+                            <button ng-click="editForm = false; editUserInfo(userInfoData.email, key, value)" type="submit">Save</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
