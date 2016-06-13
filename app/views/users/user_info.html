@@ -27,7 +27,9 @@
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups'">
+                    <tr ng-repeat="(key, value) in userInfoData"
+                        ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups' || key == 'employeeid' || key == 'administrative_supervisor'
+                                || key == 'hide_employee' || key == 'sidebar_collapse' || key == 'employee_hash' || key == 'name' || key == 'depth'">
                         <td>{{ key }}</td>
                         <td>{{ value }}</td>
 
@@ -44,18 +46,18 @@
 
             <div class="card-head">
                 <header>
-                    Hierarchal Info for {{ userInfoData.name }}
+                    Change Supervisor
                 </header>
 
             </div>
 
             <div class="card-body">
 
-                <table  class="table table-striped table-hover"  cellspacing="0" width="100%" >
+                <table class="table table-striped table-hover" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>current supervisor</th>
-                        <th>change supervisor</th>
+                        <th>Current supervisor</th>
+                        <th>Change supervisor</th>
                     </tr>
                     </thead>
 
@@ -64,29 +66,31 @@
                         <td>{{ userInfoData.supervisors[(userInfoData.supervisors).length -1 ].name }}</td>
                         <td>
                             <div class="form form-inline">
-                                <select name="supervisors">
-                                    <option ng-repeat="people in userData" value="people.employeeid" ng-if="people.employeeid>0">{{ people.firstname }} {{ people.lastname }}</option>
+                                <select ng-model="newSupervisor" name="supervisors">
+                                    <option ng-repeat="people in userData" value="{{ people.employeeid }}"
+                                           ng-if="people.employeeid>0">{{ people.firstname }} {{ people.lastname }}
+                                    </option>
                                 </select>
-                                <button type="submit" class="btn btn-succcess">BUTTON</button>
-                                </div>
+                                <button ng-click="editSupervisor()" type="submit" class="btn btn-success">SUBMIT</button>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-        </div>
-				<div class="card card-underline">
+
             <div class="card-head">
                 <header>
                     Groups
                 </header>
-								
-								
-								<div class="tools">
-									<select class='form-control'></select>
-                    <a ng-click="addGroup()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
-											
+
+
+                <div class="tools">
+                    <select class='form-control'></select>
+                    <a ng-click="addGroup()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left"
+                       uib-tooltip="New Request">
+
                         <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
                     </a>
 
@@ -95,32 +99,33 @@
             </div>
 
             <div class="card-body">
-							   <table  datatable="ng"  class="table table-striped table-hover"   cellspacing="0" width="100%" >
-									<thead>
-										<tr>
-												<th> Group Name </th>
-												<th> Actions </th>
-										</tr>	
-									</thead>
-									<tbody>
-											<tr ng-repeat="(index,group) in user.groups">
-												<td> 
-														{{group.group_name}}
-												</td>
-												<td>
-														<span class="fa fa-circle" style="color:orange;" ng-if="group.ldap == 1" tooltip-placement="top" uib-tooltip="Membership managed by LDAP"> </button>
-														
-														
-												</td>
-											</tr>
-									</tbody>
-								
-							</table>
-				
-				
-				
-						</div>
-				</div>
+                <table datatable="ng" class="table table-striped table-hover" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th> Group Name</th>
+                        <th> Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(index,group) in user.groups">
+                        <td>
+                            {{group.group_name}}
+                        </td>
+                        <td>
+														<span class="fa fa-circle" style="color:orange;"
+                                                              ng-if="group.ldap == 1" tooltip-placement="top"
+                                                              uib-tooltip="Membership managed by LDAP"> </button>
+
+
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
     </div>
 </div>
 </body>

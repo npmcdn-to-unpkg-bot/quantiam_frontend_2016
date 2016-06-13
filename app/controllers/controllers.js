@@ -395,7 +395,6 @@ function calculate_BankTotalsDifference (){
     {
         $scope.click = true;
 
-        $scope.user = userService.getstoredUser();
         var params = {
             "requestID": $scope.rtoData.requestID,
             "approval": approval,
@@ -552,6 +551,22 @@ App.controller('usersController', ['$scope', '$location', '$stateParams', 'userI
     userInfoService.getHierarchyData().then(function(r) {
 
     });
+
+    $scope.editSupervisor = function() {
+
+        var params = {
+            "employeeID": $scope.userInfoData.employeeID,
+            "newSupervisorID": $scope.newSupervisor,
+        };
+
+        userInfoService.changeSupervisor(params).success(function(r) {
+            toastr.success('Supervisor changed', 'Success');
+        }).error(function(e) {
+            toastr.error('doooooook', 'BABA');
+        });
+        
+        
+    }
 
 
 

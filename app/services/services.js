@@ -206,6 +206,7 @@ App.service("userInfoService", function($http, apiRequest) {
 		getUserRtoBank: getUserRtoBank,
 		QueryUserRtoBank: QueryUserRtoBank,
 		getUsers: getUsers,
+		changeSupervisor: changeSupervisor,
 	});
 	var UserRtoBank = {};
 	
@@ -260,6 +261,11 @@ App.service("userInfoService", function($http, apiRequest) {
 	function getHierarchyData()
 	{
 		return apiRequest.send('get', '/user/tree')
+	}
+
+	function changeSupervisor(params)
+	{
+		return apiRequest.send('post', '/user/move', params);
 	}
 });
 
