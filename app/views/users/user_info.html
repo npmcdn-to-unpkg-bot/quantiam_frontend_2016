@@ -27,7 +27,7 @@
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates'">
+                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups'">
                         <td>{{ key }}</td>
                         <td>{{ value }}</td>
 
@@ -76,6 +76,51 @@
             </div>
 
         </div>
+				<div class="card card-underline">
+            <div class="card-head">
+                <header>
+                    Groups
+                </header>
+								
+								
+								<div class="tools">
+									<select class='form-control'></select>
+                    <a ng-click="addGroup()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
+											
+                        <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+							   <table  datatable="ng"  class="table table-striped table-hover"   cellspacing="0" width="100%" >
+									<thead>
+										<tr>
+												<th> Group Name </th>
+												<th> Actions </th>
+										</tr>	
+									</thead>
+									<tbody>
+											<tr ng-repeat="(index,group) in user.groups">
+												<td> 
+														{{group.group_name}}
+												</td>
+												<td>
+														<span class="fa fa-circle" style="color:orange;" ng-if="group.ldap == 1" tooltip-placement="top" uib-tooltip="Membership managed by LDAP"> </button>
+														
+														
+												</td>
+											</tr>
+									</tbody>
+								
+							</table>
+				
+				
+				
+						</div>
+				</div>
     </div>
 </div>
 </body>
