@@ -527,7 +527,7 @@ function calculate_BankTotalsDifference (){
 		
 }]);
 
-App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', 'apiRequest', function ($scope, $rootScope, $location, $stateParams, userInfoService, DTOptionsBuilder, apiRequest) {
+App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', 'apiRequest', 'dateStringService', function ($scope, $rootScope, $location, $stateParams, userInfoService, DTOptionsBuilder, apiRequest, dateStringService) {
 
     $scope.userInfoInput ={};
     $scope.groupList = {};
@@ -566,6 +566,12 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
     
     $scope.editUserInfo = function(email, key)
     {
+        if ($scope.isDate(key))
+        {
+            $scope.userInfoInput.input = dateStringService.dateToString($scope.userInfoInput.input);
+        }
+
+
         var params = {
             "email": email,
             "key": key,
