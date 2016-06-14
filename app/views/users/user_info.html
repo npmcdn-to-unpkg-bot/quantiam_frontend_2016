@@ -29,26 +29,22 @@
 
                     <tbody>
 
-                    <tr ng-repeat="(key, value) in userInfoData"
-                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups' || key == 'employeeid' || key == 'administrative_supervisor'
+                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups' || key == 'employeeID' || key == 'administrative_supervisor'
                                 || key == 'hide_employee' || key == 'sidebar_collapse' || key == 'employee_hash' || key == 'name' || key == 'depth'">
                             <td>{{ key }}</td>
 
-                            <td ng-hide="editForm == true">{{ value }}</td>
+
 
                                     <!-- inputs -->
                                     <td>
-                                        <form ng-submit="editForm = false; value = userInfoInput.input; editUserInfo(userInfoData.email, key)">
-                                            <input ng-model="userInfoInput.input" type="text" ng-if="editForm == true && isText(key)" >
 
-                                            <select ng-if="editForm == true && isSelect(key)" ng-model="userInfoInput.input" ng-options="var as var for var in compSelect">
+                                        <div ng-hide="editForm == true">{{ value }}</div>
+
+                                        <form ng-show="editForm == true" ng-submit="editForm = false; value = userInfoInput.input; editUserInfo(userInfoData.email, key)">
+                                            <input ng-model="userInfoInput.input" type="text" ng-if="editForm == true && isText(key)" class="form-control">
+
+                                            <select ng-if="editForm == true && isSelect(key)" ng-model="userInfoInput.input" ng-options="var as var for var in compSelect" class="form-control">
                                             </select>
-
-
-
-
-
-
 
                                             <div class="form-group" ng-if="editForm == true && isDate(key)">
 
@@ -72,12 +68,12 @@
                                         </form>
                                     </td>
 
-                            <td ng-hide="editForm == true">
-                                <i ng-hide="key == 'email' || key == 'ldap_username'" ng-click="editForm = true; userInfoInput.input = value" class="btn md md-edit" style="color:royalblue; float:right"></i>
-                            </td>
-                            <td width="17%" ng-show="editForm == true">
-                                <i class="btn md md-save" style="color:forestgreen" ng-click="editForm = false; value = userInfoInput.input; editUserInfo(userInfoData.email, key)" type="submit"></i>
-                                <i class="btn md md-cancel" style="color:red" ng-click="editForm = false"></i>
+                            <td>
+                                <i ng-hide="key == 'email' || key == 'ldap_username' || editForm == true" ng-click="editForm = true; userInfoInput.input = value" class="btn md md-edit" style="color:royalblue"></i>
+
+
+                                <i ng-show="editForm == true" class="btn md md-save" style="color:forestgreen" ng-click="editForm = false; value = userInfoInput.input; editUserInfo(userInfoData.email, key)" type="submit"></i>
+                                <i ng-show="editForm == true" class="btn md md-cancel" style="color:red" ng-click="editForm = false"></i>
                             </td>
                          </tr>
                     </tbody>

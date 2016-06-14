@@ -303,6 +303,16 @@ function calculate_BankTotalsDifference (){
 
         };
 
+        if (params.type == 'vacation')
+        {
+           if (params.hours != 8 || paramrs.hours != -8)
+           {
+               toastr.error('Vacation must be in increments of 8 hours', 'Error')
+               return;
+           }
+        }
+
+
         rtoViewService.postRtotime(params,request_id).success(function(r){
 
 
@@ -312,10 +322,8 @@ function calculate_BankTotalsDifference (){
 
         }).error(function(e){
 
-            toastr.error('Failed to create RTO', 'Authentication Error');
+            toastr.error('Failed to create RTO');
         });
-
-
 
     };
 
@@ -327,6 +335,18 @@ function calculate_BankTotalsDifference (){
             "type": $scope.type,
             "date": dateStringService.dateToString($scope.date),
         };
+
+
+        if (params.type == 'vacation')
+        {
+            if (params.hours != 8 || paramrs.hours != -8)
+            {
+                toastr.error('Vacation must be in increments of 8 hours', 'Error')
+                return;
+            }
+        }
+
+
         rtoViewService.putRtotime(params).success(function(r) {
 
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
