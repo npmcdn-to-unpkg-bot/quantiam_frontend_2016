@@ -566,12 +566,6 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
     
     $scope.editUserInfo = function(email, key)
     {
-        if ($scope.isDate(key))
-        {
-            $scope.userInfoInput.input = dateStringService.dateToString($scope.userInfoInput.input);
-        }
-
-
         var params = {
             "email": email,
             "key": key,
