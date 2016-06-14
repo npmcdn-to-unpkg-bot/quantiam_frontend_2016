@@ -520,11 +520,8 @@ function calculate_BankTotalsDifference (){
 
 App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', 'apiRequest', function ($scope, $rootScope, $location, $stateParams, userInfoService, DTOptionsBuilder, apiRequest) {
 
-		//Variables 
-		
-		$scope.groupList = {};
-
-
+    $scope.userInfoInput ={};
+    $scope.groupList = {};
 
     $scope.popup1 = {
         opened: false
@@ -533,37 +530,49 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
         $scope.popup1.opened = true;
     };
 
-    $scope.popup2 = {
-        opened: false
-    };
-    $scope.open2 = function() {
-        $scope.popup2.opened = true;
-    };
+    var textInputs = ['employeeid', 'prefix', 'firstname', 'lastname', 'title'];
+    var selectInputs = ['compensation'];
+    var dateInputs = ['birthdate', 'startdate', 'leavedate'];
 
-    $scope.popup3 = {
-        opened: false
-    };
-    $scope.open3 = function() {
-        $scope.popup3.opened = true;
-    };
-
-    
-    
-    
-    $scope.editUserInfo = function(email, key, value)
+    $scope.isText = function(keyName)
     {
+       return (textInputs.indexOf(keyName) > -1);
+    }
+
+    $scope.isDate = function (keyName)
+    {
+        return (dateInputs.indexOf(keyName) > -1);
+    }
+
+    $scope.isSelect = function (keyName)
+    {
+        $scope.compSelect= [
+            'Salary',
+            'Hourly',
+            'Temporary'
+        ];
+        return (selectInputs.indexOf(keyName) > -1);
+    }
+
+    
+    $scope.editUserInfo = function(email, key)
+    {
+        if ($scope.isDate(key))
+        {
+            $scope.userInfoInput.input = dateStringService.dateToString($scope.userInfoInput.input);
+        }
+
+
         var params = {
             "email": email,
             "key": key,
-            "value": value,
+            "value": $scope.userInfoInput.input,
         };
-        console.log(params);      
-				
-				userInfoService.editUserInfo(params).success(function(r) {
+
+        userInfoService.editUserInfo(params).success(function(r) {
             toastr.success('good job');
         }).error(function(e) {
-            console.log(e);
-            toastr.error('e', e);
+            toastr.error('e');
         })
     };
 
@@ -588,12 +597,12 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
 		
 		$scope.refreshUserInfoData = function (){
 
-				userInfoService.getUserData($stateParams.employeeID).then(function(r) {
+    userInfoService.getUserData($stateParams.employeeID).then(function(r) {
 
-						$scope.userInfoData = r.data;
-						$scope.dtOptions = {
-								order: [],
-						};
+        $scope.userInfoData = r.data;
+        $scope.dtOptions = {
+            order: [],
+        };
 
 						
 				});
