@@ -109,12 +109,12 @@
 
                     <tbody>
                     <tr>
-                        <td>{{ userInfoData.supervisors[(userInfoData.supervisors).length -1 ].name }}</td>
+                        <td>{{ directSupervisor }}</td>
                         <td>
                             <div class="form form-inline">
                                 <select ng-model="newSupervisor" name="supervisors">
                                     <option ng-repeat="people in userData" value="{{ people.employeeid }}"
-                                           ng-if="people.employeeid>0">{{ people.firstname }} {{ people.lastname }}
+                                           ng-if="people.employeeid >= 1">{{ people.firstname }} {{ people.lastname }} - {{ people.employeeid }}
                                     </option>
                                 </select>
                                 <button ng-click="editSupervisor()" type="submit" class="btn btn-success">SUBMIT</button>
