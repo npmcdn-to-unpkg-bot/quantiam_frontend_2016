@@ -62,7 +62,8 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 			
 	$scope.checkIfGroupMember = function (groupID){
 		
-		
+		//console.log(groupID);
+		//console.log(userService.checkIfUserGroupMember(groupID));
 		return userService.checkIfUserGroupMember(groupID);
 		
 		}

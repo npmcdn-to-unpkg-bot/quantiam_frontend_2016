@@ -318,23 +318,21 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		
 		if(storedUserObject.groups)
 		{
-		console.log(storedUserObject.groups.length);
+	//	console.log(storedUserObject.groups.length);
 			for (var i = 0; i < storedUserObject.groups.length; i++) {
 			
 						
-						//	console.log(i);
-							console.log(storedUserObject.groups[i].group_id+' - '+groupID);
+							
 						if(storedUserObject.groups[i].group_id == groupID)
 						{
-					
-				
+
 							return true
 						
 						}
+
+			}
 			
 				return false; 
-			
-			}
 		}
 		
 		
