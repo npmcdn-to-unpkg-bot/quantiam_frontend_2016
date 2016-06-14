@@ -29,7 +29,13 @@
                 error: error,
                 getContainer: getContainer,
                 info: info,
-                options: {},
+                options: {
+									
+									"positionClass": "toast-bottom-right",
+									"progressBar": true,
+									"showDuration": "300",
+									"timeOut": "2500",
+									},
                 subscribe: subscribe,
                 success: success,
                 version: '2.1.0',

@@ -518,7 +518,13 @@ function calculate_BankTotalsDifference (){
 		
 }]);
 
-App.controller('usersController', ['$scope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', function ($scope, $location, $stateParams, userInfoService, DTOptionsBuilder) {
+App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateParams', 'userInfoService', 'DTOptionsBuilder', 'apiRequest', function ($scope, $rootScope, $location, $stateParams, userInfoService, DTOptionsBuilder, apiRequest) {
+
+		//Variables 
+		
+		$scope.groupList = {};
+
+
 
     $scope.popup1 = {
         opened: false
@@ -551,7 +557,9 @@ App.controller('usersController', ['$scope', '$location', '$stateParams', 'userI
             "key": key,
             "value": value,
         };
-        console.log(params);      userInfoService.editUserInfo(params).success(function(r) {
+        console.log(params);      
+				
+				userInfoService.editUserInfo(params).success(function(r) {
             toastr.success('good job');
         }).error(function(e) {
             console.log(e);
@@ -576,20 +584,99 @@ App.controller('usersController', ['$scope', '$location', '$stateParams', 'userI
 
 
     $scope.userInfoData = {};
+		
+		
+		$scope.refreshUserInfoData = function (){
 
-    userInfoService.getUserData($stateParams.employeeID).then(function(r) {
+				userInfoService.getUserData($stateParams.employeeID).then(function(r) {
 
-        $scope.userInfoData = r.data;
-        $scope.dtOptions = {
-            order: [],
-        };
+						$scope.userInfoData = r.data;
+						$scope.dtOptions = {
+								order: [],
+						};
 
-        console.log($scope.userData);
-    });
+						
+				});
+		
+		}
+		
+		$scope.refreshUserInfoData();
     
     userInfoService.getHierarchyData().then(function(r) {
 
     });
+		
+		
+		
+		$scope.getGroupList = function (){
+			
+				params = null;
+				apiRequest.send('get', '/grouplist', params).success(function(r){
+				
+				
+				$scope.groupList = r;
+				//console.log(r);
+				
+				}).error(function(e){
+				
+				
+				toastr.error('Group List could not be loaded.');
+				
+				});
+			
+			
+			
+			}
+		
+		
+		$scope.addGroup = function (){
+			
+			///some ng-model here 
+			
+			//call some route here. 
+			
+			if($scope.user_info_add_to_group)
+			{
+	
+				apiRequest.send('post', '/group/'+$scope.user_info_add_to_group+'/user/'+$scope.userInfoData.employeeid, null).success(function(r){
+				
+				//console.log(r);
+				
+					$scope.refreshUserInfoData(); //tells the index object to update itself
+					toastr.success('User was successfully added from this group.', 'Added');
+				
+				
+				}).error(function(e){
+				
+				console.log(e);
+				toastr.error('This user is already a member of this group.' );
+				
+				}); 
+			
+			}
+			// do other things
+			
+			
+			}
+			
+			$scope.removeFromGroup = function (groupID){
+			
+					apiRequest.send('delete', '/group/'+groupID+'/user/'+$scope.userInfoData.employeeid, null).success(function(r){
+				
+				//console.log(r);
+				
+					$scope.refreshUserInfoData(); //tells the index object to update itself
+				toastr.success('User was successfully removed from this group.', 'Removed');
+				
+				}).error(function(e){
+				
+				console.log(e);
+				toastr.error('An error occured whiel attempting to delete the user from the group.' );
+				
+				}); 
+			
+			
+			}
 
     $scope.editSupervisor = function() {
 
@@ -607,6 +694,8 @@ App.controller('usersController', ['$scope', '$location', '$stateParams', 'userI
         
     }
 
+		
+		$scope.getGroupList();
 
 
 }]);
