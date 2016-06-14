@@ -27,8 +27,7 @@
                     </thead>
 
                     <tbody>
-                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups'">
-                        ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups' || key == 'employeeid' || key == 'administrative_supervisor'
+                    <tr ng-repeat="(key, value) in userInfoData" ng-hide="key == 'supervisors' || key == 'subordinates' || key == 'groups'
                                 || key == 'hide_employee' || key == 'sidebar_collapse' || key == 'employee_hash' || key == 'name' || key == 'depth'">
                         <td>{{ key }}</td>
 
