@@ -34,7 +34,7 @@
 									"positionClass": "toast-bottom-right",
 									"progressBar": true,
 									"showDuration": "300",
-									"timeOut": "2500",
+									"timeOut": "3000",
 									},
                 subscribe: subscribe,
                 success: success,

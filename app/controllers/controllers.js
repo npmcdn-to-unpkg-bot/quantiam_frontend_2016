@@ -16,7 +16,7 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 					
 			 });
 	}
-		
+	
 
 	$scope.$on("updateIndexUserObject", function(){
 			
@@ -59,7 +59,15 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 			
 			}
 
-	
+			
+	$scope.checkIfGroupMember = function (groupID){
+		
+		
+		return userService.checkIfUserGroupMember(groupID);
+		
+		}
+		
+
 	
 
 }]);
@@ -652,7 +660,7 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
 				//console.log(r);
 				
 					$scope.refreshUserInfoData(); //tells the index object to update itself
-					toastr.success('User was successfully added from this group.', 'Added');
+					toastr.success('User was successfully added to this group.', 'Added');
 				
 				
 				}).error(function(e){
