@@ -42,7 +42,7 @@
 
                     <tbody>
                         <tr ng-repeat="obj in rtoData.requested_time ">
-                            <td>{{ obj.date | date : 'longDate' }}</td>
+                            <td>{{ obj.date | date : 'fullDate' }}</td>
                             <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
                             <td>{{ obj.type }}</td>
                             <td>{{ obj.created | datetime | date : 'longDate' }}</td>

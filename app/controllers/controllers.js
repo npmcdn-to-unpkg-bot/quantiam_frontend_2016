@@ -577,11 +577,11 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
             "key": key,
             "value": $scope.userInfoInput.input,
         };
-
+        console.log(params);
         userInfoService.editUserInfo(params).success(function(r) {
             toastr.success('good job');
         }).error(function(e) {
-            toastr.error('e');
+            toastr.error(e);
         })
     };
 
