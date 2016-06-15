@@ -305,7 +305,7 @@ function calculate_BankTotalsDifference (){
 
         if (params.type == 'vacation')
         {
-           if (params.hours != 8 || paramrs.hours != -8)
+           if (params.hours != 8 || params.hours != -8)
            {
                toastr.error('Vacation must be in increments of 8 hours', 'Error')
                return;
@@ -339,7 +339,7 @@ function calculate_BankTotalsDifference (){
 
         if (params.type == 'vacation')
         {
-            if (params.hours != 8 || paramrs.hours != -8)
+            if (params.hours != 8 || params.hours != -8)
             {
                 toastr.error('Vacation must be in increments of 8 hours', 'Error')
                 return;
