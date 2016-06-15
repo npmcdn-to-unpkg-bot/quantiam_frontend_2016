@@ -320,6 +320,13 @@ function calculate_BankTotalsDifference (){
 						 	calculate_BankTotalsDifference ();
 							$scope.checkExistingAbsences();
 
+
+            if ($scope.rtoData.employeeID != $scope.user.employeeID)
+            {
+                $scope.editNotification();
+            }
+
+
         }).error(function(e){
 
             toastr.error('Failed to create RTO');
@@ -352,6 +359,12 @@ function calculate_BankTotalsDifference (){
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
 							calculate_BankTotalsDifference ();
 							$scope.checkExistingAbsences();
+
+            if ($scope.rtoData.employeeID != $scope.user.employeeID)
+            {
+                $scope.editNotification();
+            }
+
 
         }).error(function(e) {
             toastr.error('Failed to update RTO');
