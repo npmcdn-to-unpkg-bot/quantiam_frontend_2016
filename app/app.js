@@ -1,3 +1,3 @@
-var App = angular.module('App', ['ui.router', 'datatables', 'ui.bootstrap', 'ui.calendar', 'highcharts-ng','angularTrix']);
+var App = angular.module('App', ['ui.router', 'datatables', 'ui.bootstrap', 'ui.calendar', 'highcharts-ng','angularTrix',  'ui.select']);
 
 
