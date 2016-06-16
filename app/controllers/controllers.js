@@ -161,9 +161,11 @@ App.controller('AuthController', ['$scope', '$location', 'userService', function
 	}]);
 
 
-App.controller('RtoController', ['$scope', '$location', 'rtoService', function($scope, $location, rtoService) {
+App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptionsBuilder', 'DTColumnDefBuilder', function($scope, $location, rtoService, DTOptionsBuilder, DTColumnDefBuilder) {
 
 
+		var vm = this;
+		vm.pendingTable = {};
     $scope.rtoTable = {};
 
 
@@ -183,6 +185,23 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', function($
        };
 
     $scope.getTable();
+		
+		
+		console.log(DTOptionsBuilder.newOptions().withOption());
+		 
+    vm.pendingTable.dtOptions = {
+			
+			"order": []
+			
+			};
+    
+     
+    vm.pendingTable.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+    //    DTColumnDefBuilder.newColumnDef(1).notVisible(),
+        DTColumnDefBuilder.newColumnDef(2).notSortable()
+    ];
+		
 
 
 
@@ -209,11 +228,15 @@ App.controller('RtoViewController',
 	//console.log($location.path());
 	
 		var request_id = $stateParams.rtoid;
-
+		
+	
     $scope.show_form = false;
     $scope.notifyloady = 0;
 
 		$scope.rtoData = {};
+
+		
+		
 		
 		
 		rtoViewService.rtoViewData(request_id).then(function(r){
