@@ -29,12 +29,22 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 	
 	
 	/// Expanded Class Javascript Logics
-	$scope.expanded = ""; //default close all "expanded"
-  $scope.expandSidebar = function(){
-    if ($scope.class === "expanded")
-      $scope.class = "";
+	
+	$scope.expandedsidebarstate = 'menubar-pin';
+	 $scope.expandSidebar = function(){
+    if ($scope.expandedsidebarstate === "menubar-pin")
+      $scope.expandedsidebarstate = "";
     else
-      $scope.class = "expanded";
+      $scope.expandedsidebarstate = "menubar-pin";
+  };
+	
+	$scope.expanded = ""; //default close all "expanded" menu elements
+	
+  $scope.expandSidebarMenuItem = function(){
+    if ($scope.expandedsidebarmenustate === "expanded")
+      $scope.expandedsidebarmenustate = "";
+    else
+      $scope.expandedsidebarmenustate = "expanded";
   };
 	
 	/// Logic for determining is something is active or not with respect to a route. 
