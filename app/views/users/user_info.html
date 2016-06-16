@@ -134,7 +134,11 @@
 								<div class="form-inline">
 								<div class='form-group'>
 									
-										<select class='form-control' style='display:inline-block;' ng-model="user_info_add_to_group" ng-options="group.group_id as group.group_name for group in groupList"></select> 
+										<select class='form-control' style='display:inline-block;' ng-model="user_info_add_to_group" ng-options="group.group_id as group.group_name for group in groupList | filter:{ldap:'!1'}">
+											
+											<option ng-if="group.ldap == 1"></option>
+											
+											</select> 
                   
 								</div>
 								<div class="form-group">
