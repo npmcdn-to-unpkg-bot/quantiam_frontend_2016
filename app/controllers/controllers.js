@@ -828,9 +828,9 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 				
 				}).error(function(e){
 				
-				
+			/*
 				toastr.error('Comments could not be loaded');
-				
+				*/
 				});
 			
 			$scope.comments = ['comment1', 'comment2'];
@@ -852,7 +852,7 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 				
 				}).error(function(e){
 				
-				
+
 				toastr.error('Comments failed to create.');
 				
 				});

@@ -40,7 +40,7 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="obj in rtoData.requested_time ">
+                        <tr ng-repeat="obj in rtoData.requested_time" ng-click="editForm(obj.rtotimeID, $index)">
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
                             <td>{{ obj.type }}</td>
@@ -51,7 +51,7 @@
                             </td>
                         </tr>
                         <tr ng-hide="rtoData.requested_time[0]">
-                            <td style="text-align:center" colspan="6">Please add a time-off request.</td>
+                            <td style="text-align:center" ng-click="newForm()" colspan="6">Click to add a time-off request.</td>
                         </tr>
                     </tbody>
 
