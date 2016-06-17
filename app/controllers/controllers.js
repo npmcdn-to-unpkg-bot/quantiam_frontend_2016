@@ -829,7 +829,7 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 				}).error(function(e){
 				
 				
-				toastr.error('Comments could nto be loaded');
+				toastr.error('Comments could not be loaded');
 				
 				});
 			
@@ -888,7 +888,6 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 		
 		
 		//run on intiatilizatiopn
-		
 		$scope.fetchComments();
 	
 	
