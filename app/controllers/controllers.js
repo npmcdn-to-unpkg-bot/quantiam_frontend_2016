@@ -671,6 +671,19 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
     }
 
 
+    $scope.bracket = function(tag)
+    {
+        if (tag)
+        {
+            return " (" + tag + ") ";
+        }
+        else
+        {
+            return;
+        }
+
+    }
+
     $scope.userInfoData = {};
 		
 		
@@ -771,8 +784,8 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
     $scope.editSupervisor = function() {
 
         var params = {
-            "employeeID": $scope.userInfoData.employeeID,
-            "newSupervisorID": $scope.newSupervisor,
+            "employeeID": $scope.userInfoData.id,
+            "newSupervisorID": $scope.userInfoData.newSupervisor,
         };
 
         userInfoService.changeSupervisor(params).success(function(r) {
