@@ -692,7 +692,7 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
     userInfoService.getUserData($stateParams.employeeID).then(function(r) {
 
         $scope.userInfoData = r.data;
-        $scope.directSupervisor = $scope.userInfoData.supervisors[($scope.userInfoData.supervisors).length -1 ].name;
+        $scope.directSupervisor = $scope.userInfoData.supervisors[($scope.userInfoData.supervisors).length -1 ];
 
         $scope.dtOptions = {
             order: [],
@@ -788,9 +788,10 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
             "newSupervisorID": $scope.userInfoData.newSupervisor,
         };
 
+        console.log(params);
         userInfoService.changeSupervisor(params).success(function(r) {
             toastr.success('Supervisor changed', 'Success');
-            $scope.directSupervisor = r.supervisor;
+            $scope.directSupervisor.name = r.supervisor;
 
         }).error(function(e) {
             toastr.error('You can\'t do that', 'Error');

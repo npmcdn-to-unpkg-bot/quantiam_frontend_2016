@@ -105,11 +105,11 @@
 
                     <tbody>
                     <tr>
-                        <td><p style="margin:10px;">{{ directSupervisor }}</p></td>
+                        <td><p style="margin:10px;">{{ directSupervisor.name }}</p></td>
                         <td>
                             <div class="form form-inline">
                                 <select style="background-color: white;" class='form-control' ng-model="userInfoData.newSupervisor" name="supervisors">
-                                    <option ng-repeat="people in userData" value="{{ people.id }}"
+                                    <option ng-repeat="people in userData | orderBy:'employeeID'" value="{{ people.id }}"
                                            ng-if="people.employeeid >= 1">{{ people.firstname }} {{ people.lastname }} {{ bracket(people.tag) }} - {{ people.employeeid }}
                                     </option>
                                 </select>
