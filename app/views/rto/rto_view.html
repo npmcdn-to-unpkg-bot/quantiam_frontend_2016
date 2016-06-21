@@ -177,7 +177,7 @@
                 <div ng-show="user.employeeID != rtoData.employeeID" style="float: right; padding:10px; width:25%" >
                     <a  ng-click="approveRto('approved')">
                         <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success"
-                                data-ng-disabled="click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
+                                data-ng-disabled="user.depth != 0 && click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
 
                             Approve
                         </button>
@@ -187,7 +187,7 @@
                 <div ng-show="user.employeeID != rtoData.employeeID" style="float: right; padding:10px; width:25%" >
                     <a  ng-click="approveRto('denied')">
                         <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-danger"
-                                data-ng-disabled="click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
+                                data-ng-disabled="user.depth != 0 && click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
 
                             Deny
                         </button>
@@ -227,14 +227,14 @@
                 </table>
 
 
-                <div align="center" ng-hide="user.employeeID != rtoData.employeeID || rtoData.approvals[0]" class="tools">
+                <div align="center" ng-hide="user.employeeID != rtoData.employeeID || rtoData.approvals[0] || user.depth == 0" class="tools">
                     <form class="form-inline">
                         <div class="form-group" style="margin:0px; padding:0px">
                             <select ng-model="supervisorID" class="form-control" style="margin:0px; margin-right:10px;" required>
                                 <option ng-repeat="obj in user.supervisors" ng-selected="last" value="{{obj.employeeID}}">{{obj.firstname}} {{obj.lastname}}</option>
                             </select>
 
-                            <button ng-hide="notifyloady == 1 " ng-click="emailSupervisor()" type="submit" style="margin:0px;" class="btn btn-accent btn-sm ink-reaction">Notify</button>
+                            <button ng-hide="notifyloady == 1 " ng-click="emailSupervisor()" type="submit" style="margin:0px; background: #0A246A; color: white" class="btn btn-sm ink-reaction">Notify</button>
                             <i ng-hide="notifyloady == 0" class="fa fa-circle-o-notch fa-spin fa-2x " aria-hidden="true" ></i>
                         </div>
                     </form>

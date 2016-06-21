@@ -176,8 +176,12 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptions
 
 		var vm = this;
 		vm.pendingTable = {};
-    $scope.rtoTable = {};
+    vm.archiveTable = {};
 
+
+    vm.archiveTable.dtOptions = {
+        "order": [2, 'desc'],
+    };
 
    $scope.getTable = function () {
 
@@ -234,7 +238,7 @@ App.controller('RtoViewController',
     ['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
         function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
   
-  
+    
 	//console.log($location.path());
 	
 		var request_id = $stateParams.rtoid;
