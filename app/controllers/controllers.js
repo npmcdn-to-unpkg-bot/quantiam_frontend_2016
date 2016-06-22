@@ -649,6 +649,10 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
         console.log(params);
         userInfoService.editUserInfo(params).success(function(r) {
             toastr.success('good job');
+            if (params.key == 'employeeid')
+            {
+                $location.path('/user/' + params.value);
+            }
         }).error(function(e) {
             toastr.error(e);
         })
