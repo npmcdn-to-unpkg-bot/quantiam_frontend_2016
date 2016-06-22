@@ -9,8 +9,8 @@ App.service(
 				
 			
 			
-					var apiUrl = "http://apps.edm.quantiam.com:2000";
-					//var apiUrl = "http://localhost/quantiam_api/public";
+					//var apiUrl = "http://apps.edm.quantiam.com:2000";
+					var apiUrl = "http://localhost/quantiam_api/public";
 					var response;
 					var token = localStorage.getItem('token');
 

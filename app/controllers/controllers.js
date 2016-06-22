@@ -188,7 +188,6 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptions
         rtoService.rtoList().success(function(r){
 
 						$scope.rtoList = r;
-						 $scope.rtoData = $scope.rtoList.data;
 
 				 });
 
