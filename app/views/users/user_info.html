@@ -164,7 +164,7 @@
 									<tbody>
 											<tr ng-repeat="(index,group) in userInfoData.groups">
 												<td> 
-														{{group.group_name}}
+														{{group.group_name}} ({{group.group_id}})
 												</td>
 												<td>
 												<span class="fa fa-circle fa-1x " style="color:orange; " ng-if="group.ldap == 1" tooltip-placement="top" uib-tooltip="Membership managed by LDAP"> </span>
