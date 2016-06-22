@@ -250,8 +250,6 @@ App.controller('RtoViewController',
 
 		
 		
-		
-		
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;

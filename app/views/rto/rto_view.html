@@ -10,9 +10,9 @@
     <div class="col-lg-8">
         <div class="card card-underline">
             <div class="card-head">
-                <header>Requested Time for {{ name }}  	 {{IC.user}}</header>
+                <header>Requested Time for {{ name }} {{IC.user}}</header>
                 <div class="tools">
-                    <a data-ng-disabled="user.employeeID != rtoData.employeeID || rtoData.approvals[0]" ng-really-message="Permanently delete request?" ng-really-click="deleteRto();" class="btn btn-icon-toggle btn-refresh"
+                    <a data-ng-disabled=" rtoData.approvals[0]" ng-really-message="Permanently delete request?" ng-really-click="deleteRto();" class="btn btn-icon-toggle btn-refresh"
                        tooltip-placement="top" uib-tooltip="Delete Request">
 
                         <i style="color:red;" class="fa fa-trash-o fa-2x"></i>
