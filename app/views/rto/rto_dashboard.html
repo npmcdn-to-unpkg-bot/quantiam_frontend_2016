@@ -74,7 +74,7 @@
             </thead>
 
             <tbody>
-            <tr ng-repeat="obj in rtoList.data" ng-if="obj.status == 'approved' || obj.status == 'denied'" ng-click="showRto(obj.requestID)">
+            <tr ng-repeat="obj in rtoList" ng-if="obj.status == 'approved' || obj.status == 'denied'" ng-click="showRto(obj.requestID)">
                     <td>{{ obj.firstname }} {{ obj.lastname }}</td>
                     <td> {{ obj.requestID }}</td>
                     <td>{{ obj.created | datetime | date : 'longDate' }}</td>
