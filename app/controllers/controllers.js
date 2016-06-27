@@ -957,7 +957,7 @@ App.controller('SlipCastController', function($scope,$location, dtRequest,apiReq
 	
 					 var customOptions = {
 						 
-					//	 'corporationName' : vm.selected_corporationName,
+						 'campaign_id' : vm.campaign_id,
 						 
 						 };
 
