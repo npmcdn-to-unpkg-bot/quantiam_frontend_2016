@@ -38,10 +38,18 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/users/user_info.html',
             controller: 'usersController as UC'
         })
+
     
         .state('slipcastview', {
             url:'/slipcastview',
               templateUrl: 'views/manu/slipcasting-run.html',
               controller: 'slipcastController as SC'
+              })
+
+				 .state('slipcast', {
+            url:'/slipcast',
+              templateUrl: 'views/manu/slipcast/slipcast.html',
+              controller: 'SlipCastController as SC'
+
         })
 }]);

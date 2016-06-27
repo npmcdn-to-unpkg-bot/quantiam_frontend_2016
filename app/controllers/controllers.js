@@ -933,3 +933,53 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 
 
 
+App.controller('SlipCastController', function($scope,dtRequest,apiRequest,DTColumnBuilder) {
+	
+	var vm = this;
+	
+ vm.rowClickHandler = function (info) {
+        console.log(info);
+    }
+
+	vm.updateTable = function() {
+	
+		vm.getdtTable();
+		
+		}
+  	
+		
+	vm.getdtTable = function () {
+	
+	
+					 var customOptions = {
+						 
+					//	 'corporationName' : vm.selected_corporationName,
+						 
+						 };
+
+						//what columns do we want to show?
+						var dtColumns = [
+									DTColumnBuilder.newColumn('manu_slipcasting_id', 'ID'),
+									DTColumnBuilder.newColumn('campaign_name', 'Campaign'),
+									DTColumnBuilder.newColumn('profile_name', 'Profile'),
+									DTColumnBuilder.newColumn('datetime', 'Date Created'),
+								
+							];
+							
+
+							vm.dtTable = dtRequest.build_dtOptions('slipcasting/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response 
+							
+							
+							
+	
+		
+	}
+	
+	
+	
+	
+	vm.getdtTable();
+		
+	
+	
+});

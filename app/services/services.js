@@ -1,6 +1,4 @@
-App.service(
-    "apiRequest",
-    function($http,   errorService) {
+App.service(  "apiRequest",  function($http,   errorService) {
 
         return {
          
@@ -9,8 +7,8 @@ App.service(
 				
 			
 			
-					//var apiUrl = "http://apps.edm.quantiam.com:2000";
-					var apiUrl = "http://localhost/quantiam_api/public";
+					var apiUrl = "http://apps.edm.quantiam.com:2000";
+					//var apiUrl = "http://localhost/quantiam_api/public";
 					var response;
 					var token = localStorage.getItem('token');
 
@@ -44,13 +42,12 @@ App.service(
 							
 					
 		
-App.service('dtRequest',
-    function(apiURL) {
+App.service('dtRequest', function() {
 		
 		
 		
 		
-		function build_dtOptions (requestPath, dtColumns, customData) {
+		function build_dtOptions (requestPath, dtColumns, customData,Obj, RowClickCallbackName) {
 				
 				
 				if(!dtColumns)
@@ -70,26 +67,34 @@ App.service('dtRequest',
 								 processing: true,
 								
 								 ajax: {
-										 url: apiURL.devurl+'/'+requestPath,
+										 url: "http://apps.edm.quantiam.com:2000"+'/'+requestPath,
 										 headers: {
 												 "Authorization": "Bearer " + localStorage.getItem('token'),
 											 },
 										data: customData,
 										dataSrc: 'aoData',
-									/*   	success: function (r)
+							/* 		  	success: function (r)
 										{
 											
 										console.log(r);	
 										},   */
 								},
-							aoColumns: dtColumns  // see https://l-lin.github.io/angular-datatables/#/api -> DT columnbuilder for object structure
-		
+							aoColumns: dtColumns,  // see https://l-lin.github.io/angular-datatables/#/api -> DT columnbuilder for object structure
+						 rowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+							 
+							    $('td', nRow).unbind('click');
+											$('td', nRow).bind('click', function() {
+															Obj[RowClickCallbackName](aData);
+													
+											});
+											return nRow;
+						 },
 				}
 			}
 			
 			
 		return {
-			dtOptions: this.dtOptions,
+		
 			build_dtOptions: build_dtOptions
 		};
 		
