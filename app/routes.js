@@ -40,7 +40,7 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         })
     
         .state('slipcast', {
-            url:'/slipcasting',
+            url:'/newslipcast',
               templateUrl: 'views/manu/slipcasting-run.html',
               controller: 'slipcastController as SC'
         })
