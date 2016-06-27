@@ -237,8 +237,12 @@ App.controller('RtoViewController',
     ['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
         function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
   
-    
-	//console.log($location.path());
+        $scope.$on("$locationChangeStart", function() {
+            console.log('this is how you do functions on leaving page.');
+        });
+
+
+            // /console.log($location.path());
 	
 		var request_id = $stateParams.rtoid;
 		
@@ -333,7 +337,7 @@ function calculate_BankTotalsDifference (){
         var params = {
             "hours": $scope.hours,
             "type": $scope.type,
-            "date": dateStringService.dateToString($scope.date),
+            "date": dateStringService.dateToString($scope.date)
 
         };
 
@@ -341,7 +345,7 @@ function calculate_BankTotalsDifference (){
         {
            if (params.hours != 8 && params.hours != -8)
            {
-               toastr.error('Vacation must be in increments of 8 hours', 'Error')
+               toastr.error('Vacation must be in increments of 8 hours', 'Error');
                return;
            }
         }
@@ -374,7 +378,7 @@ function calculate_BankTotalsDifference (){
             "rtotimeID": $scope.rtotimeID,
             "hours": $scope.hours,
             "type": $scope.type,
-            "date": dateStringService.dateToString($scope.date),
+            "date": dateStringService.dateToString($scope.date)
         };
 
 
@@ -382,7 +386,7 @@ function calculate_BankTotalsDifference (){
         {
             if (params.hours != 8 && params.hours != -8)
             {
-                toastr.error('Vacation must be in increments of 8 hours', 'Error')
+                toastr.error('Vacation must be in increments of 8 hours', 'Error');
                 return;
             }
         }
@@ -469,12 +473,11 @@ function calculate_BankTotalsDifference (){
 
 		$scope.approveRto = function(approval)
     {
-        $scope.click = true;
 
         var params = {
             "requestID": $scope.rtoData.requestID,
-            "approval": approval,
-        }
+            "approval": approval
+        };
 
         rtoApprovalService.approve(params).success(function(r) {
             console.log(r);
