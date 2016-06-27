@@ -933,12 +933,16 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 
 
 
-App.controller('SlipCastController', function($scope,dtRequest,apiRequest,DTColumnBuilder) {
+App.controller('SlipCastController', function($scope,$location, dtRequest,apiRequest,DTColumnBuilder) {
 	
 	var vm = this;
 	
  vm.rowClickHandler = function (info) {
-        console.log(info);
+     
+			//$location.path('/slipcastview/' + info.manu_slipcasting_id);
+			$location.path('/slipcastview');
+			$scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise. 
+
     }
 
 	vm.updateTable = function() {
@@ -959,10 +963,27 @@ App.controller('SlipCastController', function($scope,dtRequest,apiRequest,DTColu
 
 						//what columns do we want to show?
 						var dtColumns = [
-									DTColumnBuilder.newColumn('manu_slipcasting_id', 'ID'),
-									DTColumnBuilder.newColumn('campaign_name', 'Campaign'),
-									DTColumnBuilder.newColumn('profile_name', 'Profile'),
+									DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
+																	return 'QMSC-'+full.manu_slipcasting_id;
+															}),
+				
+									DTColumnBuilder.newColumn('campaign_name', 'Campaign').notSortable(),
+									DTColumnBuilder.newColumn('profile_name', 'Profile').notSortable(),
+									DTColumnBuilder.newColumn('steel').withTitle('Casted').renderWith(function(data, type, full) {
+									
+												var string = '';
+												full.steel.forEach( function (arrayItem)
+																				{
+																						 string = string+'<li>QMIS-'+arrayItem.id + ',' + arrayItem.heat_id+'</li>';
+																				///		alert(x);
+																				});
+																	
+																	return string;
+																	
+																	
+															}).notSortable(),
 									DTColumnBuilder.newColumn('datetime', 'Date Created'),
+								
 								
 							];
 							

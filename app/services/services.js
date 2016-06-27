@@ -79,6 +79,7 @@ App.service('dtRequest', function() {
 										console.log(r);	
 										},   */
 								},
+								"aaSorting": [],
 							aoColumns: dtColumns,  // see https://l-lin.github.io/angular-datatables/#/api -> DT columnbuilder for object structure
 						 rowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 							 
