@@ -103,7 +103,7 @@ body {
 
 #base{
 	
-	
+
 	    background-image: url('../../assets/img/transparent.png');
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -118,4 +118,19 @@ body {
 
 .card-underline .card-head {
     border-bottom: 1px solid rgb(65, 120, 167);
+}
+::-webkit-input-placeholder {
+	text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+	text-align: center;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+	text-align: center;
+}
+
+:-ms-input-placeholder {
+	text-align: center;
 }
