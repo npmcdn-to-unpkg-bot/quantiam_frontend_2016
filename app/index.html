@@ -137,7 +137,7 @@
 					
 								
 								
-						<li class="gui-folder"   ng-class="{ 'expanded active': 'true', 'expanded active': isActive('/rto'), 'expanded': expandedsidebarmenustate}" >
+						<li class="gui-folder"   ng-class="{ 'expanded active': 'true', 'expanded active': isActive('/rto') || isLastSelectedSidebar('Timesheet'), 'expanded': expandedsidebarmenustate}" >
 							<a      ng-click="expandSidebarMenuItem($event)"">
 								<div class="gui-icon"><i class="fa fa-calendar"></i></div>
 								<span ng-model="lastSelectedSidebar" class="title">Timesheet</span>
@@ -166,6 +166,7 @@
 							<ul>
 				
 					
+							<li><a href="#/slipcasting"  ng-class="{ active: isActive('/slipcasting')}" ><span class="title">Slipcasting</span></a></li>
 							<li><a href="#/slipcasting"  ng-class="{ active: isActive('/slipcasting')}" ><span class="title">Slipcasting</span></a></li>
 						
 								
