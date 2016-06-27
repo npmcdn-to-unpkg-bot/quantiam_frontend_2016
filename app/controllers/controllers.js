@@ -40,13 +40,28 @@ App.controller('IndexController', ['$scope', '$location','userService', function
 	
 	$scope.expanded = ""; //default close all "expanded" menu elements
 	
-  $scope.expandSidebarMenuItem = function(){
-    if ($scope.expandedsidebarmenustate === "expanded")
-      $scope.expandedsidebarmenustate = "";
-    else
-      $scope.expandedsidebarmenustate = "expanded";
+	
+  $scope.expandSidebarMenuItem = function(lastSelectedSidebar){
+	
+	
+	$scope.lastSelectedSidebar = lastSelectedSidebar.currentTarget.childNodes[3].innerText;
+
+	
   };
 	
+	$scope.isLastSelectedSidebar = function (value){
+
+			if($scope.lastSelectedSidebar == value)
+			{
+		
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		
+		};
 	/// Logic for determining is something is active or not with respect to a route. 
 	$scope.isActive = false;
 	$scope.isActive = function (viewLocation) { 
