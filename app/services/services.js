@@ -44,6 +44,56 @@ App.service(
 							
 					
 		
+echoApp.service('dtRequest',
+    function(apiURL) {
+		
+		
+		
+		
+		function build_dtOptions (requestPath, dtColumns, customData) {
+				
+				
+				if(!dtColumns)
+				{
+						console.log('please specify the columns you want');
+				}
+				
+				if(!customData)
+				{
+					customData = {};
+				}
+				
+				
+				return {
+				
+								 serverSide: true,
+								 processing: true,
+								
+								 ajax: {
+										 url: apiURL.devurl+'/'+requestPath,
+										 headers: {
+												 "Authorization": "Bearer " + localStorage.getItem('token'),
+											 },
+										data: customData,
+										dataSrc: 'aoData',
+									/*   	success: function (r)
+										{
+											
+										console.log(r);	
+										},   */
+								},
+							aoColumns: dtColumns  // see https://l-lin.github.io/angular-datatables/#/api -> DT columnbuilder for object structure
+		
+				}
+			}
+			
+			
+		return {
+			dtOptions: this.dtOptions,
+			build_dtOptions: build_dtOptions
+		};
+		
+		});
 
 
 App.service("dateStringService", function($filter) {
