@@ -44,7 +44,7 @@ App.service(
 							
 					
 		
-echoApp.service('dtRequest',
+App.service('dtRequest',
     function(apiURL) {
 		
 		
