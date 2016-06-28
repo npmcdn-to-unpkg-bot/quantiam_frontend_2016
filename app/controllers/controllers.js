@@ -946,6 +946,7 @@ App.controller('SlipCastController', function($scope,$location, dtRequest,apiReq
  vm.rowClickHandler = function (info) {
      
 			$location.path('/slipcastview/' + info.manu_slipcasting_id);
+			
      
 			$scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise. 
 
