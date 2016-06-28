@@ -61,14 +61,33 @@
        <div class="card-body">
         <form class="form form-inline" ng-submit="test2()" style="padding:8px" ng-repeat="position in positions">
 
+            <div class="form-group" style="margin:0.25em; padding:0.25em">
+                    <div class="checkbox checkbox-inline checkbox-styled">
+                        <label>
                 <input type="checkbox" ng-model="rtoinput[position].timedata" placeholder="time"><span style="font-size: 1.5em" >  {{ position }}:</span>
-            <div ng-show="rtoinput[position].timedata" class="form-group" style="margin:0.25em; padding:0.25em">
+                            </label>
+                    </div>
+                <span ng-show="rtoinput[position].timedata">
+                    <div class="form-control">
                 <input type="number" ng-model="rtoinput[position].steel_id" placeholder="steelinfo">
+                    </div>
+                    <div class="form-control">
                 <input type="number" ng-model="rtoinput[position].slip_id" placeholder="Slip ID">
+                    </div>
+
+                    <div class="form-control">
                 <input type="number" ng-model="rtoinput[position].slip_temp" placeholder="Slip Temp">
+                    </div>
+
+                    <div class="form-control">
                 <input type="number" ng-model="rtoinput[position].slip_viscosity" placeholder="Viscosity">
+                    </div>
+
+                    <div class="form-control">
                 <input type="text" ng-model="rtoinput[position].straightness" placeholder="Tube Straightness">
-                <span>{{ dog }}</span>
+                    </div>
+
+                </span>
             </div>
 
             </form>

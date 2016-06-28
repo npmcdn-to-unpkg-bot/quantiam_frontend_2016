@@ -499,9 +499,11 @@ function calculate_BankTotalsDifference (){
             $scope.rtoData.approvals.push(r);
             $scope.rtoData.status = (r.check);
 
+            toastr.success('Approval Posted', 'Success');
+
         }).error(function(e) {
 
-            toastr.error('Approval Failed');
+            toastr.error('Approval Failed', 'Error');
         });
 
     };
@@ -513,6 +515,8 @@ function calculate_BankTotalsDifference (){
         rtoApprovalService.remove(approvalID).success(function(r) {
             $scope.rtoData.approvals.splice(index, 1);
             $scope.rtoData.status = (r);
+
+            toastr.success('Approval Deleted', 'Success');
 
         }).error(function(e) {
 
