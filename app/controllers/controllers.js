@@ -715,6 +715,8 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
     userInfoService.getUserData($stateParams.employeeID).then(function(r) {
 
         $scope.userInfoData = r.data;
+
+        console.log($scope.userInfoData);
         $scope.directSupervisor = $scope.userInfoData.supervisors[($scope.userInfoData.supervisors).length -1 ];
 
         $scope.dtOptions = {
