@@ -249,8 +249,8 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptions
 }]);
 
 App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService',
-        function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService) {
+    ['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService', 'apiRequest',
+        function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService, apiRequest) {
   
         $scope.$on("$locationChangeStart", function() {
             console.log('this is how you do functions on leaving page.');
@@ -276,6 +276,20 @@ App.controller('RtoViewController',
 					 
 			$scope.checkExistingAbsences();
 
+			if(!$scope.holidays)
+			{
+				
+				apiRequest.send('get', '/timesheet/holidaylist', null).then(function(r){
+				
+				$scope.holidays = r.data;
+		
+				
+				});
+						
+			}
+			
+			
+			
 				 userInfoService.getUserData($scope.rtoData.employeeID).then(function(r){
 
 								$scope.userInfo = r.data;
@@ -287,6 +301,7 @@ App.controller('RtoViewController',
 									
 									$scope.bankTotals = userInfoService.getUserRtoBank();
 									calculate_BankTotalsDifference ();
+									checkHolidays ();
 
                                     $scope.user = userService.getstoredUser();
 
@@ -299,8 +314,28 @@ App.controller('RtoViewController',
 					});
 
    	});
+		
+function checkHolidays ()
+{
+	for (var i = 0; i < $scope.rtoData.requested_time.length; i++) {
+				$scope.holidays.forEach( function (holiday)
+				{
+					
+					if($scope.rtoData.requested_time[i].date == holiday.date)
+					{
+								$scope.rtoData.requested_time[i].holiday = 1;
+					}
+					
+				});
+	}
+	
+	
+	
+}
 
 function calculate_BankTotalsDifference (){
+			
+			var vm = this;
 			
 			var requestedTime = {};
 			var resultTime = {};
@@ -372,7 +407,7 @@ function calculate_BankTotalsDifference (){
              $scope.rtoData.requested_time.push(r);
 						 	calculate_BankTotalsDifference ();
 							$scope.checkExistingAbsences();
-
+							checkHolidays ();
 
             if ($scope.rtoData.employeeID != $scope.user.employeeID)
             {
@@ -412,7 +447,9 @@ function calculate_BankTotalsDifference (){
             $scope.rtoData.requested_time.splice($scope.index, 1, r);
 							calculate_BankTotalsDifference ();
 							$scope.checkExistingAbsences();
-
+								checkHolidays ();
+							
+							
             if ($scope.rtoData.employeeID != $scope.user.employeeID)
             {
                 $scope.editNotification();
@@ -834,16 +871,6 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
 
 
 
-
-App.controller('NewRtoController', ['$scope', '$stateParams', function($scope, $stateParams) {
-
-    console.log($stateParams);
-
-
-}]);
-
-
-
 App.controller('CommentsController', function($scope,apiRequest, $location, $sce) {
 	
 		$scope.comments;
@@ -971,7 +998,7 @@ App.controller('SlipCastController', function($scope,$location, dtRequest,apiReq
 						//what columns do we want to show?
 						var dtColumns = [
 									DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
-																	return 'QMSC-'+full.manu_slipcasting_id;
+																	return '<b>QMSC-'+full.manu_slipcasting_id+'</b>';
 															}),
 				
 									DTColumnBuilder.newColumn('campaign_name', 'Campaign').notSortable(),
@@ -981,7 +1008,7 @@ App.controller('SlipCastController', function($scope,$location, dtRequest,apiReq
 												var string = '';
 												full.steel.forEach( function (arrayItem)
 																				{
-																						 string = string+'<li>QMIS-'+arrayItem.id + ',' + arrayItem.heat_id+'</li>';
+																						 string = string+'<li style="font-size:11px;">QMIS-'+arrayItem.id + ',' + arrayItem.heat_id+'</li>';
 																				///		alert(x);
 																				});
 																	
@@ -989,7 +1016,7 @@ App.controller('SlipCastController', function($scope,$location, dtRequest,apiReq
 																	
 																	
 															}).notSortable(),
-									DTColumnBuilder.newColumn('datetime', 'Date Created'),
+									DTColumnBuilder.newColumn('datetime', 'Created'),
 								
 								
 							];
