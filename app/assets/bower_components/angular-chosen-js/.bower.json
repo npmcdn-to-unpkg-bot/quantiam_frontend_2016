@@ -1,0 +1,15 @@
+{
+  "name": "angular-chosen-js",
+  "homepage": "https://github.com/adityasharat/angular-chosen",
+  "version": "1.3.3",
+  "_release": "1.3.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.3.3",
+    "commit": "28d91128c58149dd654a5b4880d6fd80c1c2231a"
+  },
+  "_source": "https://github.com/adityasharat/angular-chosen.git",
+  "_target": "^1.3.3",
+  "_originalSource": "angular-chosen-js",
+  "_direct": true
+}

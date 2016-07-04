@@ -42,14 +42,14 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     
         .state('slipcastview', {
             url:'/slipcastview/:slipcastid',
-              templateUrl: 'views/manu/slipcasting-run.html',
-              controller: 'slipcastController as SC'
+              templateUrl: 'views/manu/slipcast/slipcasting-run.html',
+              controller: 'SlipcastViewController as SVC'
               })
 
 				 .state('slipcast', {
             url:'/slipcast',
               templateUrl: 'views/manu/slipcast/slipcast.html',
-              controller: 'SlipCastController as SC'
+              controller: 'SlipcastController as SC'
 
         })
 }]);

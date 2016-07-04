@@ -248,8 +248,7 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptions
 
 }]);
 
-App.controller('RtoViewController',
-    ['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService', 'apiRequest',
+App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService', 'apiRequest',
         function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService, apiRequest) {
   
         $scope.$on("$locationChangeStart", function() {
@@ -964,77 +963,3 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 
 });
 
-
-
-App.controller('SlipCastController', function($scope,$location, dtRequest,apiRequest,DTColumnBuilder) {
-	
-	var vm = this;
-	
- vm.rowClickHandler = function (info) {
-     
-			$location.path('/slipcastview/' + info.manu_slipcasting_id);
-			
-     
-			$scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise. 
-
-    }
-
-	vm.updateTable = function() {
-	
-		vm.getdtTable();
-		
-		}
-  	
-		
-	vm.getdtTable = function () {
-	
-	
-					 var customOptions = {
-						 
-						 'campaign_id' : vm.campaign_id,
-						 
-						 };
-
-						//what columns do we want to show?
-						var dtColumns = [
-									DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
-																	return '<b>QMSC-'+full.manu_slipcasting_id+'</b>';
-															}),
-				
-									DTColumnBuilder.newColumn('campaign_name', 'Campaign').notSortable(),
-									DTColumnBuilder.newColumn('profile_name', 'Profile').notSortable(),
-									DTColumnBuilder.newColumn('steel').withTitle('Casted').renderWith(function(data, type, full) {
-									
-												var string = '';
-												full.steel.forEach( function (arrayItem)
-																				{
-																						 string = string+'<li style="font-size:11px;">QMIS-'+arrayItem.id + ',' + arrayItem.heat_id+'</li>';
-																				///		alert(x);
-																				});
-																	
-																	return string;
-																	
-																	
-															}).notSortable(),
-									DTColumnBuilder.newColumn('datetime', 'Created'),
-								
-								
-							];
-							
-
-							vm.dtTable = dtRequest.build_dtOptions('slipcasting/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response 
-							
-							
-							
-	
-		
-	}
-	
-	
-	
-	
-	vm.getdtTable();
-		
-	
-	
-});

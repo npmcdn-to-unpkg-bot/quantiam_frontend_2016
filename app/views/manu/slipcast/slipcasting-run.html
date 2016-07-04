@@ -1,0 +1,134 @@
+
+    <div class="col-lg-9">
+        <div class="card card-underline" style="padding:10px">
+            <div class="card-head">
+                    <header>Slipcast Run <span style="color: #778899" ng-if="SVC.slipCastObj">QMSC - {{ SVC.slipCastObj.slipcastID }}</span></header>
+										
+									
+										
+            </div>
+						
+						
+            <div class="card-body">
+                <form class="form-inline">
+										
+										
+                 <!--    <div class="form-group">
+                         QMSC - <input type="text" ng-change=test()" ng-model="slipcast.id" placeholder="Slipcasting ID" ng-model-options="{ updateOn: 'blur' }">
+                    </div> -->
+									<div class='row'>
+									
+								
+                    <div class="form-group col-md-2">
+                       Ramp ID: <input type="number" ng-model="slipcast.ramp_id" min="0"  step="1" placeholder="Ramp ID">
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        Profile <input type="number" ng-model="slipcast.profile_id" min="0"  step="1" placeholder="Profile ID">
+                    </div>
+										
+								
+									
+                    <div class="form-group col-md-2">
+                        Date: <input type="datetime" ng-model="slipcast.datetime" placeholder="fixlaterlol">
+                    </div>
+
+                    <div class="form-group col-md-2">
+										Temp (C)<input type="number" ng-model="slipcast.room_temp" placeholder="Room Temperature"> 
+                    </div>
+								
+
+									</div>
+                </form>
+            </div>
+        </div>
+    </div>
+<div class='col-lg-3'>
+	
+	
+	
+</div>
+				
+		
+<div class="col-lg-3">
+    <div class="card card-underline" style="padding:10px">
+        <div class="card-head">
+            <header> Operators</header>
+							<div class='tools'>
+								
+		
+										<select 
+													
+													style="width:150px"
+													chosen
+													ng-change="SVC.addOperator()"
+													placeholder-text-single="Select an Operator"
+													ng-model="SVC.selectedOperator"
+													ng-options="user.employeeid as user.firstname +' '+ user.lastname
+																	for user in userData">
+																	 <option value=""></option> 
+																
+											</select>
+										<!-- <a data-ng-disabled="" ng-click="" class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Add Operator">
+
+                        <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+                    </a> -->
+										
+										</div>
+        </div>
+        <div class="card-body">
+
+						<table class='table'>
+						
+							<tr ng-if="!SVC.slipCastObj.operators"><td colspan=2><center>Please add an Operator</center></td></tr>
+							<tr ng-repeat="operator in SVC.slipCastObj.operators" >
+								<td>{{operator.firstname}} {{operator.lastname}}</td>
+								<td>
+								<a data-ng-disabled="" 
+								class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="SVC.removeOperator(operator.employeeID)">
+
+                        <i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+                    </a>
+									
+									</td>
+							</tr>
+						
+						
+						
+						</table>
+
+
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="card card-underline">
+        <div class="card-head">
+            <h3>
+            ||    Positionsteelsleip
+            </h3>
+        </div>
+       <div class="card-body">
+        <form class="form form-inline" ng-submit="test2()" style="padding:8px" ng-repeat="position in SVC.positions">
+
+            <div class="form-group" style="margin:0.25em; padding:0.25em">
+                    <div class="checkbox checkbox-inline checkbox-styled">
+                        <label>
+                <input type="checkbox" ng-model="rtoinput[position].timedata" placeholder="time"><span style="font-size: 1.5em" >  {{ position }}:</span>
+                            </label>
+                    </div>
+                <span ng-show="rtoinput[position].timedata">
+                <input type="number" class="form-control" ng-model="rtoinput[position].steel_id" placeholder="Steel ID">
+                <input type="number" class="form-control" ng-model="rtoinput[position].slip_id" placeholder="Slip ID">
+                <input type="number" class="form-control" ng-model="rtoinput[position].slip_temp" placeholder="Slip Temp">
+                <input type="number" class="form-control" ng-model="rtoinput[position].slip_viscosity" placeholder="Viscosity">
+                <input type="text" class="form-control" ng-model="rtoinput[position].straightness" placeholder="Tube Straightness">
+
+                </span>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
