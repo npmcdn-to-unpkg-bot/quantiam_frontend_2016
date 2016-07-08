@@ -18,7 +18,18 @@ App.directive(
     });
 
 		
+App.directive('slipSearch', function(){
+	
+	
+	return{
 		
+		restrict: 'E',
+        templateUrl: 'views/select/slip.html',
+				replace: true,
+		}
+	
+	
+});
 		
 App.directive('comments', function(){
 	
@@ -46,3 +57,15 @@ App.directive('ngReallyClick', [function() {
     }
 }]);
 
+App.directive('ngBlurDelay',['$timeout',function($timeout){
+return {
+    scope:{
+        ngBlurDelay:'&'
+    },
+    link:function(scope, element, attr){
+    element.bind('blur',function(){
+       $timeout(scope.ngBlurDelay,200);
+    });
+    }
+};
+}])

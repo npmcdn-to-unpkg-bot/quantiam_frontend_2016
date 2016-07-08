@@ -1,9 +1,28 @@
-
+<div class='row'>
+<div class='col-md-12' style='margin-bottom:10px;'>
+	
+	
+		   <uib-alert ng-if="!SVC.editable" >
+				 <B> Notice: </B>  The period in which you could edit this slipcasting run has expired.  Please contact the database adminsitrator if you must edit this. 
+				 </uib-alert>
+</div>
+<div>
     <div class="col-lg-9">
-        <div class="card card-underline" style="padding:10px">
+        <div class="card card-underline">
             <div class="card-head">
-                    <header>Slipcast Run <span style="color: #778899" ng-if="SVC.slipCastObj">QMSC - {{ SVC.slipCastObj.slipcastID }}</span></header>
+                    <header>Slipcasting Run: <span style="color: #778899" ng-if="SVC.slipCastObj">QMSC - {{ SVC.slipCastObj.manu_slipcasting_id }}</span></header>
+									
+									<div class='tools'>
+									
+										<a class='btn btn-icon-toggle btn-refresh' tooltip-placement="top" uib-tooltip="Data Model">
+											<i class="fa fa-code" style="font-size:15px" aria-hidden="true"></i>
+										</a>
 										
+										<a class='btn btn-icon-toggle btn-refresh' style="font-size:15px;" tooltip-placement="top" uib-tooltip="Download">
+												<i class="fa fa-download"  aria-hidden="true"></i>
+										</a>
+									
+									</div>
 									
 										
             </div>
@@ -12,71 +31,157 @@
             <div class="card-body">
                 <form class="form-inline">
 										
-										
-                 <!--    <div class="form-group">
-                         QMSC - <input type="text" ng-change=test()" ng-model="slipcast.id" placeholder="Slipcasting ID" ng-model-options="{ updateOn: 'blur' }">
-                    </div> -->
+				
 									<div class='row'>
 									
-								
-                    <div class="form-group col-md-2">
-                       Ramp ID: <input type="number" ng-model="slipcast.ramp_id" min="0"  step="1" placeholder="Ramp ID">
+									<div class="form-group col-md-2">
+										<b> Slip ID </b> 
+									
+										<select2 style="width: 100%"
+	
+													options="SVC.slipSelect"
+													
+													ng-model="SVC.slipCastObj.manu_slip_id"
+													ng-disabled="!SVC.editable">
+													
+											
+																	
+																
+											</select2>  
+										
+										
+                    </div>		
+
+										
+										<div class="form-group col-md-2">
+										<b> Table </b> 
+					
+											<select2
+													chosen
+													style="width:100%"
+													placeholder-text-single="things"
+													ng-change="SVC.editSlipcastObj('manu_slipcasting_table_id',SVC.slipCastObj.manu_slipcasting_table_id)"
+													options="SVC.slipcastingTables"
+													ng-model="SVC.slipCastObj.manu_slipcasting_table_id"
+													s2-options="Tables.manu_slipcasting_table_id as Tables.manu_slipcasting_table_name
+																	for Tables in SVC.slipcastingTables"
+															ng-disabled="!SVC.editable"		
+															>
+																	 <option value=""></option> 
+																
+											</select2>
+										
+										
+                    </div>
+									
+                    <div class="form-group col-md-3">
+						
+											<b>Date Time</b> <br>
+
+											<div class="dropdown">
+												<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" >
+													<div class="input-group">
+													
+													<input type="text" class="form-control"
+													data-ng-model="SVC.slipCastObj.datetime"
+													ng-disabled="!SVC.editable"		>
+													<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+													</div>
+												</a>
+												<ul class="dropdown-menu"  ng-if="SVC.editable" role="menu" aria-labelledby="dLabel">
+													<datetimepicker 
+													data-on-set-time="SVC.editSlipcastObj('datetime',SVC.slipCastObj.datetime)"
+													data-ng-model="SVC.slipCastObj.datetime"
+													data-datetimepicker-config="{
+													dropdownSelector: '#dropdown2',
+													modelType: 'YYYY-MM-DD HH:mm:ss'
+													
+													}"
+															
+													/>
+												</ul>
+											</div>
+
                     </div>
 
                     <div class="form-group col-md-2">
-                        Profile <input type="number" ng-model="slipcast.profile_id" min="0"  step="1" placeholder="Profile ID">
-                    </div>
+										<b> Room Temperature (C) </b> <input type="number" class='form-control' ng-model="SVC.slipCastObj.room_temp_at_cast"
+										ng-blur="SVC.editSlipcastObj('room_temp_at_cast',SVC.slipCastObj.room_temp_at_cast)"  placeholder="Room Temperature" 	ng-disabled="!SVC.editable"		> 
+                    </div> 
 										
 								
-									
-                    <div class="form-group col-md-2">
-                        Date: <input type="datetime" ng-model="slipcast.datetime" placeholder="fixlaterlol">
-                    </div>
-
-                    <div class="form-group col-md-2">
-										Temp (C)<input type="number" ng-model="slipcast.room_temp" placeholder="Room Temperature"> 
-                    </div>
 								
-
+						<div class='col-md-1 form-group' style='float:right'>
+										
+											<center><img width='100%' src="{{SVC.slipCastObj.datamatrix}}"></img></center>
+										</div>
+									
 									</div>
                 </form>
             </div>
         </div>
+			
+		
+			<div class="card card-underline">
+        <div class="card-head">
+					<header>
+           Positionsteelsleip
+            </header>
+        </div>
+       <div class="card-body">
+        <form class="form form-inline" ng-submit="test2()" style="padding:8px" ng-repeat="position in SVC.positions">
+
+            <div class="form-group" style="margin:0.25em; padding:0.25em">
+                    <div class="checkbox checkbox-inline checkbox-styled">
+                        <label>
+                <input type="checkbox" ng-model="rtoinput[position].timedata" placeholder="time"><span style="font-size: 1.5em" >  {{ position }}:</span>
+                            </label>
+                    </div>
+                <span ng-show="rtoinput[position].timedata">
+                <input type="number" class="form-control" ng-model="rtoinput[position].steel_id" placeholder="Steel ID">
+                <input type="number" class="form-control" ng-model="rtoinput[position].slip_temp" placeholder="Slip Temp">
+                <input type="number" class="form-control" ng-model="rtoinput[position].slip_temp" placeholder="Steel Temp">
+                <input type="number" class="form-control" ng-model="rtoinput[position].slip_temp" placeholder="Position">
+             
+                <input type="text" class="form-control" ng-model="rtoinput[position].straightness" placeholder="Straightness">
+
+                </span>
+            </div>
+
+            </form>
+        </div>
     </div>
-<div class='col-lg-3'>
-	
-	
-	
-</div>
+
 				
+    </div>
+
 		
 <div class="col-lg-3">
-    <div class="card card-underline" style="padding:10px">
+	
+		<div class="card card-underline card-collapsed" style="padding:10px">
         <div class="card-head">
-            <header> Operators</header>
+				<header> Operators</header>
 							<div class='tools'>
-								
-		
-										<select 
+					
+										<select2 
 													
 													style="width:150px"
 													chosen
 													ng-change="SVC.addOperator()"
-													placeholder-text-single="Select an Operator"
+													options="userData"
 													ng-model="SVC.selectedOperator"
-													ng-options="user.employeeid as user.firstname +' '+ user.lastname
-																	for user in userData">
-																	 <option value=""></option> 
+													s2-options="user.employeeid as user.firstname +' '+ user.lastname
+																	for user in userData"
+													ng-disabled="!SVC.editable"				
+													>
+																	 <option value="none" ></option> 
 																
-											</select>
-										<!-- <a data-ng-disabled="" ng-click="" class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Add Operator">
-
-                        <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
-                    </a> -->
-										
+											</select2>
+											
+											<a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
 										</div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="display:none;">
 
 						<table class='table'>
 						
@@ -84,7 +189,7 @@
 							<tr ng-repeat="operator in SVC.slipCastObj.operators" >
 								<td>{{operator.firstname}} {{operator.lastname}}</td>
 								<td>
-								<a data-ng-disabled="" 
+								<a 	ng-disabled="!SVC.editable"		
 								class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="SVC.removeOperator(operator.employeeID)">
 
                         <i style="color:red;" class="fa fa-trash-o fa-1x"></i>
@@ -100,35 +205,55 @@
 
         </div>
     </div>
-</div>
-<div class="col-lg-12">
-    <div class="card card-underline">
+
+	
+	
+    <div class="card card-underline" style="padding:10px">
         <div class="card-head">
-            <h3>
-            ||    Positionsteelsleip
-            </h3>
+            <header> Profile </header>
+							<div class='tools'>
+
+								
+											<select2 
+													chosen
+													ng-change="SVC.editSlipcastObj('manu_slipcasting_profile_id',SVC.slipCastObj.manu_slipcasting_profile_id)"
+													options="SVC.slipcastingProfiles"
+													ng-model="SVC.slipCastObj.manu_slipcasting_profile_id"
+													s2-options="profile.manu_slipcasting_profile_id as profile.profile_name
+																	for profile in SVC.slipcastingProfiles"
+															ng-disabled="!SVC.editable"		
+															>
+																	 <option value=""></option> 
+																
+											</select2>
+										</div>
         </div>
-       <div class="card-body">
-        <form class="form form-inline" ng-submit="test2()" style="padding:8px" ng-repeat="position in SVC.positions">
+        <div class="card-body">
 
-            <div class="form-group" style="margin:0.25em; padding:0.25em">
-                    <div class="checkbox checkbox-inline checkbox-styled">
-                        <label>
-                <input type="checkbox" ng-model="rtoinput[position].timedata" placeholder="time"><span style="font-size: 1.5em" >  {{ position }}:</span>
-                            </label>
-                    </div>
-                <span ng-show="rtoinput[position].timedata">
-                <input type="number" class="form-control" ng-model="rtoinput[position].steel_id" placeholder="Steel ID">
-                <input type="number" class="form-control" ng-model="rtoinput[position].slip_id" placeholder="Slip ID">
-                <input type="number" class="form-control" ng-model="rtoinput[position].slip_temp" placeholder="Slip Temp">
-                <input type="number" class="form-control" ng-model="rtoinput[position].slip_viscosity" placeholder="Viscosity">
-                <input type="text" class="form-control" ng-model="rtoinput[position].straightness" placeholder="Tube Straightness">
+						<table  class='table  dataTable'>
+					
+							<tr ng-if="!SVC.slipCastObj.profile"><td colspan=2><center>Please select a Profile</center></td></tr>
+							<tr ng-repeat="(key,value) in SVC.slipCastObj.profile" ng-if="SVC.slipcastProfileFilter.indexOf(key) == -1 && value">
+								<td><b>{{humanize(key)}}</b></td>
+								<td>
+									{{value}}
+									</td>
+							</tr>
+						
+			
+						
+						</table>
 
-                </span>
-            </div>
 
-            </form>
         </div>
     </div>
+		
+	</div>
+
+
+
+
+<div class="col-lg-12">
+  
 </div>
 

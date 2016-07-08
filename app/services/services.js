@@ -1,41 +1,24 @@
 App.service(  "apiRequest",  function($http,   errorService) {
 
+	var apiUrl = "http://apps.edm.quantiam.com:2000";
         return {
-         
-
-				send: function (httpVerb,path,params){
-				
-			
-			
-					var apiUrl = "http://apps.edm.quantiam.com:2000";
-					//var apiUrl = "http://localhost/quantiam_api/public";
-					var response;
-					var token = localStorage.getItem('token');
-
-
-						
-						var req = {
-											 method: httpVerb,
-											 url: apiUrl + path,
-											 headers: {
-												 "Authorization": "Bearer " + token,
-											 },
-											 data: params,
-											 params: params
-											}
-
-						 response =	$http(req).success(function(r){
-									
-					
-						 }).error(function(e,s){
-						 
-					return e;
-						 
-						 
-						 });
-						
-						return response;
-					}
+								send: function (httpVerb,path,params){
+									var response;
+										var req = {
+															 method: httpVerb,
+															 url: apiUrl + path,
+															 headers: {
+																 "Authorization": "Bearer " + localStorage.getItem('token'),
+															 },
+															 data: params,
+															 params: params
+															}
+										 response =	$http(req).success(function(r){
+										 }).error(function(e,s){		 
+											return e;
+										 });
+										return response;
+									}
 				}
 					
 		});
@@ -253,6 +236,7 @@ App.service("rtoViewService", function($http, $location, apiRequest) {
 		
 		
 });
+
 App.service("userInfoService", function($http, apiRequest) {
 
 	return ({
@@ -314,6 +298,11 @@ App.service("userInfoService", function($http, apiRequest) {
 		return apiRequest.send('get', '/users', null);
 
 	}
+	function getUserList()
+	{
+		return apiRequest.send('get', '/userlistactive', null);
+
+	}
 
 	function getHierarchyData()
 	{
@@ -349,8 +338,10 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		
 			var params = {"username": username, "pass": pass};
 			var response = apiRequest.send('post','/auth',params).success(function(r){
-							
+
 							localStorage.setItem('token', r.token);
+							refreshUser();
+						
 							
 							$rootScope.$broadcast('updateIndexUserObject');
 							return true;
@@ -434,6 +425,7 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		{
 		
 				localStorage.clear(); // clear stored data
+		
 				lastPath = $location.path();
 				console.log(lastPath);
 				$location.path('/login');
@@ -544,6 +536,41 @@ App.service("emailService", function(apiRequest) {
 	}
 })
 
+
+App.service('select2request', function(apiRequest){
+	
+	
+	var vm = this;
+	
+	vm.slipObj = {
+		
+		
+		 query: function (query) {
+            
+						var params = {'like': query.term};
+						
+						apiRequest.send('get','/slip/list', params).success(function(r){
+							
+							var data = {};
+						data.results = r;
+         
+
+            query.callback(data);
+							
+							});
+					
+        }
+		
+		}
+	
+	
+	return{
+		
+		slip: vm.slipObj
+	
+	}
+	
+});
 
 
 

@@ -29,4 +29,9 @@ App.filter('orderObjectBy', function(){
     }
 });
 
-App.filter('ignoreUserStuff')
+App.filter('ignoreUserStuff');
+
+
+
+
+

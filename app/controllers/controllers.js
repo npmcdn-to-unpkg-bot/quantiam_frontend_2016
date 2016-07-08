@@ -2,6 +2,15 @@ App.controller('IndexController', ['$scope', '$location','userService', function
   //var vm = this;
   $scope.AppName = "Quantiam";
 
+	
+	
+	$scope.humanize = function (str) {
+		var frags = str.split('_');
+		for (i=0; i<frags.length; i++) {
+			frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+		}
+		return frags.join(' ');
+	}
 
 	/// Store the user object in the index controller, such that we can use it everywhere.
 	function updateIndexUserObject (){

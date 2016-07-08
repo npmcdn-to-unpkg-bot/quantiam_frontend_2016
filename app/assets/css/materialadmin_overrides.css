@@ -144,4 +144,18 @@ body {
 	
 }
 
+.angularjs-datetime-picker input[type=range] {
+	
+	width:100%;
+	
+	
+	
+}
+
+.form-control{
+	
+	text-align:center;
+	
+}
+}
 

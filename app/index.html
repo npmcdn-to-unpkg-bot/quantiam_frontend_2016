@@ -14,19 +14,24 @@
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/materialadmin.css">
   
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/material-design-iconic-font.min.css">
-    <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/rickshaw/rickshaw.css" />
-    <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/morris/morris.core.css" />
+
     <link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/DataTables/jquery.dataTables.css" />
 		<link type="text/css" rel="stylesheet" href="assets/js/libs/angular-datatables/css/angular-dataTables.css" />
 		<link type="text/css" rel="stylesheet" href="assets/js/libs/angular-fullcalendar/fullcalendar.min.css" />
 		<link type="text/css" rel="stylesheet" href="assets/css/theme-default/libs/toastr/toastr.css" />
 		<link type="text/css" rel="stylesheet" href="assets/bower_components/trix/dist/trix.css" />
-		<link type="text/css" rel="stylesheet" href="assets/bower_components/angular-ui-select/dist/select.min.css" />
-	  <link type="text/css" rel="stylesheet" href="assets/css/materialadmin_overrides.css">
+
+
 		
-		<link rel="stylesheet" href="assets/bower_components/chosen/chosen.css">
-		<link rel="image_src" href="assets/bower_components/chosen/chosen-sprite.png">
-					    
+		<link rel="stylesheet" href="assets/bower_components/select2/select2.css">
+	
+		
+		<link rel="stylesheet" href="assets/node_modules/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
+		
+		
+		
+		
+		<link type="text/css" rel="stylesheet" href="assets/css/materialadmin_overrides.css">    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 </head>
@@ -170,10 +175,25 @@
 							<ul>
 				
 					
-							<li><a href="#/slipcast"  ng-class="{ active: isActive('/slipcast')}" ><span class="title">Slipcasting</span></a></li>
-					
+							<li class="gui-folder expanded"  ng-class="{  'expanded active': isActive('/slipcast') || isLastSelectedSidebar('Slipcasting'), 'expanded': expandedsidebarmenustate}"   >
+							<a ><span class="title">Slipcasting</span></a>
+							
+									<ul>
+												<li><a href="#/slipcast"  ng-class="{ active: isActive('/slipcast')}" ><span class="title">Database</span></a></li>
+												<li><a href="#/slipcast/profile/list"  ng-class="{ active: isActive('/slipcast/profiles')}" ><span class="title">Profile</span></a></li>
+									</ul>
 						
-								
+							</li> 	
+							
+							
+							<li class="gui-folder "   ng-class="{  'expanded active': isActive('/furnace') || isLastSelectedSidebar('Furnaces'), 'expanded': expandedsidebarmenustate}"  >
+							<a><span class="title">Furnaces</span></a>
+							
+									<ul>
+												<li><a href="#/furnace"  ng-class="{ active: isActive('/furnace')}" ><span class="title">Database</span></a></li>
+									</ul>
+						
+							</li> 	
 							</ul><!--end /submenu -->
 						</li>
 						
@@ -226,7 +246,8 @@
 <script src="assets/js/libs/toastr/toastr.js"></script>
 <script src="assets/bower_components/highcharts/highcharts.js"></script>
 <script src="assets/js/libs/microtemplating/microtemplating.min.js"></script>
-<script src="./assets/bower_components/chosen/chosen.jquery.js"></script>
+<script src="assets/bower_components/select2/select2.js"></script>
+<script src="assets/bower_components/moment/moment.js"></script>
 		
 
 
@@ -237,16 +258,16 @@
 <script src="assets/bower_components/angular/angular.min.js"></script>
 <script src="assets/js/libs/angular/angular-animate.js"></script>
 <script src="assets/js/libs/angular/angular-touch.js"></script>
-<script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="assets/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="assets/js/libs/angular-datatables/dist/angular-datatables.min.js"></script>
 <script src="assets/js/libs/bootstrap-angular-ui/ui-bootstrap-custom-tpls-1.3.3.min.js"></script>
 <script src="assets/js/libs/angular-fullcalendar/fullcalendar.js"></script>
 <script src="assets/bower_components/highcharts-ng/dist/highcharts-ng.min.js"></script>
 <script src="assets/bower_components/trix/dist/trix.js"></script>
 <script src="assets/bower_components/angular-trix/dist/angular-trix.min.js"></script>
-<script src="assets/bower_components/angular-ui-select/dist/select.min.js"></script>
-<script src="assets/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
-
+<script src="assets/bower_components/angular-select2/dist/angular-select2.min.js"></script>
+<script src="assets/node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+<script src="assets/node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
 
 
 <!--- App JS -->
@@ -254,6 +275,7 @@
 <script src="app.js" charset="utf-8"></script>
 <script src="services/services.js" charset="utf-8"></script>
 <script src="controllers/controllers.js" charset="utf-8"></script>
+<script src="controllers/select-controllers.js" charset="utf-8"></script>
 <script src="controllers/manu-controllers.js" charset="utf-8"></script>
 <script src="routes.js" charset="utf-8"></script>
 <script src="directives/directives.js" charset="utf-8"></script>

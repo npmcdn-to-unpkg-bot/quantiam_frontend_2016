@@ -10,7 +10,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 	
  vm.rowClickHandler = function (info) {
      
-			$location.path('/slipcastview/' + info.manu_slipcasting_id);
+			$location.path('/slipcast/' + info.manu_slipcasting_id);
 			
      
 			$scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise. 
@@ -35,9 +35,14 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
 						//what columns do we want to show?
 						var dtColumns = [
-									DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
-																	return '<b>QMSC-'+full.manu_slipcasting_id+'</b>';
+							
+
+									DTColumnBuilder.newColumn('datamatrix').withTitle('Code').renderWith(function(data, type, full) {
+																	return '<img width=50px src="'+full.datamatrix+'"</img>';
 															}),
+									DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
+																		return '<b>QMSC-'+full.manu_slipcasting_id+'</b>';
+																}),
 				
 									DTColumnBuilder.newColumn('campaign_name', 'Campaign').notSortable(),
 									DTColumnBuilder.newColumn('profile_name', 'Profile').notSortable(),
@@ -79,14 +84,52 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
  
 
-App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequest,userInfoService) {
+App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequest,userInfoService,select2request) {
 
 	var vm = this;
 	
+	
 	vm.slipcastID = $stateParams.slipcastid;
 	vm.slipCastObj = {};
+	vm.editable = 0; //default can't edit
+	vm.editableDays = -1;
 	vm.selectedOperator = '';
+	vm.slipcastingRampProfiles;
+	vm.slipcastingTables;
+	vm.slipcastingProfiles;
+	vm.slipcastProfileFilter = ['created_by','created_datetime','last_updated_datetime','active','campaign_id','slipcast_profile_comments','manu_slipcasting_profile_id','ramp_profile'];
+	vm.slipSelect = select2request.slip;
 	
+	
+	vm.init = function (){
+		
+			
+		vm.getSlipcastObj(vm.slipcastID);
+		
+	//	vm.getRampProfileList();
+		vm.getSlipTableList();
+		userInfoService.getUsers().then(function(r) {
+		
+					$scope.userData = r.data;
+
+			});
+		
+		}
+		
+	vm.checkEditable = function (){
+		
+		var created = moment(vm.slipCastObj.datetime)
+		var now = moment();
+		
+		var diff = created.diff(now,'days');
+		
+		if(diff >= vm.editableDays )
+		{
+				vm.editable = 1;
+		}
+		
+	
+		}	
 
 	
 	vm.getSlipcastObj = function ()
@@ -94,13 +137,37 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 	
 		apiRequest.send('get','/slipcast/'+vm.slipcastID, null).success(function(r){
 			console.log(r);
-			vm.slipCastObj = r;
-			
+				vm.slipCastObj = r;
+				
+				vm.getSlipProfileList();
+				vm.checkEditable();
 			});
 		
 		
 	}
 	
+	vm.editSlipcastObj = function (key,value)
+	{
+
+		var param = {};
+		param[key] = value;
+		
+		
+		apiRequest.send('put','/slipcast/'+vm.slipcastID, param).success(function(r){
+		
+				vm.slipCastObj[key] = value;
+				
+				
+				 if(key == 'manu_slipcasting_profile_id')
+				 {
+					 		vm.getSlipcastObj();
+				}
+				 toastr.success(r.success);
+		//console.log(r);
+			});
+		
+		
+	}
 	
 	vm.addOperator = function ()
 	{
@@ -114,10 +181,10 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 				
 					vm.getSlipcastObj();
 					 toastr.success('Operator added.');
-				console.log(r);
+			
 				});
 	
-			vm.selectedOperator = null;
+			vm.selectedOperator = 'none';
 			//$('.chosen-select').trigger('chosen:updated');
 		
 		
@@ -134,6 +201,52 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 		
 	}
 	
+	vm.getRampProfileList = function ()
+	{
+			if(!vm.slipcastingRampProfiles)
+			{
+			apiRequest.send('get','/ramp/profile/list/slipcasting/1', null).success(function(r){
+				
+				
+				console.log(r);
+				vm.slipcastingRampProfiles = r; 
+				
+				});
+			}
+	}
+	
+		vm.getSlipProfileList = function ()
+	{
+		
+			if(!vm.slipcastingProfiles)
+			{
+		
+		var params = { } ;
+			apiRequest.send('get','/slipcast/profile/list', params).success(function(r){
+				
+				
+				console.log(r);
+				vm.slipcastingProfiles = r; 
+				
+				});
+			}
+	}
+	
+	vm.getSlipTableList = function ()
+	{
+		
+			if(!vm.slipcastingProfiles)
+			{
+			apiRequest.send('get','/slipcast/table/list', null).success(function(r){
+				
+				
+				console.log(r);
+				vm.slipcastingTables = r; 
+				
+				});
+			}
+	}
+	
 
    vm.positions = [1, 2, 3, 4, 5];
 
@@ -141,14 +254,13 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 
    
 		
-		
-		// initialization
-		
-		vm.getSlipcastObj(vm.slipcastID);
-		 userInfoService.getUsers().then(function(r) {
-		 console.log(r.data);
-			$scope.userData = r.data;
 
-	});
+		
+		
+	
+		// initialization
+	
+		vm.init();
+	
 		
 });
