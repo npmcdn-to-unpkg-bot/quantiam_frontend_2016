@@ -84,7 +84,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
  
 
-App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequest,userInfoService,select2request) {
+App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequest,userInfoService,webSocket) {
 
 	var vm = this;
 	
@@ -92,14 +92,14 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 	vm.slipcastID = $stateParams.slipcastid;
 	vm.slipCastObj = {};
 	vm.editable = 0; //default can't edit
-	vm.editableDays = -1;
+	vm.editableDays = 0;
 	vm.selectedOperator = '';
 	vm.slipcastingRampProfiles;
 	vm.slipcastingTables;
 	vm.slipcastingProfiles;
 	vm.slipcastProfileFilter = ['created_by','created_datetime','last_updated_datetime','active','campaign_id','slipcast_profile_comments','manu_slipcasting_profile_id','ramp_profile'];
-	vm.slipSelect = select2request.slip;
-	
+	vm.steelSelection;
+
 	
 	vm.init = function (){
 		
@@ -113,6 +113,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 					$scope.userData = r.data;
 
 			});
+			
+
 		
 		}
 		
@@ -150,7 +152,9 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 	{
 
 		var param = {};
-		param[key] = value;
+		
+		
+		param[key] = ''+value+'';
 		
 		
 		apiRequest.send('put','/slipcast/'+vm.slipcastID, param).success(function(r){
@@ -247,13 +251,77 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 			}
 	}
 	
-
-   vm.positions = [1, 2, 3, 4, 5];
-
-
-
-   
+	vm.addSteel = function (steel)
+	{
+		 if(!steel)
+		 {
+		 steel = vm.selectedSteel;
+		 }
+			
+			//console.log(vm.selectedSteel);
+			
+		apiRequest.send('post', '/slipcast/'+vm.slipcastID+'/steel/'+steel,null).success(function(r){
+			
+			
+			vm.slipCastObj.steel.push(r);
+			toastr.success('Successfully added QMSI-'+vm.selectedSteel);
+			//vm.selectedSteel = null;
+			
+		}).error(function(e){
+			
+			toastr.error('Already exists');
+			
+			});
 		
+		
+	}
+	
+	vm.removeSteel = function(steelID, index){
+		
+		
+		
+		
+		
+		apiRequest.send('delete', '/slipcast/'+vm.slipcastID+'/steel/'+steelID,null).success(function(r){
+			
+			
+				
+			  vm.slipCastObj.steel.splice(index, 1);
+					toastr.success('Successfully deleted QMSI-'+steelID);
+		});
+		
+		}
+
+		vm.editSteel = function (steel,index,key,value){
+			
+			
+				var param = {};
+				param[key] = value;
+			
+				apiRequest.send('put','/slipcast/'+vm.slipcastID+'/steel/'+steel, param).success(function(r){
+		
+				vm.slipCastObj.steel[index][key] = value;
+				
+			
+				 toastr.success('Successfully Edited');
+	
+			});
+			
+		}
+   
+   
+		$scope.$on('steel', function(event,obj) {
+			
+					if(vm.editable)
+					{
+					vm.addSteel($scope.getID(obj.data));
+					}
+					else
+					{
+						toastr.error("You cannot edit this.");
+						
+						}
+			});
 
 		
 		

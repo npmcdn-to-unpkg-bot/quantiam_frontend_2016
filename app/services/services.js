@@ -542,14 +542,19 @@ App.service('select2request', function(apiRequest){
 	
 	var vm = this;
 	
-	vm.slipObj = {
+	
+	vm.fetchList = function(path,params)
+	{
+		
+		
+	return 	{
 		
 		
 		 query: function (query) {
             
 						var params = {'like': query.term};
 						
-						apiRequest.send('get','/slip/list', params).success(function(r){
+						apiRequest.send('get',path, params).success(function(r){
 							
 							var data = {};
 						data.results = r;
@@ -562,11 +567,17 @@ App.service('select2request', function(apiRequest){
         }
 		
 		}
+		
+		
+	}
+	
+
 	
 	
 	return{
 		
-		slip: vm.slipObj
+	
+		fetchList: vm.fetchList
 	
 	}
 	

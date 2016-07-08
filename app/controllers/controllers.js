@@ -1,9 +1,19 @@
-App.controller('IndexController', ['$scope', '$location','userService', function($scope, $location, userService) {
+App.controller('IndexController', ['$scope', '$location','userService','select2request', function($scope, $location, userService,select2request ) {
   //var vm = this;
-  $scope.AppName = "Quantiam";
+	$scope.select2request = select2request;
 
 	
 	
+	
+  $scope.AppName = "Quantiam";
+
+	
+	$scope.getID = function (string)
+	{
+		var res = string.split("-");
+		return res[1];
+		
+	}
 	$scope.humanize = function (str) {
 		var frags = str.split('_');
 		for (i=0; i<frags.length; i++) {

@@ -116,6 +116,14 @@ body {
 			box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.46);
 }
 
+.shadow{
+	
+	   background-color: rgba(255, 255, 255, 0.82);
+		/* 	box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.46); */
+			box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.46);
+	
+}
+
 .card-underline .card-head {
     border-bottom: 1px solid rgb(65, 120, 167);
 }

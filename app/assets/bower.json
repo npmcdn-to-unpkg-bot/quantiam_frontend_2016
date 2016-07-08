@@ -25,6 +25,7 @@
     "moment": "^2.14.1",
     "angular-input-modified": "^2.3.3",
     "angular-chosen-localytics": "^1.4.2",
-    "angular-select2": "^1.5.2"
+    "angular-select2": "^1.5.2",
+    "angular-websocket": "^2.0.0"
   }
 }
