@@ -99,7 +99,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
  
 
-App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequest,userInfoService,webSocket) {
+App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,userInfoService,webSocket) {
 
 	var vm = this;
 	
@@ -501,9 +501,20 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 	
 		vm.init();
 	
-		
-		
-		
+
+  vm.dzAddedFile = function( file ) {
+    $log.log( file );
+  };
+
+  vm.dzError = function( file, errorMessage ) {
+    $log.log(errorMessage);
+  };
+
+  vm.dropzoneConfig = {
+    parallelUploads: 3,
+    maxFileSize: 30,
+		url: 'test',
+  };
 		
 		
 		

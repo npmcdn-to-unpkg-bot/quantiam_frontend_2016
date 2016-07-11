@@ -935,3 +935,18 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 
 });
 
+
+
+
+
+
+App.controller('DropzoneController', function($scope,$location) {
+	
+	
+	
+	
+	
+	
+	
+	
+});

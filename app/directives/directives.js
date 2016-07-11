@@ -43,6 +43,21 @@ App.directive('comments', function(){
 	
 });
 
+
+
+
+App.directive('dropzone', function(){
+	
+	
+ return {
+        restrict: 'E',
+        templateUrl: 'views/dropzone.html',
+				replace: true,
+ }
+	
+	
+});
+
 App.directive('ngReallyClick', [function() {
     return {
         restrict: 'A',
