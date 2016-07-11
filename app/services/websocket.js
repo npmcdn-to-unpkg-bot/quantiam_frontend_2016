@@ -49,7 +49,7 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																										switch($state.current.name){
 																																							 case 'slipcastview':
 																																													
-																																													var allowed_machines_name = ['QAQC'];
+																																													var allowed_machines_name = ['QAQC','Slipcasting'];
 																																													if(vm.checkAllowedMachine(message.machine.name, allowed_machines_name)){
 																																															if(vm.checkSubstring('QMIS',message.data))
 																																															{
@@ -59,6 +59,10 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																											
 																																		 
 																																								case 'slipcast':
+																																								
+																																								
+																																								
+																																								case 'prefinish':
 																																								}
 			 }		
 		
