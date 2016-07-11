@@ -60,7 +60,7 @@ App.directive('dropzone', function(){
 					controller:function($scope,$attrs,  $element, apiRequest){
 										
 
-												this.url = apiRequest.apiUrl+'/dropzone/upload';
+												this.url = apiRequest.apiUrl+'/dropzone';
 												
 												
 												this.dzAddedFile = function( file ) {

@@ -15,8 +15,6 @@ App.service(  "apiRequest",  function($http,   errorService) {
 															 params: params,
 													         //dataType: 'text',
 										}
-
-									console.log(req);
 										 response =	$http(req);
 										return response;
 									},
