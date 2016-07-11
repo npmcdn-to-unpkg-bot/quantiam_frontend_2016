@@ -571,13 +571,22 @@ function calculate_BankTotalsDifference (){
     {
         console.log($scope.supervisorID);
         $scope.notifyloady = 1;
-        emailService.sendRtoNotification($scope.supervisorID, $scope.user.name).success(function(r) {
+
+        var params = {
+            "subject": "New Time Off Request from "+$scope.user.name+" Awaiting Approval",
+            "body": "<a href='"+document.location.href+"'>Click here to view time-off request.</a>",
+            "recipientID": $scope.supervisorID,
+        };
+
+        apiRequest.send('post', '/mail/send', params).success(function(r) {
+           toastr.success('Email Sent');
+            $scope.notifyloady = 0;
             console.log(r);
-            toastr.success('Notification Sent');
+        }).error(function(e){
             $scope.notifyloady = 0;
-        }).error(function(e) {
-            toastr.error('Email Notification Failed');
-            $scope.notifyloady = 0;
+            toastr.error(' This failed miserably. ');
+          console.log(e);
+
         });
     }
 
@@ -939,3 +948,38 @@ App.controller('CommentsController', function($scope,apiRequest, $location, $sce
 
 
 
+
+App.controller('DropzoneController', function($scope,$location) {
+	
+	
+	
+	
+	
+	
+	
+	
+});
+
+App.controller('TolueneDataController', function() {
+
+    $('#container').highcharts({
+        xAxis:{
+            categories: ['Time']
+        },
+
+        series:[{
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        }]
+    });
+
+
+
+
+});
+App.controller('HumidityDataController', function() {
+
+
+
+
+
+});

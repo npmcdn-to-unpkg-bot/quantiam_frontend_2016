@@ -3,6 +3,7 @@ App.service(  "apiRequest",  function($http,   errorService) {
 	var apiUrl = "http://apps.edm.quantiam.com:2000";
         return {
 								send: function (httpVerb,path,params){
+
 									var response;
 										var req = {
 															 method: httpVerb,
@@ -11,12 +12,12 @@ App.service(  "apiRequest",  function($http,   errorService) {
 																 "Authorization": "Bearer " + localStorage.getItem('token'),
 															 },
 															 data: params,
-															 params: params
-															}
-										 response =	$http(req).success(function(r){
-										 }).error(function(e,s){		 
-											return e;
-										 });
+															 params: params,
+													         //dataType: 'text',
+										}
+
+									console.log(req);
+										 response =	$http(req);
 										return response;
 									},
 									

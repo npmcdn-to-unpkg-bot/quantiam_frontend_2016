@@ -503,7 +503,39 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	
 
 
-		
-		
-		
+  vm.dzAddedFile = function( file ) {
+    $log.log( file );
+  };
+
+  vm.dzError = function( file, errorMessage ) {
+    $log.log(errorMessage);
+  };
+
+  vm.dropzoneConfig = {
+    parallelUploads: 3,
+    maxFileSize: 30,
+		url: 'test',
+  };
+
+
+
+	$('#container').highcharts({
+		xAxis:{
+			categories: ['Time']
+		},
+
+		series:[{
+			data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		}],
+
+		chart:{
+			width:400,
+			heigh: 300,
+		}
+	});
+
+
+
+
+
 });
