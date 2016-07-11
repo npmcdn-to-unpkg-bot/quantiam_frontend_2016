@@ -26,6 +26,7 @@
     "angular-input-modified": "^2.3.3",
     "angular-chosen-localytics": "^1.4.2",
     "angular-select2": "^1.5.2",
-    "angular-websocket": "^2.0.0"
+    "angular-websocket": "^2.0.0",
+    "ng-photoswipe": "^0.1.1"
   }
 }
