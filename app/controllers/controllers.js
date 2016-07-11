@@ -311,7 +311,7 @@ function calculate_BankTotalsDifference (){
 			var requestedTime = {};
 			var resultTime = {};
 
-		
+		console.log($scope.bankTotals);
 			
 			for (var i = 0; i < $scope.rtoData.requested_time.length; i++) {
 				

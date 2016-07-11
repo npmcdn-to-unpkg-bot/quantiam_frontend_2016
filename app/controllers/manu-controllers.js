@@ -502,4 +502,11 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 		vm.init();
 	
 		
+		
+		
+		
+		
+		
+		
+		
 });
