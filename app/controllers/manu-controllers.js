@@ -8,6 +8,8 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 	
 	var vm = this;
 	
+	
+	
  vm.rowClickHandler = function (info) {
      
 			$location.path('/slipcast/' + info.manu_slipcasting_id);
@@ -65,9 +67,22 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 							];
 							
 
-							vm.dtTable = dtRequest.build_dtOptions('slipcasting/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response 
+			vm.dtTable = dtRequest.build_dtOptions('slipcasting/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response 
 							
-							
+	vm.createSlipcastRun = function (){
+				
+				
+				console.log('things');
+				
+				apiRequest.send('post','/slipcast', null).success(function(r){
+					
+					
+								$location.path('/slipcast/' + r.id);
+					
+					})
+				
+				
+				}				
 							
 	
 		
@@ -227,9 +242,6 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 		
 		var params = { } ;
 			apiRequest.send('get','/slipcast/profile/list', params).success(function(r){
-				
-				
-				console.log(r);
 				vm.slipcastingProfiles = r; 
 				
 				});
@@ -242,9 +254,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 			if(!vm.slipcastingProfiles)
 			{
 			apiRequest.send('get','/slipcast/table/list', null).success(function(r){
-				
-				
-				console.log(r);
+			
 				vm.slipcastingTables = r; 
 				
 				});
@@ -253,27 +263,32 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
 	
 	vm.addSteel = function (steel)
 	{
-		 if(!steel)
-		 {
-		 steel = vm.selectedSteel;
-		 }
-			
-			//console.log(vm.selectedSteel);
-			
-		apiRequest.send('post', '/slipcast/'+vm.slipcastID+'/steel/'+steel,null).success(function(r){
-			
-			
+	
+		if(vm.editable)
+		{
+
+			if(!steel)
+			{
+				steel = vm.selectedSteel;
+			}
+
+			apiRequest.send('post', '/slipcast/'+vm.slipcastID+'/steel/'+steel,null).success(function(r){
+
 			vm.slipCastObj.steel.push(r);
-			toastr.success('Successfully added QMSI-'+vm.selectedSteel);
-			//vm.selectedSteel = null;
-			
-		}).error(function(e){
-			
+			toastr.success('Successfully added QMSI-'+steel);
+
+			}).error(function(e){
+
 			toastr.error('Already exists');
-			
+
 			});
-		
-		
+
+		}
+		else
+		{
+			toastr.error("You cannot edit this.");
+
+		}
 	}
 	
 	vm.removeSteel = function(steelID, index){
@@ -312,20 +327,151 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, apiRequ
    
 		$scope.$on('steel', function(event,obj) {
 			
-					if(vm.editable)
-					{
+			
 					vm.addSteel($scope.getID(obj.data));
-					}
-					else
-					{
-						toastr.error("You cannot edit this.");
-						
-						}
+		
 			});
 
 		
 		
-	
+		
+		vm.humidityChart = {
+
+									options: {
+													 chart: {
+																			zoomType: 'xy',
+																	backgroundColor:'rgba(255, 255, 255, 0.1)',
+																	},
+														title: {
+																			text: 'Inlet Humidity & Temperature Profile'
+																	},
+														subtitle: {
+																			text: ''
+																	},
+																	
+																	xAxis: [{
+		
+																					datetime: 'datetime',
+																					tickInterval: 100,
+																					categories: [''],
+																					labels: { 
+																					step: 1,
+																		
+																					},
+																					crosshair: true
+																			}],
+																			
+																			yAxis: [
+																				
+																				{ // Primary yAxis
+																								labels: {
+																										format: '{value} C',
+																										style: {
+																												color: Highcharts.getOptions().colors[0]
+																										}
+																								},
+																								title: {
+																										text: 'Temperature',
+																										style: {
+																												color: Highcharts.getOptions().colors[0]
+																										}
+																								},
+																							
+
+																						}, 
+																				
+																				{ // Secondary yAxis
+																								gridLineWidth: 0,
+																								title: {
+																										text: 'Humidity',
+																										style: {
+																												color: Highcharts.getOptions().colors[1]
+																										}
+																								},
+																								labels: {
+																										format: '{value} %',
+																										style: {
+																												color: Highcharts.getOptions().colors[1]
+																										}
+																								},
+																					opposite: true
+																						}, 
+																				
+																				{ // Tertiary yAxis
+																								gridLineWidth: 0,
+																								title: {
+																										text: 'Dew-Point',
+																										style: {
+																												color: Highcharts.getOptions().colors[2]
+																										}
+																								},
+																								labels: { 
+																										format: '{value} C',
+																										style: {
+																												color: Highcharts.getOptions().colors[2]
+																										}
+																								},
+																							}],	
+																							
+																							
+																		tooltip: {
+																		shared: true
+																		},
+																		legend: {
+																				//layout: 'vertical',
+																				//align: 'left',
+																				//x: 80,
+																				//verticalAlign: 'top',
+																				//y: 55,
+																				//floating: true,
+																			 // backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+																		},
+																		series: [
+																							
+																						{
+																								name: 'Temperature',
+																								type: 'spline',
+																								yAxis: 0,
+																								data: [''],
+																															
+																								tooltip: {
+																										valueSuffix: ' C'
+																								}
+
+																						}, 
+																						{
+																						name: 'Humdity',
+																						type: 'spline',
+																						yAxis: 1,
+																							data: [''],
+																									marker: {
+																											enabled: false
+																									},
+																									dashStyle: 'shortdot',
+																									tooltip: {
+																											valueSuffix: ' %'
+																									}
+
+																							}, 
+																						{
+																									name: 'Dew Point',
+																									type: 'spline',
+																							yAxis: 2,
+																										data: [],
+																									tooltip: {
+																											valueSuffix: ' C'
+																									}
+																							} 
+																					
+																					
+																					],
+		
+		
+		
+		
+																			}
+
+		}
 		// initialization
 	
 		vm.init();

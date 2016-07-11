@@ -85,12 +85,12 @@
 
                     <div class="form-group col-lg-2" style="width:130px">
 										<b> Room Temp (C) </b> <input style="width:100%" type="number" class='form-control' ng-model="SVC.slipCastObj.room_temp_at_cast"
-										ng-blur="SVC.editSlipcastObj('room_temp_at_cast',SVC.slipCastObj.room_temp_at_cast)"  placeholder="Room Temperature" 	ng-disabled="!SVC.editable"		> 
+										ng-blur="SVC.editSlipcastObj('room_temp_at_cast',SVC.slipCastObj.room_temp_at_cast)"  placeholder="" 	ng-disabled="!SVC.editable"		> 
                     </div> 
 										
 										<div class="form-group col-lg-2" style="width:120px">
 										<b> Humidity (%) </b> <input  style="width:100%" type="number" class='form-control' ng-model="SVC.slipCastObj.humidity"
-										ng-blur="SVC.editSlipcastObj('humidity',SVC.slipCastObj.humidity)"  placeholder="Humdity" 	ng-disabled="!SVC.editable"		> 
+										ng-blur="SVC.editSlipcastObj('humidity',SVC.slipCastObj.humidity)"  placeholder="" 	ng-disabled="!SVC.editable"		> 
                     </div> 
 										
 								     <div class="form-group col-lg-3">
@@ -142,7 +142,7 @@
 													<select2 
 																	style="width: 100%; font-size:11px;"
 																	ng-change="SVC.addSteel()"
-																	placeholder="Scan or select steel"
+																	placeholder="Steel Selection"
 																	options="select2request.fetchList('/steel/list', null)"
 																	ng-model="SVC.selectedSteel"
 																	ng-disabled="!SVC.editable"
@@ -165,7 +165,7 @@
 								<th> Actions</th>
 							</tr>
 						</thead>
-						<tr ng-if="!SVC.slipCastObj.steel"><td colspan=2><center>No steel objects were found </center></td></tr>
+						<tr ng-if="!SVC.slipCastObj.steel[0]"><td colspan=9><center> No steel objects were found. </center></td></tr>
 						
 							<tr ng-repeat="Obj in SVC.slipCastObj.steel" >
 						
@@ -273,8 +273,8 @@
 		<div style='float:right'>
 										<select2 
 													
-													style="width:150px; font-size:11px;"
-													placeholder="Select an Operator"
+													style="font-size:11px;"
+													placeholder="Operator Selection"
 													ng-change="SVC.addOperator()"
 													options="userData"
 													ng-model="SVC.selectedOperator"
@@ -295,7 +295,7 @@
 								<th>Action</th>
 							</tr>
 						</thead>
-							<tr ng-if="!SVC.slipCastObj.operators"><td colspan=2><center>Please add an Operator</center></td></tr>
+							<tr ng-if="!SVC.slipCastObj.operators[0]"><td colspan=2><center>Please add an Operator</center></td></tr>
 							<tr ng-repeat="operator in SVC.slipCastObj.operators" >
 								<td><b>{{operator.firstname}} {{operator.lastname}}</b></td>
 								<td>
@@ -327,7 +327,7 @@
 															<select2 
 																	
 																	style="font-size:11px;"
-																	
+																	placeholder="Profile Selection"
 																	ng-change="SVC.editSlipcastObj('manu_slipcasting_profile_id',SVC.slipCastObj.manu_slipcasting_profile_id)"
 																	options="SVC.slipcastingProfiles"
 																	ng-model="SVC.slipCastObj.manu_slipcasting_profile_id"
