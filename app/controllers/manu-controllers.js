@@ -502,21 +502,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		vm.init();
 	
 
-  vm.dzAddedFile = function( file ) {
-    $log.log( file );
-  };
 
-  vm.dzError = function( file, errorMessage ) {
-    $log.log(errorMessage);
-  };
-
-  vm.dropzoneConfig = {
-    parallelUploads: 3,
-    maxFileSize: 30,
-		url: 'test',
-  };
-		
-		
 		
 		
 		

@@ -48,15 +48,59 @@ App.directive('comments', function(){
 
 App.directive('dropzone', function(){
 	
-	
+
  return {
-        restrict: 'E',
-        templateUrl: 'views/dropzone.html',
-				replace: true,
- }
+					restrict: 'E',
+					templateUrl: 'views/dropzone.html',
+					replace: true,
+					scope:{
+						
+							identifier: '@identifier',
+					},
+					controller:function($scope,$attrs,  $element, apiRequest){
+										
+
+												this.url = apiRequest.apiUrl+'/dropzone/upload';
+												
+												
+												this.dzAddedFile = function( file ) {
+												
+								
+															//toastr.error('File added');
+												};
+
+												this.dzError = function( file, errorMessage ) {
+													toastr.error('An error occured while uploading ');
+												};
+												
+												this.dzSending = function (file, xhr, formData) {
+																		
+																	
+																		
+																		formData.append('hash',$attrs.identifier);
+																		console.log(formData);
+																	};
+
+												this.dropzoneConfig = {
+													parallelUploads: 3,
+													maxFileSize: 30,
+													url: this.url,
+													headers: {
+													
+														"Authorization": "Bearer " + localStorage.getItem('token')
+														
+														},
+												
+												};
+											
+											},
+						controllerAs: 'DC',
+						bindToController: true,
+					}
+					
+ });
 	
-	
-});
+
 
 App.directive('ngReallyClick', [function() {
     return {

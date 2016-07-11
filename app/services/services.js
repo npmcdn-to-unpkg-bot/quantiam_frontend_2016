@@ -18,7 +18,9 @@ App.service(  "apiRequest",  function($http,   errorService) {
 											return e;
 										 });
 										return response;
-									}
+									},
+									
+									apiUrl: apiUrl,
 				}
 					
 		});

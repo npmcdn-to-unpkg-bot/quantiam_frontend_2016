@@ -1,10 +1,10 @@
-<div  ng-controller = "DropzoneController">
+<div  >
 	
 	
 <div class='col-sm-8'>	   
 	
-				<p> Populate them images here </p>
-	
+				<p> Populate them isadsadmages here </p>
+
 </div>
 
 
@@ -15,10 +15,17 @@
         method="post"
         enctype="multipart/form-data"
         ng-dropzone
-        dropzone="SVC.dropzone"
-        dropzone-config="SVC.dropzoneConfig"
-        event-handlers="{ 'addedfile': SVC.dzAddedFile, 'error': SVC.dzError }">
+        dropzone="DC.dropzone"
+        dropzone-config="DC.dropzoneConfig"
+        event-handlers="{ 
+				
+				'addedfile': DC.dzAddedFile, 
+				'error': DC.dzError,
+				'sending': DC.dzSending
+				}">
 		</form>  
+		
+		<center><h3 style='margin:0px'> <small>  Identifier: {{DC.id}}</small></h3></center>
 	
 </div>
 
