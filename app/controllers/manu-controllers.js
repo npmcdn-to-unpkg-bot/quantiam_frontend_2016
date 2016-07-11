@@ -519,23 +519,4 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 
 
 
-	$('#container').highcharts({
-		xAxis:{
-			categories: ['Time']
-		},
-
-		series:[{
-			data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-		}],
-
-		chart:{
-			width:400,
-			heigh: 300,
-		}
-	});
-
-
-
-
-
 });
