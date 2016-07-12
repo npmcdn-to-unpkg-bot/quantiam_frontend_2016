@@ -641,25 +641,27 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 			minRange: 1000*3600
 		},
 
-		yAxis: {// Primary yAxis
+		yAxis: { // Primary yAxis
 		labels: {
 			format: '{value} ppm',
-				style: {
-				color: Highcharts.getOptions().colors[0]
+			style: {
+				color: Highcharts.getOptions().colors[3]
 			}
 		},
 		title: {
-			text: 'Toluene Concentration',
-				style: {
-				color: Highcharts.getOptions().colors[0]
+			text: 'PPM Toluene',
+			style: {
+				color: Highcharts.getOptions().colors[3]
 			}
-		}
+		},
+		tickInterval: 1500,
+		min: 0,
 
 	},
 
 		series : [],
 		title: {
-			text: 'Toluene Evaportation'
+			text: 'Toluene Evaporation'
 		},
 		subtitle: {
 			text: ''
@@ -719,16 +721,26 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 		vm.tolueneChartConfig.subtitle.text += vm.tolueneData.data.title;
 
-		vm.tolueneSeries =
-			{
-				name: 'PPM',
-				type: 'spline',
-				data: vm.tolueneData.data.dataset[0].data,
+		angular.forEach(vm.tolueneData.data.dataset, function(value, key)
+		{
 
+			console.log(key);
+			vm.tolueneSeries =
+			{
+				name: value.title,
+				type: 'spline',
+				data: vm.tolueneData.data.dataset[key].data,
 			};
 
 
-		vm.tolueneChartConfig.series.push(vm.tolueneSeries);
+			vm.tolueneChartConfig.series.push(vm.tolueneSeries);
+
+
+
+
+
+		});
+
 	}
 
 
