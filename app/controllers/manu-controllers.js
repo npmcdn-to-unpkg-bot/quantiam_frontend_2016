@@ -578,8 +578,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 				style: {
 					color: Highcharts.getOptions().colors[1]
 				}
-			},
-			opposite: true
+			}
 
 		}, { // Secondary yAxis
 			gridLineWidth: 0,
@@ -594,7 +593,8 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 				style: {
 					color: Highcharts.getOptions().colors[0]
 				}
-			}
+			},
+			opposite: true
 
 		}, { // Tertiary yAxis
 			gridLineWidth: 0,
@@ -637,12 +637,33 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 				formatter: function() {
 					return Highcharts.dateFormat('%H %M', this.value);
 				}
+			},
+			minRange: 1000*3600
+		},
+
+		yAxis: {// Primary yAxis
+		labels: {
+			format: '{value} ppm',
+				style: {
+				color: Highcharts.getOptions().colors[0]
 			}
 		},
+		title: {
+			text: 'Toluene Concentration',
+				style: {
+				color: Highcharts.getOptions().colors[0]
+			}
+		}
+
+	},
+
 		series : [],
 		title: {
-			text: 'Toluene Data for '
+			text: 'Toluene Evaportation'
 		},
+		subtitle: {
+			text: ''
+		}
 
 	};
 
@@ -696,17 +717,16 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 	vm.buildTolueneGraph = function() {
 		// Toluene Data Tables
 
-		vm.tolueneChartConfig.title.text += vm.tolueneData.title;
+		vm.tolueneChartConfig.subtitle.text += vm.tolueneData.data.title;
 
 		vm.tolueneSeries =
 			{
+				name: 'PPM',
 				type: 'spline',
 				data: vm.tolueneData.data.dataset[0].data,
 
-			}
+			};
 
-
-		console.log(vm.tolueneSeries);
 
 		vm.tolueneChartConfig.series.push(vm.tolueneSeries);
 	}
