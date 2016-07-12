@@ -520,3 +520,159 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 
 
 });
+
+App.controller('SlipcastViewGraphsController', function($scope, $stateParams, apiRequest) {
+	// State params = 'slipcastID': '###'
+	var vm = this;
+	vm.humidityData;
+
+
+	apiRequest.send('get', '/slipcast/' + $stateParams.slipcastid + '/humidity', null).success(function(r) {
+
+		toastr.info('Loading Data');
+		vm.humidityData = r;
+		console.log(vm.humidityData);
+
+
+		vm.buildGraphs();
+
+
+	}).error(function(e) {
+
+		toastr.error('Could not locate data');
+
+	});
+
+
+	var nums = [1, 2, 3];
+	vm.chartConfig = {
+		options: {
+
+			tooltip: {
+				style: {
+					padding:10,
+					fontWeight: 'bold'
+				}
+			}
+		},
+		xAxis: {
+			type: 'datetime',
+			labels:{
+				formatter: function() {
+					return Highcharts.dateFormat('%H %M', this.value);
+				}
+			}
+		},
+
+
+		yAxis: [{ // Primary yAxis
+			labels: {
+				format: '{value}°C',
+				style: {
+					color: Highcharts.getOptions().colors[1]
+				}
+			},
+			title: {
+				text: 'Temperature',
+				style: {
+					color: Highcharts.getOptions().colors[1]
+				}
+			},
+			opposite: true
+
+		}, { // Secondary yAxis
+			gridLineWidth: 0,
+			title: {
+				text: 'Humidity',
+				style: {
+					color: Highcharts.getOptions().colors[0]
+				}
+			},
+			labels: {
+				format: '{value}% RH',
+				style: {
+					color: Highcharts.getOptions().colors[0]
+				}
+			}
+
+		}, { // Tertiary yAxis
+			gridLineWidth: 0,
+			title: {
+				text: 'Dew Point',
+				style: {
+					color: Highcharts.getOptions().colors[2]
+				}
+			},
+			labels: {
+				format: '{value}°C',
+				style: {
+					color: Highcharts.getOptions().colors[2]
+				}
+			},
+			opposite: true
+		}],
+
+
+		series: [],
+
+		title: {
+			text: 'Temp / Humidity Data for '
+		},
+		loading: false,
+	};
+
+
+	vm.buildGraphs = function ()
+	{
+		vm.chartConfig.title.text += 'QMSC-' + vm.humidityData.title;
+
+		vm.humiditySeries = {
+
+			name: vm.humidityData.dataset[1].title,
+			type: 'spline',
+			data: vm.humidityData.dataset[1].data,
+			yAxis:1,
+			tooltip: {
+				valueSuffix: '% RH'
+			}
+
+		};
+
+		vm.dewpointSeries = {
+
+			name: vm.humidityData.dataset[2].title,
+			type: 'spline',
+			data: vm.humidityData.dataset[2].data,
+			yAxis:2,
+			tooltip: {
+				valueSuffix: ' °C'
+			}
+		};
+		vm.tempSeries = {
+
+			name: vm.humidityData.dataset[0].title,
+			//pointStart: vm.humidityData.dataset[0].data[0][0],
+			type: 'spline',
+			data: vm.humidityData.dataset[0].data,
+			tooltip: {
+				valueSuffix: ' °C'
+			}
+
+		};
+
+
+
+		vm.chartConfig.series.push(vm.humiditySeries);
+		vm.chartConfig.series.push(vm.tempSeries);
+		vm.chartConfig.series.push(vm.dewpointSeries);
+
+		console.log(vm.chartConfig);
+
+
+
+
+	}
+
+
+
+});
