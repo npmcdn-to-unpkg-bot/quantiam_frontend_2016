@@ -27,6 +27,7 @@
     "angular-chosen-localytics": "^1.4.2",
     "angular-select2": "^1.5.2",
     "angular-websocket": "^2.0.0",
-    "ng-photoswipe": "^0.1.1"
+    "ng-photoswipe": "^0.1.1",
+    "angular-bootstrap-lightbox": "^0.12.0"
   }
 }

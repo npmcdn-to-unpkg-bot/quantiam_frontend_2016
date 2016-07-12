@@ -44,13 +44,15 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 			 if(vm.enableActions)
 			 {
 			 var message = JSON.parse(message.data); 
+			 
+			 //console.log(message);
 																									/// Map events to state
 																									
 																										switch($state.current.name){
 																																							 case 'slipcastview':
 																																													
-																																													var allowed_machines_name = ['QAQC','Slipcasting'];
-																																													if(vm.checkAllowedMachine(message.machine.name, allowed_machines_name)){
+																																													var allowed_scanners = ['QAQC','Slipcasting'];
+																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners)){
 																																															if(vm.checkSubstring('QMIS',message.data))
 																																															{
 																																																$rootScope.$broadcast('steel',message);

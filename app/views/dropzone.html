@@ -6,20 +6,24 @@
 	
 		<div class='row'>
 		
+		
+			<ul class="gallery gallery1" >
+						<li ng-repeat="image in DC.images">
+					<a ng-click="openLightboxModal($index)">
+						<img ng-src="{{image.thumbUrl}}" class="img-thumbnail">
+					</a>
+				</li>
+			</ul>
+			
+			
+<!-- 		
 					<div ng-if="DC.images" ng-repeat="img in DC.images" class='col-sm-2'>
 							<img src="{{img.src}}">
 					
 					</div>
-		
+		 -->
 		
 		</div>
-<!-- 		<button id="btn">Open PhotoSwipe</button>
-				
-				<div ng-photoswipe
-						 slides="DC.slides"
-						 open="isOpen"
-						 slide-selector=".pswp"
-						></div> -->
 
 </div>
 
