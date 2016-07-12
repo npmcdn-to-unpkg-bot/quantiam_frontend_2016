@@ -519,10 +519,8 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 		toastr.info('Loading Data');
 		vm.humidityData = r;
-		console.log(vm.humidityData);
 
-
-		vm.buildGraphs();
+		vm.buildHumidityGraphs();
 
 
 	}).error(function(e) {
@@ -531,9 +529,22 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 	});
 
+	apiRequest.send('get', '/slipcast/' + $stateParams.slipcastid + '/toluene', null).then(function(r) {
+
+		toastr.info('Data Loaded');
+		vm.tolueneData=r;
+		console.log(vm.tolueneData);
+
+	}, function(err) {
+
+		toastr.error('Could not locate toluene data');
+		console.log (['Toluene Graph Error', err]);
+
+	});
+
 
 	var nums = [1, 2, 3];
-	vm.chartConfig = {
+	vm.humidityChartConfig = {
 		options: {
 
 			tooltip: {
@@ -609,56 +620,79 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 		loading: false,
 	};
 
+	vm.tolueneChartConfig = {
+		options: {
 
-	vm.buildGraphs = function ()
-	{
-		vm.chartConfig.title.text += 'QMSC-' + vm.humidityData.title;
-
-		vm.humiditySeries = {
-
-			name: vm.humidityData.dataset[1].title,
-			type: 'spline',
-			data: vm.humidityData.dataset[1].data,
-			yAxis:1,
 			tooltip: {
-				valueSuffix: '% RH'
+				style: {
+					padding:10,
+					fontWeight: 'bold'
+				}
 			}
-
-		};
-
-		vm.dewpointSeries = {
-
-			name: vm.humidityData.dataset[2].title,
-			type: 'spline',
-			data: vm.humidityData.dataset[2].data,
-			yAxis:2,
-			tooltip: {
-				valueSuffix: ' °C'
+		},
+		xAxis: {
+			type: 'datetime',
+			labels:{
+				formatter: function() {
+					return Highcharts.dateFormat('%H %M', this.value);
+				}
 			}
-		};
-		vm.tempSeries = {
-
-			name: vm.humidityData.dataset[0].title,
-			//pointStart: vm.humidityData.dataset[0].data[0][0],
-			type: 'spline',
-			data: vm.humidityData.dataset[0].data,
-			tooltip: {
-				valueSuffix: ' °C'
-			}
-
-		};
+		},
+	}
 
 
+	vm.buildHumidityGraphs = function () {
+		// Temp/Humidity Tables
+				vm.humidityChartConfig.title.text += 'QMSC-' + vm.humidityData.title;
 
-		vm.chartConfig.series.push(vm.humiditySeries);
-		vm.chartConfig.series.push(vm.tempSeries);
-		vm.chartConfig.series.push(vm.dewpointSeries);
+				vm.humiditySeries = {
 
-		console.log(vm.chartConfig);
+					name: vm.humidityData.dataset[1].title,
+					type: 'spline',
+					data: vm.humidityData.dataset[1].data,
+					yAxis:1,
+					tooltip: {
+						valueSuffix: '% RH'
+					}
+
+				};
+
+				vm.dewpointSeries = {
+
+					name: vm.humidityData.dataset[2].title,
+					type: 'spline',
+					data: vm.humidityData.dataset[2].data,
+					yAxis:2,
+					tooltip: {
+						valueSuffix: ' °C'
+					}
+				};
+				vm.tempSeries = {
+
+					name: vm.humidityData.dataset[0].title,
+					//pointStart: vm.humidityData.dataset[0].data[0][0],
+					type: 'spline',
+					data: vm.humidityData.dataset[0].data,
+					tooltip: {
+						valueSuffix: ' °C'
+					}
+
+				};
+
+				vm.humidityChartConfig.series.push(vm.humiditySeries);
+				vm.humidityChartConfig.series.push(vm.tempSeries);
+				vm.humidityChartConfig.series.push(vm.dewpointSeries);
 
 
 
+	}
 
+	vm.buildTolueneGraph = function() {
+		// Toluene Data Tables
+
+		vm.tolueneChartConfig.title.text += vm.tolueneData.title;
+
+		vm.tolueneSeries = vm.tolueneData.dataset.data;
 	}
 
 
