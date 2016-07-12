@@ -535,6 +535,8 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 		vm.tolueneData=r;
 		console.log(vm.tolueneData);
 
+		vm.buildTolueneGraph();
+
 	}, function(err) {
 
 		toastr.error('Could not locate toluene data');
@@ -617,7 +619,6 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 		title: {
 			text: 'Temp / Humidity Data for '
 		},
-		loading: false,
 	};
 
 	vm.tolueneChartConfig = {
@@ -638,7 +639,12 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 				}
 			}
 		},
-	}
+		series : [],
+		title: {
+			text: 'Toluene Data for '
+		},
+
+	};
 
 
 	vm.buildHumidityGraphs = function () {
@@ -692,7 +698,17 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 		vm.tolueneChartConfig.title.text += vm.tolueneData.title;
 
-		vm.tolueneSeries = vm.tolueneData.dataset.data;
+		vm.tolueneSeries =
+			{
+				type: 'spline',
+				data: vm.tolueneData.data.dataset[0].data,
+
+			}
+
+
+		console.log(vm.tolueneSeries);
+
+		vm.tolueneChartConfig.series.push(vm.tolueneSeries);
 	}
 
 
