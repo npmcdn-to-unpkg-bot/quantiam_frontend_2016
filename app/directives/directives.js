@@ -57,26 +57,37 @@ App.directive('dropzone', function(){
 						
 							identifier: '@identifier',
 					},
+					link: function(scope, el, attrs){
+					
+		
+						scope.$watch(attrs.identifier, function (v) {
+         
+            });
+				
+					},
 					controller:function($scope,$attrs,  $element, apiRequest){
 										
-
+											
+												this.hash;
 												this.url = apiRequest.apiUrl+'/dropzone';
-												
-												
-												this.dzAddedFile = function( file ) {
-												
-								
-															//toastr.error('File added');
-												};
 
+												this.isOpen = true;								
+												
 												this.dzError = function( file, errorMessage ) {
 													toastr.error('An error occured while uploading ');
+												};	
+												this.dzAddedFile = function( file ) {
+												
 												};
 												
+												this.dzSuccess = function (file, r)
+												{
+													
+													console.log(r);
+													}
+												
 												this.dzSending = function (file, xhr, formData) {
-																		
-																	
-																		
+	
 																		formData.append('hash',$attrs.identifier);
 																		console.log(formData);
 																	};

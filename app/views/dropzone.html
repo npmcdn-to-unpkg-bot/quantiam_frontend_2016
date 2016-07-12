@@ -3,15 +3,23 @@
 	
 <div class='col-sm-8'>	   
 	
+	
+		<div class='row'>
 		
+					<div ng-if="DC.images" ng-repeat="img in DC.images" class='col-sm-2'>
+							<img src="{{img.src}}">
+					
+					</div>
+		
+		
+		</div>
+<!-- 		<button id="btn">Open PhotoSwipe</button>
 				
 				<div ng-photoswipe
-						 slides="slides"
-						 slide-selector=".my-awesome-thumbnail"
+						 slides="DC.slides"
 						 open="isOpen"
-						 on-close="onGalleryClose()"
-						 template="'./myGallery.template.html'"
-						 options="opts"></div>
+						 slide-selector=".pswp"
+						></div> -->
 
 </div>
 
@@ -26,14 +34,14 @@
         dropzone="DC.dropzone"
         dropzone-config="DC.dropzoneConfig"
         event-handlers="{ 
-				
-				'addedfile': DC.dzAddedFile, 
+				'addedfile': DC.dzAddedFile,
 				'error': DC.dzError,
-				'sending': DC.dzSending
+				'sending': DC.dzSending,
+				'success': DC.dzSuccess
 				}">
 		</form>  
 		
-		<center><h3 style='margin:0px'> <small>  Identifier: {{DC.id}}</small></h3></center>
+		<center><h3 style='margin:0px'> <small>  Identifier: {{DC.hash}}</small></h3></center>
 	
 </div>
 
