@@ -116,6 +116,9 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.slipcastProfileFilter = ['created_by','created_datetime','last_updated_datetime','active','campaign_id','slipcast_profile_comments','manu_slipcasting_profile_id','ramp_profile'];
 	vm.slipProfileFilter = [''];
 	vm.steelSelection;
+	vm.scaleValue;
+	vm.scaleValuePrevious;
+	vm.scaleStatus; 
 
 	
 	vm.init = function (){
@@ -359,145 +362,33 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 
 		
 		
-		
-		vm.humidityChart = {
-
-									options: {
-													 chart: {
-																			zoomType: 'xy',
-																	backgroundColor:'rgba(255, 255, 255, 0.1)',
-																	},
-														title: {
-																			text: 'Inlet Humidity & Temperature Profile'
-																	},
-														subtitle: {
-																			text: ''
-																	},
-																	
-																	xAxis: [{
-		
-																					datetime: 'datetime',
-																					tickInterval: 100,
-																					categories: [''],
-																					labels: { 
-																					step: 1,
-																		
-																					},
-																					crosshair: true
-																			}],
-																			
-																			yAxis: [
-																				
-																				{ // Primary yAxis
-																								labels: {
-																										format: '{value} C',
-																										style: {
-																												color: Highcharts.getOptions().colors[0]
-																										}
-																								},
-																								title: {
-																										text: 'Temperature',
-																										style: {
-																												color: Highcharts.getOptions().colors[0]
-																										}
-																								},
-																							
-
-																						}, 
-																				
-																				{ // Secondary yAxis
-																								gridLineWidth: 0,
-																								title: {
-																										text: 'Humidity',
-																										style: {
-																												color: Highcharts.getOptions().colors[1]
-																										}
-																								},
-																								labels: {
-																										format: '{value} %',
-																										style: {
-																												color: Highcharts.getOptions().colors[1]
-																										}
-																								},
-																					opposite: true
-																						}, 
-																				
-																				{ // Tertiary yAxis
-																								gridLineWidth: 0,
-																								title: {
-																										text: 'Dew-Point',
-																										style: {
-																												color: Highcharts.getOptions().colors[2]
-																										}
-																								},
-																								labels: { 
-																										format: '{value} C',
-																										style: {
-																												color: Highcharts.getOptions().colors[2]
-																										}
-																								},
-																							}],	
-																							
-																							
-																		tooltip: {
-																		shared: true
-																		},
-																		legend: {
-																				//layout: 'vertical',
-																				//align: 'left',
-																				//x: 80,
-																				//verticalAlign: 'top',
-																				//y: 55,
-																				//floating: true,
-																			 // backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-																		},
-																		series: [
-																							
-																						{
-																								name: 'Temperature',
-																								type: 'spline',
-																								yAxis: 0,
-																								data: [''],
-																															
-																								tooltip: {
-																										valueSuffix: ' C'
-																								}
-
-																						}, 
-																						{
-																						name: 'Humdity',
-																						type: 'spline',
-																						yAxis: 1,
-																							data: [''],
-																									marker: {
-																											enabled: false
-																									},
-																									dashStyle: 'shortdot',
-																									tooltip: {
-																											valueSuffix: ' %'
-																									}
-
-																							}, 
-																						{
-																									name: 'Dew Point',
-																									type: 'spline',
-																							yAxis: 2,
-																										data: [],
-																									tooltip: {
-																											valueSuffix: ' C'
-																									}
-																							} 
-																					
-																					
-																					],
-		
-		
-		
-		
-																			}
-
-		}
-		
+		$scope.$on('slipcastview_scalevalue', function(event,obj)
+		{
+			
+			
+			if(obj.data.value != vm.scaleValue)
+			{
+					console.log(obj);
+			
+					vm.scaleValue = obj.data.value;
+				
+			}
+			
+			
+			
+				
+				
+				
+				if(typeof obj.status.stable != 'undefined')
+				{
+					vm.scaleStatus = true;	
+				}
+				else
+				{
+					vm.scaleStatus = false;
+				}
+			
+		});
 	
 	
 	

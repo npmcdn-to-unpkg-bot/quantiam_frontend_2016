@@ -34,9 +34,6 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 			vm.checkSubstring = function (needle, haystack)
 			{
 			
-	
-				if( haystack.indexOf(needle) > -1)
-				{return true;}else{return false;}
 			}
 			
 			vm.dataStream.onMessage(function(message) {
@@ -45,18 +42,26 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 			 {
 			 var message = JSON.parse(message.data); 
 			 
-			 //console.log(message);
+		///	 console.log(message);
 																									/// Map events to state
 																									
 																										switch($state.current.name){
 																																							 case 'slipcastview':
 																																													
 																																													var allowed_scanners = ['QAQC','Slipcasting'];
-																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners)){
+																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners) && message.machine.type == 'Scanner'){
 																																															if(vm.checkSubstring('QMIS',message.data))
 																																															{
 																																																$rootScope.$broadcast('steel',message);
 																																															}
+																																														}
+																																														
+																																													var allowed_scales = ["Slipcasting Scale"];			
+																																													
+																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scales) && message.machine.type == 'Balance'){
+																																														
+																																																$rootScope.$broadcast('slipcastview_scalevalue',message);
+																																															
 																																														}
 																																											
 																																		 

@@ -259,8 +259,88 @@
 
 			</div>
 
-				
-    </div>
+			
+			
+			<div class='row'>
+			
+						<!--- steps go here -->
+						
+						<div class='col-md-4'>
+								<h3 class='page-header' style='margin-top:0px'>Steps<small> Verify preparation steps. </small></h3>
+						
+						
+						</div>
+			
+			
+						<div ng-if="SVC.slipCastObj.manu_slip_id" class='col-md-8'>
+						
+						<div  id='container_weighing_thing'  class='row'>
+							<h3 class='page-header' style='margin-top:0px'>Slip Weighing <small> Click "record" to save the value from the scale. </small></h3>
+			
+										<div class='col-md-9'>
+										<table class='table table-striped table-stats shadow'>
+													<thead>
+														<tr>
+															<th > Tube  </th>
+															<th > Container </th>
+															<th > Container (wt)  </th>
+															<th > Container + Slip (wt)  </th>
+															<th > Remainder (wt)  </th>
+														
+														</tr>
+													</thead>
+													<tbody ng-repeat="Obj in SVC.slipCastObj.steel" >
+													
+														
+															<tr>
+															
+																<td> {{Obj.identifier}} </td>
+																<td> {{$index}} </td>
+																<td>
+																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" ng-click="recordData($index,'container')"> Record </button>
+																	<!-- somethign else -->
+																</td>
+																	<td>
+																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" ng-click="recordData($index,'container')"> Record </button>
+																	<!-- somethign else -->
+																</td>
+																	<td>
+																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" ng-click="recordData($index,'container')"> Record </button>
+																	<!-- somethign else -->
+																</td>
+													
+													
+																
+															</tr>
+													
+											
+													</tbody>
+											</table>
+										</div>	
+										<div class='col-md-3' >
+													<div class="card">
+													<div class="card-body no-padding">
+														<div class="alert alert-callout no-margin" ng-class="SVC.scaleStatus ? 'alert-success' : 'alert-error'">
+															<h1 class="pull-right" ng-class="SVC.scaleStatus ? 'text-success' : 'text-error'"><i class="fa fa-balance-scale"></i></h1>
+															<strong class="text-xl">{{SVC.scaleValue}} g</strong><br>
+															<span class="opacity-50" ng-if="SVC.scaleStatus">Stable</span>
+															<span class="opacity-50" ng-if="!SVC.scaleStatus" >Currently measuring something.</span>
+														</div>
+													</div><!--end .card-body -->
+												</div><!--end .card -->
+											</div>
+								
+								</div>
+								<div class='row'>
+										<h3 class='page-header' style='margin-top:0px'>Viscosity<small> Save your viscosity measurements here.  </small></h3>
+							
+							
+							</div>
+											
+							</div>
+		
+			</div>
+</div>
 
 		
 <div class="col-lg-3">
