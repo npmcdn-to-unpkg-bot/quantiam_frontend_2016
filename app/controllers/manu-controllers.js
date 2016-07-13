@@ -416,7 +416,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 	}).error(function(e) {
 
-		toastr.error('Could not locate data');
+		toastr.error('Could not locate humidity data');
 
 	});
 
@@ -428,15 +428,13 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 		vm.buildTolueneGraph();
 
-	}, function(err) {
+	}, function(e) {
 
 		toastr.error('Could not locate toluene data');
-		console.log (['Toluene Graph Error', err]);
 
 	});
 
 
-	var nums = [1, 2, 3];
 	vm.humidityChartConfig = {
 		options: {
 

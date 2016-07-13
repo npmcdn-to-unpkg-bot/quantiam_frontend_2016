@@ -5,11 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-<div class="col-lg-12">
+<div class="col-lg-12" ng-if="SVGC.humiditySeries">
         <highchart config="SVGC.humidityChartConfig"></highchart>
 </div>
 
-<div class="col-lg-12">
+<div class="col-lg-12" ng-if="SVGC.tolueneSeries">
       <div>
           <highchart config="SVGC.tolueneChartConfig"></highchart>
       </div>
