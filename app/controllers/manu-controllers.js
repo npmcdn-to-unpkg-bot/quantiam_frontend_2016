@@ -444,9 +444,16 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 				style: {
 					padding:10,
 					fontWeight: 'bold'
-				}
+				},
+				crosshairs: true,
+				shared: true
+			},
+			chart: {
+				zoomType: 'x'
 			}
 		},
+
+
 		xAxis: {
 			type: 'datetime',
 			labels:{
@@ -513,17 +520,32 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 	};
 
 	vm.tolueneChartConfig = {
+		chart: {
+			zoomType: 'xy'
+		},
+
+		tooltip: {
+			crosshair: true,
+			shared: true
+		},
+
 		options: {
 
 			tooltip: {
 				style: {
 					padding:10,
 					fontWeight: 'bold'
-				}
+				},
+				crosshairs: true,
+				shared: true,
+			},
+			chart: {
+				zoomType: 'x'
 			}
 		},
 		xAxis: {
 			type: 'datetime',
+
 			labels:{
 				formatter: function() {
 					return Highcharts.dateFormat('%H %M', this.value);
@@ -533,6 +555,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 		},
 
 		yAxis: { // Primary yAxis
+
 		labels: {
 			format: '{value} ppm',
 			style: {
@@ -556,7 +579,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 		},
 		subtitle: {
 			text: ''
-		}
+		},
 
 	};
 
@@ -621,6 +644,9 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 				name: value.title,
 				type: 'spline',
 				data: vm.tolueneData.data.dataset[key].data,
+				tooltip: {
+					valueSuffix: ' ppm'
+				}
 			};
 
 
