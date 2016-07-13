@@ -430,7 +430,6 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 	apiRequest.send('get', '/slipcast/' + $stateParams.slipcastid + '/humidity', null).success(function(r) {
 
-		toastr.info('Loading Data');
 		vm.humidityData = r;
 
 		vm.buildHumidityGraphs();
@@ -444,7 +443,6 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 
 	apiRequest.send('get', '/slipcast/' + $stateParams.slipcastid + '/toluene', null).then(function(r) {
 
-		toastr.info('Data Loaded');
 		vm.tolueneData=r;
 		console.log(vm.tolueneData);
 
