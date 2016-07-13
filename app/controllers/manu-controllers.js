@@ -416,16 +416,15 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	
 	
 		vm.init();
-	
 
-		
+
+
 
 });
 
-App.controller('SlipcastViewGraphsController', function($scope, $stateParams, apiRequest) {
+App.controller('SlipcastViewGraphsController', function($scope, $stateParams, $window, apiRequest) {
 	// State params = 'slipcastID': '###'
 	var vm = this;
-	vm.humidityData;
 
 
 	apiRequest.send('get', '/slipcast/' + $stateParams.slipcastid + '/humidity', null).success(function(r) {
@@ -453,6 +452,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, ap
 		toastr.error('Could not locate toluene data');
 
 	});
+ 
 
 
 	vm.humidityChartConfig = {
