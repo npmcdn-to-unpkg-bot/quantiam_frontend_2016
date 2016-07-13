@@ -45,8 +45,8 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               templateUrl: 'views/manu/slipcast/slipcasting-run.html',
               controller: 'SlipcastViewController as SVC'
               })
-				.state('slipcastview.graphs', {
-            url:'/graphs',
+				.state('slipcastviewGraphs', {
+            url:'/slipcast/:slipcastid/graphs',
               templateUrl: 'views/manu/slipcast/slipcasting-graphs.html',
               controller: 'SlipcastViewGraphsController as SVGC'
               })

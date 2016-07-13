@@ -13,6 +13,10 @@
                     <header>Slipcasting Run: <span style="color: #778899" ng-if="SVC.slipCastObj">QMSC - {{ SVC.slipCastObj.manu_slipcasting_id }}</span></header>
 									
 									<div class='tools'>
+
+										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="" ui-sref="slipcastviewGraphs({ slipcastid: SVC.slipCastObj.manu_slipcasting_id })">
+											<i class="fa fa-graph" aria-hidden="true"></i>
+										</a>
 									
 										<a class='btn btn-icon-toggle btn-refresh'  ng-click="SVC.openModalJson()" tooltip-placement="top" uib-tooltip="Data Model">
 											<i class="fa fa-code" style="font-size:15px" aria-hidden="true"></i>
@@ -282,10 +286,10 @@
 													<thead>
 														<tr>
 															<th > Tube  </th>
-													<th > Container </th> 
-															<th > Container (g)  </th>
-															<th > Container + Slip (g)  </th>
-															<th > Remainder (g)  </th>
+															<th > Container </th>
+															<th > Container (wt)  </th>
+															<th > Container + Slip (wt)  </th>
+															<th > Remainder (wt)  </th>
 														
 														</tr>
 													</thead>
@@ -528,7 +532,7 @@
 
 
 
-<hr>
+
 
 <div class='row'>
 	
@@ -537,14 +541,6 @@
 </div>
 
 
-<hr>
-<div class='row'>
-	
-	<!-- comments will go here -->
-</div>
-
-<a ui-sref=".graphs">Show Graphs</a>
-<div ui-view></div>
 
 
 
