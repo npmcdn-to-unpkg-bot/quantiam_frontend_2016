@@ -278,7 +278,7 @@
 			
 						<div ng-if="SVC.slipCastObj.manu_slip_id" class='col-md-8'>
 						
-						<div  id='container_weighing_thing'  class='row'>
+						<div  id='container_weighing_thing' ng-if="SVC.slipCastObj.profile.containers_per_object > 0"  class='row'>
 							<h3 class='page-header' style='margin-top:0px'>Slip Weighing <small> Click "record" to save the value from the scale. </small></h3>
 			
 										<div class='col-md-9'>
@@ -299,7 +299,7 @@
 															<tr ng-repeat="i in getNumber(SVC.slipCastObj.profile.containers_per_object) track by $index" >
 															
 																<td><b> {{Obj.identifier}}</b> </td>
-																<td> {{$index+1}}</td>
+																<td> {{ SVC.translateToLetter($index+1,$parent.$index, SVC.slipCastObj.profile.containers_per_object ) }}</td>
 																<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,  $parent.$parent.$index, $index+1,'container')"
@@ -307,21 +307,21 @@
 																	ng-if="Obj.container_weights[$index].container == null"	> Record </button>
 																
 															
-																	<p style='font-size:14px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container != null">{{Obj.container_weights[$index].container}} g</p>
+																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container != null">{{Obj.container_weights[$index].container}} g</p>
 																	<!-- somethign else -->
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'container_slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null"
 																		ng-if="Obj.container_weights[$index].container_slip == null"> Record </button>
-																	<p style='font-size:14px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container_slip != null">{{Obj.container_weights[$index].container_slip}} g</p>
+																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container_slip != null">{{Obj.container_weights[$index].container_slip}} g</p>
 																	<!-- somethign else -->
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																		ng-if="Obj.container_weights[$index].remainder == null"
 																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].container_slip == null" > Record </button>
-																		<p style='font-size:14px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
+																		<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
 																<!-- somethign else -->
 																</td>
 													
@@ -350,8 +350,7 @@
 								
 								</div>
 								<div class='row'>
-										<h3 class='page-header' style='margin-top:0px'>Viscosity<small> Save your viscosity measurements here.  </small></h3>
-							
+									<slipcast-viscosity slipid="{{SVC.slipObj.slip_id}}"></slipcast-viscosity>
 							
 							</div>
 											

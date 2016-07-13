@@ -44,7 +44,44 @@ App.directive('comments', function(){
 });
 
 
+App.directive('slipcastViscosity', function(){
+	
 
+ return {
+					restrict: 'E',
+					templateUrl: 'views/manu/slip/viscosity.html',
+					replace: true,
+					scope:{
+							slipid: '@slipid',
+					},
+					controller:function($scope,$attrs,  $element, apiRequest){
+					
+					this.getSlip = function ()
+					{
+						console.log(this.slipid);
+					   apiRequest.send('get','/slip/'+this.slipid,null).success(function(r){
+							 
+							 console.log(r);
+							 })	
+					}
+					
+					this.getSlip();
+						
+					  this.editViscosity = function (){
+							
+							
+							
+							
+							}
+					
+					},
+					controllerAs: 'VC',
+					bindToController: true,
+					
+ };
+					
+					
+});
 
 App.directive('dropzone', function(){
 	
@@ -56,14 +93,6 @@ App.directive('dropzone', function(){
 					scope:{
 						
 							identifier: '@identifier',
-					},
-					link: function(scope, el, attrs){
-					
-		
-						scope.$watch(attrs.identifier, function (v) {
-         
-            });
-				
 					},
 					controller:function($scope,$attrs,  $element, apiRequest){
 										

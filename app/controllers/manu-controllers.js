@@ -412,7 +412,13 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 		});
 	
-	
+		vm.translateToLetter = function ( var1,var2,var3 )
+		{
+					var total = var1 + (var2 * var3); 
+					return String.fromCharCode(64  + total); 
+			
+			
+		}
 	
 	
 		vm.init();
