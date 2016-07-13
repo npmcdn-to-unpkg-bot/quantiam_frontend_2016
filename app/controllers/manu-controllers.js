@@ -352,6 +352,28 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 		}
    
+	 vm.recordContainerWeightData = function (steel, steelIndex, container, key)
+	 {
+				
+				console.log(steelIndex);
+		
+					var param = {};
+					param[key] = vm.scaleValue;
+				
+					apiRequest.send('put','/slipcast/'+vm.slipcastID+'/steel/'+steel+'/container/'+container, param).success(function(r){
+			
+					vm.slipCastObj.steel[steelIndex].container_weights[container-1] = r;
+					
+					console.log(r);
+				
+					 toastr.success('Successfully Saved');
+		
+				});
+		
+		 
+		} 
+	 
+	 
    
 		$scope.$on('steel', function(event,obj) {
 			

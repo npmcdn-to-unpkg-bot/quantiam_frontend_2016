@@ -282,37 +282,51 @@
 													<thead>
 														<tr>
 															<th > Tube  </th>
-															<th > Container </th>
-															<th > Container (wt)  </th>
-															<th > Container + Slip (wt)  </th>
-															<th > Remainder (wt)  </th>
+													<th > Container </th> 
+															<th > Container (g)  </th>
+															<th > Container + Slip (g)  </th>
+															<th > Remainder (g)  </th>
 														
 														</tr>
 													</thead>
 													<tbody ng-repeat="Obj in SVC.slipCastObj.steel" >
 													
 														
-															<tr>
+															<tr ng-repeat="i in getNumber(SVC.slipCastObj.profile.containers_per_object) track by $index" >
 															
-																<td> {{Obj.identifier}} </td>
-																<td> {{$index}} </td>
+																<td><b> {{Obj.identifier}}</b> </td>
+																<td> {{$index+1}}</td>
 																<td>
-																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" ng-click="recordData($index,'container')"> Record </button>
+																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,  $parent.$parent.$index, $index+1,'container')"
+																	ng-disabled="!SVC.scaleStatus"
+																	ng-if="Obj.container_weights[$index].container == null"	> Record </button>
+																
+															
+																	<p style='font-size:14px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container != null">{{Obj.container_weights[$index].container}} g</p>
 																	<!-- somethign else -->
 																</td>
 																	<td>
-																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" ng-click="recordData($index,'container')"> Record </button>
+																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'container_slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null"
+																		ng-if="Obj.container_weights[$index].container_slip == null"> Record </button>
+																	<p style='font-size:14px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container_slip != null">{{Obj.container_weights[$index].container_slip}} g</p>
 																	<!-- somethign else -->
 																</td>
 																	<td>
-																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" ng-click="recordData($index,'container')"> Record </button>
-																	<!-- somethign else -->
+																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
+																		ng-if="Obj.container_weights[$index].remainder == null"
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].container_slip == null" > Record </button>
+																		<p style='font-size:14px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
+																<!-- somethign else -->
 																</td>
 													
 													
 																
 															</tr>
-													
+															
+																
+											
 											
 													</tbody>
 											</table>
@@ -324,7 +338,7 @@
 															<h1 class="pull-right" ng-class="SVC.scaleStatus ? 'text-success' : 'text-error'"><i class="fa fa-balance-scale"></i></h1>
 															<strong class="text-xl">{{SVC.scaleValue}} g</strong><br>
 															<span class="opacity-50" ng-if="SVC.scaleStatus">Stable</span>
-															<span class="opacity-50" ng-if="!SVC.scaleStatus" >Currently measuring something.</span>
+															<span class="opacity-50" ng-if="!SVC.scaleStatus" >Measuring</span>
 														</div>
 													</div><!--end .card-body -->
 												</div><!--end .card -->
@@ -514,7 +528,7 @@
 
 
 
-
+<hr>
 
 <div class='row'>
 	
@@ -522,6 +536,12 @@
 
 </div>
 
+
+<hr>
+<div class='row'>
+	
+	<!-- comments will go here -->
+</div>
 
 <a ui-sref=".graphs">Show Graphs</a>
 <div ui-view></div>

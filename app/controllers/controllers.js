@@ -14,6 +14,13 @@ App.controller('IndexController', ['$scope', '$location','userService','select2r
 		return res[1];
 		
 	}
+	
+	
+ $scope.getNumber = function(num) {
+		 return new Array(num);   
+		 }
+	
+	
 	$scope.humanize = function (str) {
 		var frags = str.split('_');
 		for (i=0; i<frags.length; i++) {

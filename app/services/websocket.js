@@ -54,6 +54,11 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																															{
 																																																$rootScope.$broadcast('steel',message);
 																																															}
+																																															
+																																															if(vm.checkSubstring('QMSB',message.data))
+																																															{
+																																																$rootScope.$broadcast('slip',message);
+																																															}
 																																														}
 																																														
 																																													var allowed_scales = ["Slipcasting Scale"];			
