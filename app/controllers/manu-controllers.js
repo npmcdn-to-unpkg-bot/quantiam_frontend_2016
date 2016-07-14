@@ -379,14 +379,16 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 			
 					vm.addSteel($scope.getID(obj.data));
+					toastr.success('Scanned',obj.data);
 		
 			});
 			
 			
 			$scope.$on('slip', function(event,obj) {
 			
-			
+				console.log(obj);
 					vm.editSlipcastObj('manu_slip_id',$scope.getID(obj.data));
+					toastr.success('Scanned',obj.data);
 		
 			});
 
@@ -398,7 +400,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 			if(obj.data.value != vm.scaleValue)
 			{
-					console.log(obj);
+			//		console.log(obj);
 			
 					vm.scaleValue = obj.data.value;
 				

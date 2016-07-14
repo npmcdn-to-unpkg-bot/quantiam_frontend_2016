@@ -53,6 +53,18 @@ App.directive('slipcastViscosity', function(){
 					replace: true,
 					scope:{
 							slipid: '@slipid',
+							getSlip: '&'
+					},
+					link: function(scope, element, attrs) {
+					
+			
+						attrs.$observe('slipid',function(newValue,oldValue) {
+								//This gets called when data changes.
+								if(attrs.slipid != '')
+								{
+									scope.VC.getSlip();
+								}	
+						});
 					},
 					controller:function($scope,$attrs,  $element, apiRequest){
 					
@@ -61,10 +73,14 @@ App.directive('slipcastViscosity', function(){
 					
 					vm.getSlip = function ()
 					{
+						if(this.slipid != '')
+						{
 					   apiRequest.send('get','/slip/'+this.slipid,null).success(function(r){
 							 	vm.slipObj = r;
+							
 					
 							 })	;
+						}
 					}	
 					vm.createViscosity = function(){
 					
@@ -79,9 +95,7 @@ App.directive('slipcastViscosity', function(){
 					
 								
 								};
-
-								
-					
+	
 					vm.onAfterChange = function(row) {
 										
 										if(vm.slipObj && vm.slipObj.viscosity && row)
@@ -101,7 +115,8 @@ App.directive('slipcastViscosity', function(){
 					
 														
 					setTimeout(function(){ 	
-							vm.getSlip(); 			
+							vm.getSlip(); 		
+						
 						}, 500);	
 	
 						

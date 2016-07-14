@@ -2,8 +2,8 @@
 	
 	<h3 class='page-header' style='margin-top:0px'>Slip Viscosity
 		
-			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-info btn btn-xs' style='margin-left:100px'>{{VC.slipObj.identifier}}</a>
-			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-primary btn btn-xs' style='margin-left:50px'> {{VC.slipObj.recipe.viscosity}}  cps</a>
+			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-info btn btn-xs' style='margin-left:170px'>{{VC.slipObj.identifier}}</a>
+			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-primary btn btn-xs' style='margin-left:20px'> {{VC.slipObj.recipe.viscosity}}  cps</a>
 		 
 		 
 			
@@ -20,7 +20,7 @@
 		</h3>
 		
 		
-		<center ng-if="!VC.slipObj.viscosity"><h4></small> There are no viscosity measurements for the selected slip. </small></h4></center>
+<center ng-if="!VC.slipObj.viscosity" style="height:170px;padding-top:50px;"><h4></small> There are no viscosity measurements were found. </small></h4></center>
 		
 		  <hot-table  ng-if="VC.slipObj.viscosity" 
 				settings="VC.handsOnTableSettings"

@@ -31,9 +31,11 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 				
 			}
 			
-			vm.checkSubstring = function (needle, haystack)
+			vm.checkSubstring = function (str1, str2)
 			{
-			
+								if(str2.indexOf(str1) != -1){
+							return true;
+					}
 			}
 			
 			vm.dataStream.onMessage(function(message) {
@@ -47,9 +49,14 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																									
 																										switch($state.current.name){
 																																							 case 'slipcastview':
-																																													
+																																							 
+																																											
 																																													var allowed_scanners = ['QAQC','Slipcasting'];
 																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners) && message.machine.type == 'Scanner'){
+																																													
+																																															console.log(message);
+																																															console.log(vm.checkSubstring('QMSB',message.data));
+																																													
 																																															if(vm.checkSubstring('QMIS',message.data))
 																																															{
 																																																$rootScope.$broadcast('steel',message);
