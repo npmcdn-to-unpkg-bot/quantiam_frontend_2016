@@ -1,14 +1,61 @@
-<div>
+<div class='col-lg-12'>
 	
-	<h3 class='page-header' style='margin-top:0px'>Viscosity<small> Save your viscosity measurements here.  </small></h3>
+	<h3 class='page-header' style='margin-top:0px'>Slip Viscosity
 		
+			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-info btn btn-xs' style='margin-left:100px'>{{VC.slipObj.identifier}}</a>
+			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-primary btn btn-xs' style='margin-left:50px'> {{VC.slipObj.recipe.viscosity}}  cps</a>
+		 
+		 
+			
+	 
+		<div style='float:right'>
+					<a ng-click="VC.createViscosity()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Measurement">
+
+                        <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+                    </a>
+		
+		</div>
+		
+		
+		</h3>
+		
+		
+		<center ng-if="!VC.slipObj.viscosity"><h4></small> There are no viscosity measurements for the selected slip. </small></h4></center>
+		
+		  <hot-table  ng-if="VC.slipObj.viscosity" 
+				settings="VC.handsOnTableSettings"
+				height="170"
+				col-headers=true
+				datarows="VC.slipObj.viscosity"
+				min-spare-rows=0
+				on-after-change="VC.onAfterChange" 
+			
+    >
+		 <hot-column data="created" title="'Date'" read-only></hot-column>
+   
+      <hot-column data="measurements.0.viscosity" title="'Viscosity 1'" type="'text'" ></hot-column>
+      <hot-column data="measurements.1.viscosity" title="'Viscosity 2'" type="'text'" ></hot-column>
+      <hot-column data="measurements.2.viscosity" title="'Viscosity 3'" type="'text'" ></hot-column>
+      <hot-column data="measurements.3.viscosity" title="'Viscosity 4'" type="'text'" ></hot-column>
+			<hot-column data="solvent_addition" title="'Solvent (+/-)'" type="'text'" ></hot-column>
+			<hot-column data="temperature" title="'Slip Temperature'" type="'text'" ></hot-column>
+  
+   
+      
+		
+  </hot-table>
+
+
+<!-- 		
 		<form name="VC.myForm">
-								<input ng-model='VC.myForm.thing'></input>
+		
+						
+								<input class='form-control' ng-model='VC.myForm.thing'></input>
 								<input ng-model='VC.myForm.thing2'></input>
 		 
 		</form>
-			{{VC.myForm}}	
+			{{VC.myForm}}	 -->
 		
 		
-		{{SVC.slipObj}}
+
 </div>			

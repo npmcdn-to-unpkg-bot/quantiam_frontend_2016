@@ -1,15 +1,17 @@
 import {addClass} from 'handsontable/helpers/dom/element';
 import {stopImmediatePropagation} from 'handsontable/helpers/dom/event';
-import {arrayEach, arrayMap} from 'handsontable/helpers/array';
+import {arrayEach, arrayFilter} from 'handsontable/helpers/array';
+import {extend} from 'handsontable/helpers/object';
 import {isKey} from 'handsontable/helpers/unicode';
 import {BaseComponent} from './_base';
-import {getOptionsList, FORMULA_NONE} from './../constants';
+import {getOptionsList, FORMULA_NONE, FORMULA_BY_VALUE} from './../constants';
 import {InputUI} from './../ui/input';
 import {SelectUI} from './../ui/select';
+import {getFormulaDescriptor} from './../formulaRegisterer';
 
 /**
  * @class ConditionComponent
- * @private
+ * @plugin Filters
  */
 class ConditionComponent extends BaseComponent {
   constructor(hotInstance) {
@@ -24,12 +26,14 @@ class ConditionComponent extends BaseComponent {
 
   /**
    * Register all necessary hooks.
+   *
+   * @private
    */
   registerHooks() {
     this.getSelectElement().addLocalHook('select', (command) => this.onConditionSelect(command));
 
     arrayEach(this.getInputElements(), (input) => {
-      input.addLocalHook('keydown', (event) => this.onInputKeydown(event));
+      input.addLocalHook('keydown', (event) => this.onInputKeyDown(event));
     });
   }
 
@@ -48,6 +52,10 @@ class ConditionComponent extends BaseComponent {
 
         element.setValue(arg);
         element[value.command.inputsCount > index ? 'show' : 'hide']();
+
+        if (!index) {
+          setTimeout(() => element.focus(), 10);
+        }
       });
     }
   }
@@ -58,10 +66,38 @@ class ConditionComponent extends BaseComponent {
    * @returns {Object} Returns object where `command` key keeps used formula filter and `args` key its arguments.
    */
   getState() {
+    const command = this.getSelectElement().getValue() || getFormulaDescriptor(FORMULA_NONE);
+    let args = [];
+
+    arrayEach(this.getInputElements(), (element, index) => {
+      if (command.inputsCount > index) {
+        args.push(element.getValue());
+      }
+    });
+
     return {
-      command: this.getSelectElement().getValue() || FORMULA_NONE,
-      args: arrayMap(this.getInputElements(), (element) => element.getValue()),
+      command,
+      args,
     };
+  }
+
+  /**
+   * Update state of component.
+   *
+   * @param {Object} editedFormulaStack Formula stack for edited column.
+   */
+  updateState({column, formulas: currentFormulas}) {
+    const [formula] = arrayFilter(currentFormulas, formula => formula.name !== FORMULA_BY_VALUE);
+
+    // Ignore formulas by_value
+    if (formula && formula.name === FORMULA_BY_VALUE) {
+      return;
+    }
+
+    this.setCachedState(column, {
+      command: formula ? getFormulaDescriptor(formula.name) : getFormulaDescriptor(FORMULA_NONE),
+      args: formula ? formula.args : [],
+    });
   }
 
   /**
@@ -93,6 +129,8 @@ class ConditionComponent extends BaseComponent {
   }
 
   /**
+   * Get menu object descriptor.
+   *
    * @returns {Object}
    */
   getMenuItemDescriptor() {
@@ -122,7 +160,8 @@ class ConditionComponent extends BaseComponent {
    * Reset elements to their initial state.
    */
   reset() {
-    let columnType = this.hot.getDataType.apply(this.hot, this.hot.getSelected() || []);
+    let lastSelectedColumn = this.hot.getPlugin('filters').getSelectedColumn();
+    let columnType = this.hot.getDataType.apply(this.hot, this.hot.getSelected() || [0, lastSelectedColumn]);
     let items = getOptionsList(columnType);
 
     arrayEach(this.getInputElements(), (element) => element.hide());
@@ -154,7 +193,7 @@ class ConditionComponent extends BaseComponent {
    * @private
    * @param {Event} event DOM event object.
    */
-  onInputKeydown(event) {
+  onInputKeyDown(event) {
     if (isKey(event.keyCode, 'ENTER')) {
       this.runLocalHooks('accept');
       stopImmediatePropagation(event);

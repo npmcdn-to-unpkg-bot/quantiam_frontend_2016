@@ -1,20 +1,34 @@
 import {addClass} from 'handsontable/helpers/dom/element';
-import {arrayEach, arrayMap, arrayUnique, arrayFilter} from 'handsontable/helpers/array';
+import {stopImmediatePropagation} from 'handsontable/helpers/dom/event';
+import {arrayEach, arrayUnique, arrayFilter, arrayMap} from 'handsontable/helpers/array';
+import {stringify} from 'handsontable/helpers/string';
+import {unifyColumnValues, intersectValues} from './../utils';
 import {BaseComponent} from './_base';
-import {InputUI} from './../ui/input';
-import {SelectUI} from './../ui/select';
+import {isKey} from 'handsontable/helpers/unicode';
 import {MultipleSelectUI} from './../ui/multipleSelect';
 import {FORMULA_BY_VALUE, FORMULA_NONE} from './../constants';
+import {getFormulaDescriptor} from './../formulaRegisterer';
 
 /**
  * @class ValueComponent
- * @private
+ * @plugin Filters
  */
 class ValueComponent extends BaseComponent {
   constructor(hotInstance) {
     super(hotInstance);
 
     this.elements.push(new MultipleSelectUI(this.hot));
+
+    this.registerHooks();
+  }
+
+  /**
+   * Register all necessary hooks.
+   *
+   * @private
+   */
+  registerHooks() {
+    this.getMultipleSelectElement().addLocalHook('keydown', (event) => this.onInputKeyDown(event));
   }
 
   /**
@@ -25,8 +39,11 @@ class ValueComponent extends BaseComponent {
   setState(value) {
     this.reset();
 
-    if (value) {
-      this.getMultipleSelectElement().setValue(value.args[0]);
+    if (value && value.command.key === FORMULA_BY_VALUE) {
+      const select = this.getMultipleSelectElement();
+
+      select.setItems(value.itemsSnapshot);
+      select.setValue(value.args[0]);
     }
   }
 
@@ -36,12 +53,62 @@ class ValueComponent extends BaseComponent {
    * @returns {Object} Returns object where `command` key keeps used formula filter and `args` key its arguments.
    */
   getState() {
-    let select = this.getMultipleSelectElement();
+    const select = this.getMultipleSelectElement();
+    const availableItems = select.getItems();
 
     return {
-      command: {key: select.isSelectedAllValues() ? FORMULA_NONE : FORMULA_BY_VALUE},
+      command: {key: select.isSelectedAllValues() || !availableItems.length ? FORMULA_NONE : FORMULA_BY_VALUE},
       args: [select.getValue()],
+      itemsSnapshot: availableItems
     };
+  }
+
+  /**
+   * Update state of component.
+   *
+   * @param {Object} editedFormulaStack Formula stack for edited column.
+   * @param {Object} dependentFormulaStacks Formula stacks of dependent formulas.
+   * @param {Function} filteredRowsFactory Data factory
+   */
+  updateState(editedFormulaStack, dependentFormulaStacks, filteredRowsFactory) {
+    const {column, formulas} = editedFormulaStack;
+
+    const updateColumnState = (column, formulas, formulasStack) => {
+      const [formula] = arrayFilter(formulas, formula => formula.name === FORMULA_BY_VALUE);
+      const state = {};
+
+      if (formula) {
+        let rowValues = arrayMap(filteredRowsFactory(column, formulasStack), (row) => row.value);
+
+        rowValues = unifyColumnValues(rowValues);
+
+        const selectedValues = [];
+        const itemsSnapshot = intersectValues(rowValues, formula.args[0], (item) => {
+          if (item.checked) {
+            selectedValues.push(item.value);
+          }
+        });
+
+        state.args = [selectedValues];
+        state.command = getFormulaDescriptor(FORMULA_BY_VALUE);
+        state.itemsSnapshot = itemsSnapshot;
+
+      } else {
+        state.args = [];
+        state.command = getFormulaDescriptor(FORMULA_NONE);
+      }
+
+      this.setCachedState(column, state);
+    };
+
+    updateColumnState(column, formulas);
+
+    // Shallow deep update of component state
+    if (dependentFormulaStacks.length) {
+      const {column, formulas} = dependentFormulaStacks[0];
+
+      updateColumnState(column, formulas, editedFormulaStack);
+    }
   }
 
   /**
@@ -61,7 +128,7 @@ class ValueComponent extends BaseComponent {
   getMenuItemDescriptor() {
     return {
       key: 'filter_by_value',
-      name: '',
+      name: 'Filter by value',
       isCommand: false,
       disableSelection: true,
       hidden: () => this.isHidden(),
@@ -85,21 +152,38 @@ class ValueComponent extends BaseComponent {
    * Reset elements to their initial state.
    */
   reset() {
-    if (!this.hot.getSelectedRange()) {
-      return;
-    }
-    let values = this.hot.getSourceDataAtCol(this.hot.getSelectedRange().from.col);
-    let items = [];
+    let values = this._getColumnVisibleValues();
 
-    values = arrayUnique(values);
-    values = arrayFilter(values, (value) => !(value === null || value === void 0));
-    values = values.sort();
+    values = unifyColumnValues(values);
 
-    arrayEach(values, (value) => items.push({checked: true, value}));
-
-    this.getMultipleSelectElement().setItems(items);
+    this.getMultipleSelectElement().setItems(intersectValues(values, values));
     super.reset();
     this.getMultipleSelectElement().setValue(values);
+  }
+
+  /**
+   * Key down listener.
+   *
+   * @private
+   * @param {Event} event DOM event object.
+   */
+  onInputKeyDown(event) {
+    if (isKey(event.keyCode, 'ESCAPE')) {
+      this.runLocalHooks('cancel');
+      stopImmediatePropagation(event);
+    }
+  }
+
+  /**
+   * Get data for currently selected column.
+   *
+   * @returns {Array}
+   * @private
+   */
+  _getColumnVisibleValues() {
+    let lastSelectedColumn = this.hot.getPlugin('filters').getSelectedColumn();
+
+    return this.hot.getDataAtCol(lastSelectedColumn);
   }
 }
 

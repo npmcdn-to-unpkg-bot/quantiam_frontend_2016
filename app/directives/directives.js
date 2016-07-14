@@ -56,23 +56,55 @@ App.directive('slipcastViscosity', function(){
 					},
 					controller:function($scope,$attrs,  $element, apiRequest){
 					
-					this.getSlip = function ()
-					{
-						console.log(this.slipid);
-					   apiRequest.send('get','/slip/'+this.slipid,null).success(function(r){
-							 
-							 console.log(r);
-							 })	
-					}
+					var vm = this;
+					vm.slipObj;
 					
-					this.getSlip();
+					vm.getSlip = function ()
+					{
+					   apiRequest.send('get','/slip/'+this.slipid,null).success(function(r){
+							 	vm.slipObj = r;
+					
+							 })	;
+					}	
+					vm.createViscosity = function(){
+					
+						apiRequest.send('post','/slip/'+this.slipid+'/viscosity',null).success(function(r){
+							
+															vm.getSlip();
+							 })	;
+						}
 						
-					  this.editViscosity = function (){
-							
-							
-							
-							
-							}
+					vm.handsOnTableSettings = {
+					
+					
+								
+								};
+
+								
+					
+					vm.onAfterChange = function(row) {
+										
+										if(vm.slipObj && vm.slipObj.viscosity && row)
+												{														
+											
+													var param = vm.slipObj.viscosity;
+													apiRequest.send('put','/slip/'+this.slipid+'/viscosity',param).success(function(r){
+														 
+																					
+																						vm.slipObj.viscosity = r;
+																						toastr.success('Success');
+																					 
+														 })	;	
+										
+											}
+									};
+					
+														
+					setTimeout(function(){ 	
+							vm.getSlip(); 			
+						}, 500);	
+	
+						
 					
 					},
 					controllerAs: 'VC',

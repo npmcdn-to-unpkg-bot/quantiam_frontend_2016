@@ -381,6 +381,14 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 					vm.addSteel($scope.getID(obj.data));
 		
 			});
+			
+			
+			$scope.$on('slip', function(event,obj) {
+			
+			
+					vm.editSlipcastObj('manu_slip_id',$scope.getID(obj.data));
+		
+			});
 
 		
 		

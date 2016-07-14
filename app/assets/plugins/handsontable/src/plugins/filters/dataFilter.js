@@ -1,3 +1,4 @@
+import Handsontable from '../../browser';
 import {arrayEach} from 'handsontable/helpers/array';
 
 /**
@@ -75,7 +76,7 @@ class DataFilter {
     let result = [];
 
     arrayEach(needles, (needleRow) => {
-      let row = needleRow.meta.physicalRow;
+      let row = needleRow.meta.visualRow;
 
       if (data[row] !== void 0) {
         result[row] = data[row];
@@ -89,5 +90,4 @@ class DataFilter {
 export {DataFilter};
 
 // For tests only! TEMP solution!
-Handsontable.utils = Handsontable.utils || {};
 Handsontable.utils.FiltersDataFilter = DataFilter;

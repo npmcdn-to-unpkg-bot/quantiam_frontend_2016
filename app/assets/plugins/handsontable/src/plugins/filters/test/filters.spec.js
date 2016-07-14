@@ -33,7 +33,7 @@ describe('Filters', function() {
       // Begins with 'c'
       document.activeElement.value = 'c';
       $(document.activeElement).simulate('keyup');
-      $(dropdownMenuRootElement().querySelector('.htUIButton.htUIButtonOK')).simulate('click');
+      $(dropdownMenuRootElement().querySelector('.htUIButton.htUIButtonOK input')).simulate('click');
 
       expect(getData().length).toEqual(4);
     });
@@ -278,6 +278,180 @@ describe('Filters', function() {
       expect(getData()[0][4]).toBe('brown');
       expect(getData()[0][5]).toBe(3917.34);
       expect(getData()[0][6]).toBe(true);
+    });
+  });
+
+  describe('Undo/Redo', function() {
+    it('should undo previously added filters', function() {
+      var hot = handsontable({
+        data: getDataForFilters(),
+        columns: getColumnsForFilters(),
+        dropdownMenu: true,
+        filters: true,
+        width: 500,
+        height: 300
+      });
+      var plugin = hot.getPlugin('filters');
+
+      plugin.addFormula(0, 'gt', [3]);
+      plugin.filter();
+      plugin.addFormula(2, 'begins_with', ['b']);
+      plugin.filter();
+      plugin.addFormula(4, 'eq', ['green']);
+      plugin.filter();
+
+      expect(getData().length).toEqual(2);
+
+      hot.undo();
+
+      expect(getData().length).toEqual(3);
+
+      hot.undo();
+
+      expect(getData().length).toEqual(36);
+
+      hot.undo();
+
+      expect(getData().length).toEqual(39);
+    });
+
+    it('should redo previously reverted filters', function() {
+      var hot = handsontable({
+        data: getDataForFilters(),
+        columns: getColumnsForFilters(),
+        dropdownMenu: true,
+        filters: true,
+        width: 500,
+        height: 300
+      });
+      var plugin = hot.getPlugin('filters');
+
+      plugin.addFormula(0, 'gt', [3]);
+      plugin.filter();
+      plugin.addFormula(2, 'begins_with', ['b']);
+      plugin.filter();
+      plugin.addFormula(4, 'eq', ['green']);
+      plugin.filter();
+
+      hot.undo();
+      hot.undo();
+      hot.undo();
+
+      expect(getData().length).toEqual(39);
+
+      hot.redo();
+
+      expect(getData().length).toEqual(36);
+
+      hot.redo();
+
+      expect(getData().length).toEqual(3);
+
+      hot.redo();
+
+      expect(getData().length).toEqual(2);
+    });
+  });
+
+  describe('Hooks', function() {
+    describe('`beforeFilter` hook', function() {
+      it('should trigger `beforeFilter` hook after filtering values', function() {
+        var hot = handsontable({
+          data: getDataForFilters(),
+          columns: getColumnsForFilters(),
+          dropdownMenu: true,
+          filters: true,
+          width: 500,
+          height: 300
+        });
+
+        var spy = jasmine.createSpy();
+        hot.addHook('beforeFilter', spy);
+        var plugin = hot.getPlugin('filters');
+
+        plugin.addFormula(0, 'gt', [12]);
+        plugin.addFormula(2, 'begins_with', ['b']);
+        plugin.addFormula(4, 'eq', ['green']);
+        plugin.filter();
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy.calls[0].args[0].length).toBe(3);
+        expect(spy.calls[0].args[0][0]).toEqual({
+          column: 0,
+          formulas: [{name: 'gt', args: [12]}]
+        });
+        expect(spy.calls[0].args[0][1]).toEqual({
+          column: 2,
+          formulas: [{name: 'begins_with', args: ['b']}]
+        });
+        expect(spy.calls[0].args[0][2]).toEqual({
+          column: 4,
+          formulas: [{name: 'eq', args: ['green']}]
+        });
+      });
+
+      it('should not filter values visually when `beforeFilter` hook returns `false`', function() {
+        var hot = handsontable({
+          data: getDataForFilters(),
+          columns: getColumnsForFilters(),
+          dropdownMenu: true,
+          filters: true,
+          width: 500,
+          height: 300
+        });
+
+        var spy = jasmine.createSpy();
+        spy.andCallFake(function() {
+          return false;
+        });
+        hot.addHook('beforeFilter', spy);
+        var plugin = hot.getPlugin('filters');
+
+        plugin.addFormula(0, 'gt', [12]);
+        plugin.addFormula(2, 'begins_with', ['b']);
+        plugin.addFormula(4, 'eq', ['green']);
+        plugin.filter();
+
+        expect(spy).toHaveBeenCalled();
+        expect(hot.getData(0, 0, 0, 5)).toEqual([[1, 'Nannie Patel', 'Jenkinsville', '2014-01-29', 'green', 1261.6]]);
+      });
+    });
+
+    describe('`afterFilter` hook', function() {
+      it('should trigger `afterFilter` hook after filtering values', function() {
+        var hot = handsontable({
+          data: getDataForFilters(),
+          columns: getColumnsForFilters(),
+          dropdownMenu: true,
+          filters: true,
+          width: 500,
+          height: 300
+        });
+
+        var spy = jasmine.createSpy();
+        hot.addHook('afterFilter', spy);
+        var plugin = hot.getPlugin('filters');
+
+        plugin.addFormula(0, 'gt', [12]);
+        plugin.addFormula(2, 'begins_with', ['b']);
+        plugin.addFormula(4, 'eq', ['green']);
+        plugin.filter();
+
+        expect(spy).toHaveBeenCalled();
+        expect(spy.calls[0].args[0].length).toBe(3);
+        expect(spy.calls[0].args[0][0]).toEqual({
+          column: 0,
+          formulas: [{name: 'gt', args: [12]}]
+        });
+        expect(spy.calls[0].args[0][1]).toEqual({
+          column: 2,
+          formulas: [{name: 'begins_with', args: ['b']}]
+        });
+        expect(spy.calls[0].args[0][2]).toEqual({
+          column: 4,
+          formulas: [{name: 'eq', args: ['green']}]
+        });
+      });
     });
   });
 });

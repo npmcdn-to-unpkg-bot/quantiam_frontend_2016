@@ -1,4 +1,4 @@
-
+import Handsontable from '../../browser';
 import BasePlugin from 'handsontable/plugins/_base';
 import {arrayEach} from 'handsontable/helpers/array';
 import {objectEach} from 'handsontable/helpers/object';
@@ -98,7 +98,7 @@ class DropdownMenu extends BasePlugin {
 
     const settings = this.hot.getSettings().dropdownMenu;
     let predefinedItems = {
-      items: this.itemsFactory.getVisibleItems(settings)
+      items: this.itemsFactory.getItems(settings)
     };
     this.registerEvents();
 
@@ -111,7 +111,7 @@ class DropdownMenu extends BasePlugin {
       this.hot.runHooks('afterDropdownMenuDefaultOptions', predefinedItems);
 
       this.itemsFactory.setPredefinedItems(predefinedItems.items);
-      let menuItems = this.itemsFactory.getVisibleItems(settings);
+      let menuItems = this.itemsFactory.getItems(settings);
 
       this.menu = new Menu(this.hot, {
         className: 'htDropdownMenu',
@@ -168,6 +168,10 @@ class DropdownMenu extends BasePlugin {
       return;
     }
     this.menu.open();
+
+    if (event.width) {
+      this.menu.setOffset('left', event.width);
+    }
     this.menu.setPosition(event);
 
     // ContextMenu is not detected HotTableEnv correctly because is injected outside hot-table
@@ -228,10 +232,10 @@ class DropdownMenu extends BasePlugin {
       let rect = event.target.getBoundingClientRect();
 
       this.open({
-        left: rect.left + getWindowScrollLeft(),
-        top: rect.top + event.target.offsetHeight + getWindowScrollTop() + 3,
+        left: rect.left,
+        top: rect.top + event.target.offsetHeight + 3,
         width: rect.width,
-        height: rect.height
+        height: rect.height,
       });
     }
   }
@@ -246,6 +250,10 @@ class DropdownMenu extends BasePlugin {
   onAfterGetColHeader(col, TH) {
     // Corner or a higher-level header
     let headerRow = TH.parentNode;
+    if (!headerRow) {
+      return;
+    }
+
     let headerRowList = headerRow.parentNode.childNodes;
     let level = Array.prototype.indexOf.call(headerRowList, headerRow);
 
@@ -270,6 +278,11 @@ class DropdownMenu extends BasePlugin {
     let button = document.createElement('button');
 
     button.className = BUTTON_CLASS_NAME;
+
+    // prevent page reload on button click
+    button.onclick = function() {
+      return false;
+    };
 
     TH.firstChild.insertBefore(button, TH.firstChild.firstChild);
   }

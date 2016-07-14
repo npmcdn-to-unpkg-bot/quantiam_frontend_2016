@@ -4,18 +4,22 @@ import {Menu} from 'handsontable/plugins/contextMenu/menu';
 import {clone, extend} from 'handsontable/helpers/object';
 import {arrayFilter, arrayMap, arrayEach} from 'handsontable/helpers/array';
 import {startsWith} from 'handsontable/helpers/string';
+import {isKey} from 'handsontable/helpers/unicode';
+import {partial} from 'handsontable/helpers/function';
+import {stopImmediatePropagation} from 'handsontable/helpers/dom/event';
 import {InputUI} from './input';
 
 const privatePool = new WeakMap();
 
 /**
  * @class MultipleSelectUI
- * @private
+ * @util
  */
 class MultipleSelectUI extends BaseUI {
   static get DEFAULTS() {
     return clone({
-      value: []
+      className: 'htUIMultipleSelect',
+      value: [],
     });
   }
 
@@ -30,6 +34,28 @@ class MultipleSelectUI extends BaseUI {
     this.searchInput = new InputUI(this.hot, {
       placeholder: 'Search...',
       className: 'htUIMultipleSelectSearch'
+    });
+    /**
+     * "Select all" UI element.
+     *
+     * @type {BaseUI}
+     */
+    this.selectAllUI = new BaseUI(this.hot, {
+      tagName: 'a',
+      textContent: 'Select all',
+      href: '#',
+      className: 'htUISelectAll',
+    });
+    /**
+     * "Clear" UI element.
+     *
+     * @type {BaseUI}
+     */
+    this.clearAllUI = new BaseUI(this.hot, {
+      tagName: 'a',
+      textContent: 'Clear',
+      href: '#',
+      className: 'htUIClearAll',
     });
     /**
      * List of available select options.
@@ -51,7 +77,10 @@ class MultipleSelectUI extends BaseUI {
    * Register all necessary hooks.
    */
   registerHooks() {
-    this.searchInput.addLocalHook('keyup', (event) => this.onInputKeyUp(event));
+    this.searchInput.addLocalHook('keydown', (event) => this.onInputKeyDown(event));
+    this.searchInput.addLocalHook('input', (event) => this.onInput(event));
+    this.selectAllUI.addLocalHook('click', (event) => this.onSelectAllClick(event));
+    this.clearAllUI.addLocalHook('click', (event) => this.onClearAllClick(event));
   }
 
   /**
@@ -65,6 +94,15 @@ class MultipleSelectUI extends BaseUI {
     if (this.itemsBox) {
       this.itemsBox.loadData(this.items);
     }
+  }
+
+  /**
+   * Get all available options.
+   *
+   * @returns {Array}
+   */
+  getItems() {
+    return [...this.items];
   }
 
   /**
@@ -91,26 +129,40 @@ class MultipleSelectUI extends BaseUI {
   build() {
     super.build();
 
-    let itemsBoxWrapper = document.createElement('div');
-
-    addClass(this._element, 'htUIMultipleSelect');
+    const itemsBoxWrapper = document.createElement('div');
+    const selectionControl = new BaseUI(this.hot, {
+      className: 'htUISelectionControls',
+      children: [this.selectAllUI, this.clearAllUI],
+    });
 
     this._element.appendChild(this.searchInput.element);
+    this._element.appendChild(selectionControl.element);
     this._element.appendChild(itemsBoxWrapper);
 
     let hotInitializer = (wrapper) => {
+      if (!this._element) {
+        return;
+      }
       if (this.itemsBox) {
         this.itemsBox.destroy();
       }
 
+      addClass(wrapper, 'htUIMultipleSelectHot');
       this.itemsBox = new Handsontable(wrapper, {
         data: valueToItems(this.items, this.options.value),
         columns: [
-          {data: 'checked', type: 'checkbox', label: {property: 'value', position: 'after'}}
+          {data: 'checked', type: 'checkbox', label: {property: 'visualValue', position: 'after'}}
         ],
+        autoWrapCol: true,
         colWidths: 150,
         height: 110,
         width: 168,
+        copyPaste: false,
+        disableVisualSelection: 'area',
+        fillHandle: false,
+        fragmentSelection: 'cell',
+        tabMoves: {row: 1, col: 0},
+        beforeKeyDown: (event) => this.onItemsBoxBeforeKeyDown(event)
       });
     };
     hotInitializer(itemsBoxWrapper);
@@ -151,28 +203,100 @@ class MultipleSelectUI extends BaseUI {
   }
 
   /**
-   * 'keyup' event listener for input element.
+   * 'input' event listener for input element.
    *
    * @private
    * @param {Event} event DOM event.
    */
-  onInputKeyUp(event) {
-    let value = this.searchInput.getValue();
+  onInput(event) {
+    let value = event.target.value.toLowerCase();
     let filteredItems;
 
     if (value === '') {
       filteredItems = [...this.items];
     } else {
-      filteredItems = arrayFilter(this.items, (item) => {
-        return startsWith((item.value + '').toLowerCase(), this.searchInput.getValue().toLowerCase());
-      });
+      filteredItems = arrayFilter(this.items, (item) => (item.value + '').toLowerCase().indexOf(value) >= 0);
     }
     this.itemsBox.loadData(filteredItems);
+  }
+
+  /**
+   * 'keydown' event listener for input element.
+   *
+   * @private
+   * @param {Event} event DOM event.
+   */
+  onInputKeyDown(event) {
+    this.runLocalHooks('keydown', event, this);
+
+    const isKeyCode = partial(isKey, event.keyCode);
+
+    if (isKeyCode('ARROW_DOWN|TAB') && !this.itemsBox.isListening()) {
+      stopImmediatePropagation(event);
+      this.itemsBox.listen();
+      this.itemsBox.selectCell(0, 0);
+    }
+  }
+
+  /**
+   * On before key down listener (internal Handsontable).
+   *
+   * @private
+   * @param {Event} event DOM event.
+   */
+  onItemsBoxBeforeKeyDown(event) {
+    const isKeyCode = partial(isKey, event.keyCode);
+
+    if (isKeyCode('ESCAPE')) {
+      this.runLocalHooks('keydown', event, this);
+    }
+    // for keys different than below, unfocus Handsontable and focus search input
+    if (!isKeyCode('ARROW_UP|ARROW_DOWN|ARROW_LEFT|ARROW_RIGHT|TAB|SPACE|ENTER')) {
+      stopImmediatePropagation(event);
+      this.itemsBox.unlisten();
+      this.itemsBox.deselectCell();
+      this.searchInput.focus();
+    }
+  }
+
+  /**
+   * On click listener for "Select all" link.
+   *
+   * @private
+   * @param {DOMEvent} event
+   */
+  onSelectAllClick(event) {
+    event.preventDefault();
+    arrayEach(this.itemsBox.getSourceData(), row => {
+      row.checked = true;
+    });
+    this.itemsBox.render();
+  }
+
+  /**
+   * On click listener for "Clear" link.
+   *
+   * @private
+   * @param {DOMEvent} event
+   */
+  onClearAllClick(event) {
+    event.preventDefault();
+    arrayEach(this.itemsBox.getSourceData(), row => {
+      row.checked = false;
+    });
+    this.itemsBox.render();
   }
 }
 
 export {MultipleSelectUI};
 
+/**
+ * Pick up object items based on selected values.
+ *
+ * @param {Array} availableItems Base collection to compare values.
+ * @param selectedValue Flat array with selected values.
+ * @returns {Array}
+ */
 function valueToItems(availableItems, selectedValue) {
   return arrayMap(availableItems, (item) => {
     item.checked = selectedValue.indexOf(item.value) !== -1;
@@ -181,6 +305,12 @@ function valueToItems(availableItems, selectedValue) {
   });
 }
 
+/**
+ * Convert all checked items into flat array.
+ *
+ * @param {Array} availableItems Base collection.
+ * @returns {Array}
+ */
 function itemsToValue(availableItems) {
   let items = [];
 

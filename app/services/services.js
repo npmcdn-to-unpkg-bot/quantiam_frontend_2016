@@ -3,16 +3,36 @@ App.service(  "apiRequest",  function($http,   errorService) {
 	var apiUrl = "http://apps.edm.quantiam.com:2000";
         return {
 								send: function (httpVerb,path,params){
-
 									var response;
 										var req = {
 															 method: httpVerb,
 															 url: apiUrl + path,
 															 headers: {
 																 "Authorization": "Bearer " + localStorage.getItem('token'),
+																 "Content-Type": "application/json",
 															 },
 															 data: params,
 															 params: params,
+													         //dataType: 'text',
+										}
+										 response =	$http(req);
+										return response;
+									},
+									sendJsonObj: function (httpVerb,path,params){
+									var response;
+										var req = {
+															 method: httpVerb,
+															 url: apiUrl + path,
+															 datatype: "JSON",
+															 headers: {
+																 "Authorization": "Bearer " + localStorage.getItem('token'),
+																	put:{
+																		
+																		"Content-type": "application/json"
+																		}
+															 },
+															 data: JSON.stringify(params),
+														
 													         //dataType: 'text',
 										}
 										 response =	$http(req);

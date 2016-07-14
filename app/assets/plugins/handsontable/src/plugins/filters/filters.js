@@ -9,7 +9,10 @@ import {ValueComponent} from './component/value';
 import {ActionBarComponent} from './component/actionBar';
 import {FormulaCollection} from './formulaCollection';
 import {DataFilter} from './dataFilter';
+import {FormulaUpdateObserver} from './formulaUpdateObserver';
+import {getFormulaDescriptor} from './formulaRegisterer';
 import {FORMULA_NONE} from './constants';
+import {SEPARATOR} from 'handsontable/plugins/contextMenu/predefinedItems';
 
 /**
  * The filters plugin.
@@ -35,7 +38,7 @@ class Filters extends BasePlugin {
      */
     this.trimRowsPlugin = null;
     /**
-     * Instance of {@link DropdowmMenu}.
+     * Instance of {@link DropdownMenu}.
      *
      * @type {DropdownMenu}
      */
@@ -46,6 +49,12 @@ class Filters extends BasePlugin {
      * @type {FormulaCollection}
      */
     this.formulaCollection = null;
+    /**
+     * Instance of {@link FormulaUpdateObserver}.
+     *
+     * @type {FormulaUpdateObserver}
+     */
+    this.formulaUpdateObserver = null;
     /**
      * Instance of {@link ConditionComponent}.
      *
@@ -95,21 +104,29 @@ class Filters extends BasePlugin {
     this.trimRowsPlugin = this.hot.getPlugin('trimRows');
     this.dropdownMenuPlugin = this.hot.getPlugin('dropdownMenu');
 
+    let addConfirmationHooks = (component) => {
+      component.addLocalHook('accept', () => this.onActionBarSubmit('accept'));
+      component.addLocalHook('cancel', () => this.onActionBarSubmit('cancel'));
+
+      return component;
+    };
+
+    if (!this.conditionComponent) {
+      this.conditionComponent = addConfirmationHooks(new ConditionComponent(this.hot));
+    }
+    if (!this.valueComponent) {
+      this.valueComponent = addConfirmationHooks(new ValueComponent(this.hot));
+    }
+    if (!this.actionBarComponent) {
+      this.actionBarComponent = addConfirmationHooks(new ActionBarComponent(this.hot));
+    }
     if (!this.formulaCollection) {
       this.formulaCollection = new FormulaCollection();
     }
-    if (!this.conditionComponent) {
-      this.conditionComponent = new ConditionComponent(this.hot);
-      this.conditionComponent.addLocalHook('accept', () => this.onActionBarSubmit('accept'));
-      this.conditionComponent.addLocalHook('cancel', () => this.onActionBarSubmit('cancel'));
-    }
-    if (!this.valueComponent) {
-      this.valueComponent = new ValueComponent(this.hot);
-    }
-    if (!this.actionBarComponent) {
-      this.actionBarComponent = new ActionBarComponent(this.hot);
-      this.actionBarComponent.addLocalHook('accept', () => this.onActionBarSubmit('accept'));
-      this.actionBarComponent.addLocalHook('cancel', () => this.onActionBarSubmit('cancel'));
+    if (!this.formulaUpdateObserver) {
+      this.formulaUpdateObserver = new FormulaUpdateObserver(this.formulaCollection, column => this.getDataMapAtColumn(column));
+      this.formulaUpdateObserver.addLocalHook('update', (...params) => this.conditionComponent.updateState(...params));
+      this.formulaUpdateObserver.addLocalHook('update', (...params) => this.valueComponent.updateState(...params));
     }
     this.conditionComponent.show();
     this.valueComponent.show();
@@ -150,7 +167,7 @@ class Filters extends BasePlugin {
       this.conditionComponent.hide();
       this.valueComponent.hide();
       this.actionBarComponent.hide();
-      this.formulaCollection.clear();
+      this.formulaCollection.clean();
       this.trimRowsPlugin.untrimAll();
     }
     super.disablePlugin();
@@ -183,6 +200,16 @@ class Filters extends BasePlugin {
    * // Add filter "Greater than" 95 to column at index 1
    * hot.getPlugin('filters').addFormula(1, 'gt', [95]);
    * hot.getPlugin('filters').filter();
+   *
+   * // Add filter "Begins with" with value "de" and "Not contains" with value "ing"
+   * hot.getPlugin('filters').addFormula(1, 'begins_with', ['de']);
+   * hot.getPlugin('filters').addFormula(1, 'not_contains', ['ing']);
+   * hot.getPlugin('filters').filter();
+   *
+   * // If you want to add filter formulas with OR operator you can use formula "by_value"
+   * hot.getPlugin('filters').addFormula(1, 'by_value', [['ing', 'ed', 'as', 'on']]);
+   * hot.getPlugin('filters').filter();
+   * // In this case all value's that don't match will be filtered.
    * ```
    * @param {Number} column Column index.
    * @param {String} name Formula short name.
@@ -209,7 +236,7 @@ class Filters extends BasePlugin {
    */
   clearFormulas(column) {
     if (column === void 0) {
-      this.formulaCollection.clear();
+      this.formulaCollection.clean();
     } else {
       this.formulaCollection.clearFormulas(column);
     }
@@ -219,33 +246,40 @@ class Filters extends BasePlugin {
    * Filter data based on added filter formulas.
    */
   filter() {
-    let dataFilter = new DataFilter(this.formulaCollection, (column) => this.getDataMapAtColumn(column));
-    let needToFilter = this.formulaCollection.isEmpty() ? false : true;
+    let dataFilter = this._createDataFilter();
+    let needToFilter = !this.formulaCollection.isEmpty();
     let filteredRows = [];
 
-    if (needToFilter) {
-      let trimmedRows = [];
+    const formulas = this.formulaCollection.exportAllFormulas();
+    let allowFiltering = this.hot.runHooks('beforeFilter', formulas);
 
-      this.trimRowsPlugin.trimmedRows.length = 0;
-      filteredRows = arrayMap(dataFilter.filter(), (rowData) => rowData.meta.physicalRow);
+    if (allowFiltering !== false) {
+      if (needToFilter) {
+        let trimmedRows = [];
 
-      rangeEach(this.hot.countSourceRows() - 1, (row) => {
-        if (filteredRows.indexOf(row) === -1) {
-          trimmedRows.push(row);
+        this.trimRowsPlugin.trimmedRows.length = 0;
+        filteredRows = arrayMap(dataFilter.filter(), (rowData) => rowData.meta.visualRow);
+
+        rangeEach(this.hot.countSourceRows() - 1, (row) => {
+          if (filteredRows.indexOf(row) === -1) {
+            trimmedRows.push(row);
+          }
+        });
+        this.trimRowsPlugin.trimRows(trimmedRows);
+
+        if (!filteredRows.length) {
+          this.hot.deselectCell();
         }
-      });
-      this.trimRowsPlugin.trimRows(trimmedRows);
-
-      if (!filteredRows.length) {
-        this.hot.deselectCell();
+      } else {
+        this.trimRowsPlugin.untrimAll();
       }
-    } else {
-      this.trimRowsPlugin.untrimAll();
     }
 
     this.hot.view.wt.wtOverlays.adjustElementsSize(true);
     this.hot.render();
     this.clearColumnSelection();
+
+    this.hot.runHooks('afterFilter', formulas);
   }
 
   /**
@@ -278,10 +312,10 @@ class Filters extends BasePlugin {
     let data = [];
 
     arrayEach(this.hot.getSourceDataAtCol(column), (value, rowIndex) => {
-      let {row, col, physicalCol, physicalRow, type, instance, dateFormat} = this.hot.getCellMeta(rowIndex, column);
+      let {row, col, visualCol, visualRow, type, instance, dateFormat} = this.hot.getCellMeta(rowIndex, column);
 
       data.push({
-        meta: {row, col, physicalCol, physicalRow, type, instance, dateFormat},
+        meta: {row, col, visualCol, visualRow, type, instance, dateFormat},
         value,
       });
     });
@@ -317,9 +351,9 @@ class Filters extends BasePlugin {
    * @param {Object} defaultOptions ContextMenu default item options.
    */
   onAfterDropdownMenuDefaultOptions(defaultOptions) {
-    defaultOptions.items.push(Handsontable.plugins.DropdownMenu.SEPARATOR);
+    defaultOptions.items.push({name: SEPARATOR});
     defaultOptions.items.push(this.conditionComponent.getMenuItemDescriptor());
-    //defaultOptions.items.push(this.valueComponent.getMenuItemDescriptor());
+    defaultOptions.items.push(this.valueComponent.getMenuItemDescriptor());
     defaultOptions.items.push(this.actionBarComponent.getMenuItemDescriptor());
   }
 
@@ -335,6 +369,7 @@ class Filters extends BasePlugin {
       let byConditionState = this.conditionComponent.getState();
       let byValueState = this.valueComponent.getState();
 
+      this.formulaUpdateObserver.groupChanges();
       this.formulaCollection.clearFormulas(column);
 
       if (byConditionState.command.key === FORMULA_NONE && byValueState.command.key === FORMULA_NONE) {
@@ -346,6 +381,7 @@ class Filters extends BasePlugin {
       if (byValueState.command.key !== FORMULA_NONE) {
         this.formulaCollection.addFormula(column, byValueState);
       }
+      this.formulaUpdateObserver.flush();
 
       this.conditionComponent.saveState(column);
       this.valueComponent.saveState(column);
@@ -392,8 +428,20 @@ class Filters extends BasePlugin {
       this.valueComponent.destroy();
       this.actionBarComponent.destroy();
       this.formulaCollection.destroy();
+      this.formulaUpdateObserver.destroy();
     }
     super.destroy();
+  }
+
+  /**
+   * Create DataFilter instance based on formula collection.
+   *
+   * @private
+   * @param {FormulaCollection} formulaCollection Formula collection object.
+   * @returns {DataFilter}
+   */
+  _createDataFilter(formulaCollection = this.formulaCollection) {
+    return new DataFilter(formulaCollection, (column) => this.getDataMapAtColumn(column));
   }
 }
 

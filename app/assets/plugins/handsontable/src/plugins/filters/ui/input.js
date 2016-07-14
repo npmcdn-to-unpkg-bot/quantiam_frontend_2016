@@ -1,18 +1,20 @@
 import {BaseUI} from './_base';
 import {addClass} from 'handsontable/helpers/dom/element';
 import {clone, extend} from 'handsontable/helpers/object';
+import {arrayEach} from 'handsontable/helpers/array';
 
 const privatePool = new WeakMap();
 
 /**
  * @class InputUI
- * @private
+ * @util
  */
 class InputUI extends BaseUI {
   static get DEFAULTS() {
     return clone({
       placeholder: '',
       type: 'text',
+      tagName: 'input',
     });
   }
 
@@ -36,24 +38,15 @@ class InputUI extends BaseUI {
   build() {
     super.build();
     let priv = privatePool.get(this);
-    let input = priv.input = document.createElement('input');
     let icon = document.createElement('div');
+
+    priv.input = this._element.firstChild;
 
     addClass(this._element, 'htUIInput');
     addClass(icon, 'htUIInputIcon');
-    input.placeholder = this.options.placeholder;
-    input.type = this.options.type;
-    input.value = this.options.value;
 
-    if (this.options.className) {
-      addClass(this._element, this.options.className);
-    }
-    this._element.appendChild(input);
     this._element.appendChild(icon);
 
-    this.eventManager.addEventListener(this._element, 'click', (event) => this.runLocalHooks('click', event, this));
-    this.eventManager.addEventListener(this._element, 'keyup', (event) => this.runLocalHooks('keyup', event, this));
-    this.eventManager.addEventListener(this._element, 'keydown', (event) => this.runLocalHooks('keydown', event, this));
     this.update();
   }
 

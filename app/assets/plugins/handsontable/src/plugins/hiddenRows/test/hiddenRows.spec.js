@@ -212,6 +212,27 @@ describe('HiddenRows', function() {
     expect(Handsontable.dom.hasClass(trs[5].firstChild, 'afterHiddenRow')).toBe(true);
   });
 
+  it('should not throw any errors, when selecting a whole column with the last row hidden', function() {
+    var hot = handsontable({
+      data: Handsontable.helper.createSpreadsheetData(4, 4),
+      hiddenRows: {
+        rows: [3]
+      },
+      colHeaders: true
+    });
+
+    var errorThrown = false;
+
+    try {
+      hot.selectCell(0, 2, 3, 2);
+
+    } catch (err) {
+      errorThrown = true;
+    }
+
+    expect(errorThrown).toBe(false);
+  });
+
   describe('copy-paste functionality', function() {
 
     it('should allow to copy hidden rows, when "copyPasteEnabled" property is not set', function() {
@@ -349,6 +370,105 @@ describe('HiddenRows', function() {
       keyDownUp(Handsontable.helper.KEY_CODES.ARROW_DOWN);
 
       expect(getSelected()).toEqual([5, 0, 5, 0]);
+    });
+  });
+
+  describe('context-menu', function() {
+    it('should be visible "Hide row" on context menu when row is selected by header', function() {
+      var hot = handsontable({
+        data: getMultilineData(10, 10),
+        hiddenRows: true,
+        width: 500,
+        height: 300,
+        contextMenu: ['hidden_rows_hide', 'hidden_rows_show'],
+        rowHeaders: true
+      });
+
+      var header = $('.ht_clone_left tr:eq(0) th:eq(0)');
+      header.simulate('mousedown');
+      header.simulate('mouseup');
+      contextMenu();
+
+      var items = $('.htContextMenu tbody td');
+      var actions = items.not('.htSeparator');
+
+      expect(actions.text()).toEqual('Hide row');
+    });
+
+    it('should be NOT visible "Hide row" on context menu when row is selected by header', function() {
+      var hot = handsontable({
+        data: getMultilineData(5, 10),
+        hiddenRows: true,
+        width: 500,
+        height: 300,
+        contextMenu: ['hidden_rows_hide', 'hidden_rows_show'],
+        rowHeaders: true
+      });
+
+      selectCell(0, 0);
+      contextMenu();
+
+      var items = $('.htContextMenu tbody td');
+      var actions = items.not('.htSeparator');
+
+      expect(actions.length).toEqual(0);
+    });
+
+    it('should hide selected columns by "Hide row" in context menu', function() {
+      var hot = handsontable({
+        data: getMultilineData(10, 10),
+        hiddenRows: true,
+        width: 500,
+        height: 300,
+        contextMenu: ['hidden_rows_hide', 'hidden_rows_show'],
+        rowHeaders: true
+      });
+
+      var header = $('.ht_clone_left');
+
+      header.find('tr:eq(3) th:eq(0)').simulate('mousedown');
+      header.find('tr:eq(4) th:eq(0)').simulate('mouseover');
+      header.find('tr:eq(4) th:eq(0)').simulate('mouseup');
+
+      contextMenu();
+
+      var items = $('.htContextMenu tbody td');
+      var actions = items.not('.htSeparator');
+
+      actions.simulate('mousedown');
+
+      expect(hot.getRowHeight(3)).toBe(0.1);
+      expect(hot.getRowHeight(4)).toBe(0.1);
+    });
+
+    it('should show hidden rows by context menu', function() {
+      var hot = handsontable({
+        data: Handsontable.helper.createSpreadsheetData(10, 10),
+        hiddenRows: {
+          rows: [2, 3]
+        },
+        width: 500,
+        height: 300,
+        rowHeights: 30,
+        contextMenu: ['hidden_rows_show'],
+        rowHeaders: true
+      });
+
+      var header = $('.ht_clone_left');
+
+      header.find('tr:eq(1) th:eq(0)').simulate('mousedown');
+      header.find('tr:eq(4) th:eq(0)').simulate('mouseover');
+      header.find('tr:eq(4) th:eq(0)').simulate('mouseup');
+
+      contextMenu();
+
+      var items = $('.htContextMenu tbody td');
+      var actions = items.not('.htSeparator');
+
+      actions.simulate('mousedown');
+
+      expect(hot.getRowHeight(2)).toBe(30);
+      expect(hot.getRowHeight(3)).toBe(30);
     });
   });
 });
