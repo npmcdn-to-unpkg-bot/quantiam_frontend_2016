@@ -2,18 +2,29 @@
 	
 	
 <div class='col-sm-8'>	   
+	<div ng-if="!DC.images[0]" class='row'>
+		<center>
+			<h2 style='margin-top:50px'><small>No Images Were Found</small></h2>
+		</center>
+	</div>
 	
-	
-		<div class='row'>
+		<div ng-if="DC.images" class='row'>
 		
 		
-			<ul class="gallery gallery1" >
-						<li ng-repeat="image in DC.images">
-					<a ng-click="openLightboxModal($index)">
-						<img ng-src="{{image.thumbUrl}}" class="img-thumbnail">
-					</a>
-				</li>
-			</ul>
+		
+					<div class='col-md-1'  ng-repeat="image in DC.images">
+					<center>
+									<a style="cursor:pointer;" ng-click="DC.openLightboxModal($index)">
+							<img ng-src="{{image.thumbUrl}}" class="img-thumbnail">
+						</a>
+						
+						<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Delete" ng-click="DC.deleteImage($index)">
+
+                        <i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+						</a>
+						</center>
+					</div>
+		
 			
 			
 <!-- 		

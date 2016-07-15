@@ -20,7 +20,7 @@
 		</h3>
 		
 		
-<center ng-if="!VC.slipObj.viscosity" style="height:170px;padding-top:50px;"><h4></small> There are no viscosity measurements were found. </small></h4></center>
+<center ng-if="!VC.slipObj.viscosity" style="height:170px; padding-top:20px;"><h3><small> Viscosity data is absent. </small></h3></center>
 		
 		  <hot-table  ng-if="VC.slipObj.viscosity" 
 				settings="VC.handsOnTableSettings"
@@ -51,7 +51,7 @@
 			<b> Solvent Added at Fitlering: </b>
 		</div>
 		<div class='col-md-3'>
-				<input placeholder="Added Solvent" id="solvent_addition" ng-model='VC.filterSolventAddition' ng-blur="editSlipSolventAddition()" class='form-control'></input>
+				<input placeholder="Solvent (g)" id="solvent_addition" ng-model='VC.filterSolventAddition' ng-blur="editSlipSolventAddition()" class='form-control'></input>
 		</div>
 		</div>
 <!-- 		

@@ -141,43 +141,93 @@ App.directive('dropzone', function(){
 						
 							identifier: '@identifier',
 					},
-					controller:function($scope,$attrs,  $element, apiRequest){
+					link: function(scope, element, attrs) {
+					
+							attrs.$observe('identifier',function(newValue,oldValue) {
+								//This gets called when data changes.
+								if(attrs.identifier != '')
+								{
+									scope.DC.getImages();
+								}	
+						});
+					
+					},
+					controller:function($scope,$attrs,  $element, apiRequest, Lightbox){
 										
-											
-												this.hash;
-												this.url = apiRequest.apiUrl+'/dropzone';
+												var vm = this;
+												vm.hash;
+												vm.url = apiRequest.apiUrl+'/dropzone';
 
-												this.isOpen = true;								
+												vm.isOpen = true;								
 												
-												this.dzError = function( file, errorMessage ) {
+												vm.dzError = function( file, errorMessage ) {
 													toastr.error('An error occured while uploading ');
 												};	
-												this.dzAddedFile = function( file ) {
+												vm.dzAddedFile = function( file ) {
 												
 												};
 												
-												this.dzSuccess = function (file, r)
+												vm.dzSuccess = function (file, r)
 												{
-													
+													vm.getImages();
 													console.log(r);
-													}
+												}
 												
-												this.dzSending = function (file, xhr, formData) {
+												vm.dzSending = function (file, xhr, formData) {
 	
 																		formData.append('hash',$attrs.identifier);
 																		console.log(formData);
 																	};
 
-												this.dropzoneConfig = {
+												vm.dropzoneConfig = {
 													parallelUploads: 3,
 													maxFileSize: 30,
-													url: this.url,
+													url: vm.url,
 													headers: {
 													
 														"Authorization": "Bearer " + localStorage.getItem('token')
 														
 														},
 												
+												};
+												
+												vm.getImages = function (){
+													
+													
+													apiRequest.send('get','/dropzone/'+vm.identifier,null).success(function(r){
+														
+														vm.images = r;
+													
+														
+														});
+													
+													}
+												
+												vm.deleteImage = function (index){
+													
+													var filename = vm.images[index].filename;
+													
+														apiRequest.send('delete','/dropzone/'+vm.identifier+'/'+filename,null).success(function(r){
+														
+														  vm.images.splice(index, 1);
+															
+															toastr.success('Deleted Image');
+														
+											
+													
+														
+														});
+													
+													}
+												
+												vm.images = [
+											
+												];
+
+												vm.openLightboxModal = function (index) {
+												
+												//console.log(Lightbox);
+													Lightbox.openModal(vm.images, index);
 												};
 											
 											},
