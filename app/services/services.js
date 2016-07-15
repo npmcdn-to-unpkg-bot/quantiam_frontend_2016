@@ -9,7 +9,7 @@ App.service(  "apiRequest",  function($http,   errorService) {
 															 url: apiUrl + path,
 															 headers: {
 																 "Authorization": "Bearer " + localStorage.getItem('token'),
-																 "Content-Type": "application/json",
+																 'Content-type': 'application/json',
 															 },
 															 data: params,
 															 params: params,
@@ -18,27 +18,6 @@ App.service(  "apiRequest",  function($http,   errorService) {
 										 response =	$http(req);
 										return response;
 									},
-									sendJsonObj: function (httpVerb,path,params){
-									var response;
-										var req = {
-															 method: httpVerb,
-															 url: apiUrl + path,
-															 datatype: "JSON",
-															 headers: {
-																 "Authorization": "Bearer " + localStorage.getItem('token'),
-																	put:{
-																		
-																		"Content-type": "application/json"
-																		}
-															 },
-															 data: JSON.stringify(params),
-														
-													         //dataType: 'text',
-										}
-										 response =	$http(req);
-										return response;
-									},
-									
 									apiUrl: apiUrl,
 				}
 					
