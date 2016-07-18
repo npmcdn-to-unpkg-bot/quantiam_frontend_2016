@@ -47,12 +47,17 @@
 		
 <div style='margin-bottom:20px;' class='row'>
 	
-		<div class="col-md-offset-3 col-md-3">
-			<b> Solvent Added at Fitlering: </b>
+		<div class="col-md-offset-3 col-md-2">
+			<b> Solvent Added at Filtering (g) </b>
 		</div>
-		<div class='col-md-3'>
-				<input placeholder="Solvent (g)" id="solvent_addition" ng-model='VC.filterSolventAddition' ng-blur="editSlipSolventAddition()" class='form-control'></input>
+		<div class='col-md-2'>
+				<input placeholder="Solvent (g)" id="solvent_addition"
+				
+				ng-model='VC.slipObj.solvent_added_at_filtering'
+				
+				ng-blur="VC.editSlipcastObj('solvent_added_at_filtering',VC.slipObj.solvent_added_at_filtering)" class='form-control'></input>
 		</div>
+	
 		</div>
 <!-- 		
 		<form name="VC.myForm">

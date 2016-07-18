@@ -82,6 +82,28 @@ App.directive('slipcastViscosity', function(){
 							 })	;
 						}
 					}	
+					
+					vm.editSlipcastObj = function (key,value)
+					{
+						var param = {};
+						
+						
+						param[key] = ''+value+'';
+						
+						
+						apiRequest.send('put','/slip/'+vm.slipObj.slip_id, param).success(function(r){
+						
+							console.log(r);
+								vm.slipObj = r;
+								
+								 toastr.success(r.success);
+						//console.log(r);
+							});
+						
+						
+					}
+					
+					
 					vm.createViscosity = function(){
 					
 						apiRequest.send('post','/slip/'+this.slipid+'/viscosity',null).success(function(r){
