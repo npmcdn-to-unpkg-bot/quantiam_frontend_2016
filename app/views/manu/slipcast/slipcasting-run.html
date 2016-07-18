@@ -14,17 +14,17 @@
 									
 									<div class='tools'>
 
-										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="" ui-sref="slipcastviewGraphs({ slipcastid: SVC.slipCastObj.manu_slipcasting_id })">
+										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Graphs" ui-sref="slipcastviewGraphs({ slipcastid: SVC.slipCastObj.manu_slipcasting_id })">
 											<i class="fa fa-bar-chart" aria-hidden="true"></i>
 										</a>
 									
-										<a class='btn btn-icon-toggle btn-refresh'  ng-click="SVC.openModalJson()" tooltip-placement="top" uib-tooltip="Data Model">
+							<!-- 			<a class='btn btn-icon-toggle btn-refresh'  ng-click="SVC.openModalJson()" tooltip-placement="top" uib-tooltip="Data Model">
 											<i class="fa fa-code" style="font-size:15px" aria-hidden="true"></i>
 										</a>
 										
 										<a class='btn btn-icon-toggle btn-refresh' style="font-size:15px;" tooltip-placement="top" uib-tooltip="Download">
 												<i class="fa fa-download"   aria-hidden="true"></i>
-										</a>
+										</a> -->
 									
 									</div>
 									
@@ -331,9 +331,9 @@
 														<tr>
 															<th > Tube  </th>
 															<th > Container </th>
-															<th > Container (wt)  </th>
-															<th > Container + Slip (wt)  </th>
-															<th > Remainder (wt)  </th>
+															<th > Container (g)  </th>
+															<th > Slip (g)  </th>
+															<th > Remainder (g)  </th>
 														
 														</tr>
 													</thead>
@@ -356,15 +356,15 @@
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
-																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'container_slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null"
-																		ng-if="Obj.container_weights[$index].container_slip == null"> Record </button>
-																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container_slip != null">{{Obj.container_weights[$index].container_slip}} g</p>
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null"
+																		ng-if="Obj.container_weights[$index].slip == null"> Record </button>
+																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].slip != null">{{Obj.container_weights[$index].slip}} g</p>
 																	<!-- somethign else -->
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																		ng-if="Obj.container_weights[$index].remainder == null"
-																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].container_slip == null" > Record </button>
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].slip == null" > Record </button>
 																		<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
 																<!-- somethign else -->
 																</td>
@@ -378,6 +378,7 @@
 											
 													</tbody>
 											</table>
+									
 										</div>	
 										<div class='col-lg-3' >
 													<div class="card">
@@ -390,6 +391,7 @@
 														</div>
 													</div><!--end .card-body -->
 												</div><!--end .card -->
+													<center>	<label> <b>Slip Target: </b></label> {{SVC.slipCastObj.profile.weight_per_container}}g </center>
 											</div>
 								
 								</div>
