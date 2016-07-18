@@ -96,7 +96,7 @@ App.directive('slipcastViscosity', function(){
 							console.log(r);
 								vm.slipObj = r;
 								
-								 toastr.success(r.success);
+								 toastr.success('Edited');
 						//console.log(r);
 							});
 						
