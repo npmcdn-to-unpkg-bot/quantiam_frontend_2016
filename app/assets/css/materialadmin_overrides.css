@@ -95,6 +95,13 @@ body {
 	background-color: rgba(12, 12, 12, 0.25);
 }
 
+.clickable tbody tr:hover{
+	
+	
+	cursor:pointer;
+	
+}
+
 #header{
 	    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.63);
 	

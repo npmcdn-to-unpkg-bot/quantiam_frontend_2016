@@ -4,6 +4,13 @@ App.service(  "apiRequest",  function($http,   errorService) {
         return {
 								send: function (httpVerb,path,params){
 									var response;
+									var data = params;
+									if(httpVerb == 'put' || httpVerb == 'post')
+									{
+											var params = null;	
+									}
+
+									
 										var req = {
 															 method: httpVerb,
 															 url: apiUrl + path,
@@ -11,7 +18,7 @@ App.service(  "apiRequest",  function($http,   errorService) {
 																 "Authorization": "Bearer " + localStorage.getItem('token'),
 																 'Content-type': 'application/json',
 															 },
-															 data: params,
+															 data: data,
 															 params: params,
 													         //dataType: 'text',
 										}
