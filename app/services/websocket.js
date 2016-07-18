@@ -44,7 +44,7 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 			 {
 			 var message = JSON.parse(message.data); 
 			 
-		///	 console.log(message);
+			 
 																									/// Map events to state
 																									
 																										switch($state.current.name){
@@ -68,10 +68,11 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																															}
 																																														}
 																																														
-																																													var allowed_scales = ["Slipcasting Scale"];			
+																																												
 																																													
-																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scales) && message.machine.type == 'Balance'){
-																																														
+																																													if(message.machine.name == 'Slipcasting Scale' && message.machine.type == 'Balance'){
+																																																console.log(message);
+																																															
 																																																$rootScope.$broadcast('slipcastview_scalevalue',message);
 																																															
 																																														}
@@ -83,6 +84,8 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																								
 																																								case 'prefinish':
 																																								}
+																																								
+	//				vm.previous_message	= message;																																				
 			 }		
 		
       });
