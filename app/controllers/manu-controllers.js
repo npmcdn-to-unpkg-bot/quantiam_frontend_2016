@@ -468,7 +468,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, $w
 		toastr.error('Could not locate toluene data');
 
 	});
- 
+
 
 
 	vm.humidityChartConfig = {
