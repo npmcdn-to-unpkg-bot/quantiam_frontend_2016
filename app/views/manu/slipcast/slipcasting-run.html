@@ -271,7 +271,45 @@
 						
 						<div class='col-lg-4'>
 								<h3 class='page-header' style='margin-top:0px'>Steps<small> Verify preparation steps. </small></h3>
-						
+
+							<table class='table table-striped table-stats table-condensed shadow'>
+								<thead>
+								<tr>
+									<th> Step</th>
+									<th> </th>
+								</tr>
+								</thead>
+								<tr ng-repeat="(key,value) in SVC.slipCastObj.profile.steps | orderBy: 'step'" ng-if="SVC.slipcastProfileFilter.indexOf(key) == -1 && value && key != 'steps'">
+									<td><b>{{ value.tasks }}</b></td>
+									<td>
+
+										<div ng-if="(SVC.steps.complete[value.step - 1] || value.step == 1) && !SVC.steps.complete[value.step + 1]" class="checkbox checkbox-styled checkbox-success">
+											<label>
+												<input ng-disabled="!SVC.editable" ng-model="SVC.steps.complete[value.step]" type="checkbox" value>
+												<span></span>
+											</label>
+										</div>
+
+										<div ng-if="SVC.steps.complete[value.step] && SVC.steps.complete[value.step + 1]" class="checkbox checkbox-styled checkbox-info">
+											<label>
+												<input ng-model="SVC.steps.complete[value.step]" type="checkbox" value disabled checked>
+												<span></span>
+											</label>
+										</div>
+
+										<div ng-show="!SVC.steps.complete[value.step -1] && value.step != 1" class="checkbox checkbox-styled checkbox-success" tooltip-placement="right-top" uib-tooltip="Must complete prior steps first">
+											<label>
+												<input ng-model="SVC.steps.complete[value.step]" type="checkbox" value disabled>
+												<span></span>
+											</label>
+										</div>
+									</td>
+								</tr>
+
+
+
+							</table>
+
 						
 						</div>
 			
@@ -513,7 +551,7 @@
 							</tr>
 						</thead>
 							<tr ng-if="!SVC.slipCastObj.profile"><td colspan=2><center>Please select a Profile</center></td></tr>
-							<tr ng-repeat="(key,value) in SVC.slipCastObj.profile" ng-if="SVC.slipcastProfileFilter.indexOf(key) == -1 && value">
+							<tr ng-repeat="(key,value) in SVC.slipCastObj.profile" ng-if="SVC.slipcastProfileFilter.indexOf(key) == -1 && value && key != 'steps'">
 								<td><b>{{humanize(key)}}</b></td>
 								<td>
 									{{value}}
