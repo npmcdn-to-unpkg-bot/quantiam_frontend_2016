@@ -71,7 +71,7 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																												
 																																													
 																																													if(message.machine.name == 'Slipcasting Scale' && message.machine.type == 'Balance'){
-																																																console.log(message);
+																																													//			console.log(message);
 																																															
 																																																$rootScope.$broadcast('slipcastview_scalevalue',message);
 																																															
