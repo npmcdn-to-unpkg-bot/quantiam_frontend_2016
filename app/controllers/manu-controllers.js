@@ -118,7 +118,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.steelSelection;
 	vm.scaleValue;
 	vm.scaleValuePrevious;
-	vm.scaleStatus; 
+	vm.scaleStatus;
+	vm.completedTasks = [];
 
 	
 	vm.init = function (){
@@ -180,6 +181,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 					
 					vm.getSlip();
 				vm.checkEditable();
+				vm.checkStepCompletion();
 			});
 		
 		
@@ -433,9 +435,38 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	
 		vm.init();
 
+		vm.checkStepCompletion = function(slipcastID)
+		{
+			angular.forEach(vm.slipCastObj.tasks, function (stepID, key) {
+				vm.completedTasks[stepID] = true;
+			})
+		};
+		vm.checkStep = function (stepid)
+		{
+			var httpVerb;
 
+			if (vm.completedTasks[stepid])
+			{
+				httpVerb = 'post';
+			}
+			else {
+				httpVerb = 'delete';
+			}
 
+			apiRequest.send(httpVerb, '/slipcast/' + vm.slipcastID + '/task/' + stepid, null).success(function(r) {
 
+				if (httpVerb == 'post')
+				{
+					toastr.success('Task Complete', 'Success');
+				}
+				else
+				{
+					toastr.info('Task Undone', 'Success');
+				}
+			}).error(function(e) {
+				toastr.error('Could not change task');
+			})
+		}
 });
 
 App.controller('SlipcastViewGraphsController', function($scope, $stateParams, $window, apiRequest) {

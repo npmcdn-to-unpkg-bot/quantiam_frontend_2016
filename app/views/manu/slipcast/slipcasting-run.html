@@ -283,23 +283,23 @@
 									<td><b>{{ value.tasks }}</b></td>
 									<td>
 
-										<div ng-if="(SVC.steps.complete[value.step - 1] || value.step == 1) && !SVC.steps.complete[value.step + 1]" class="checkbox checkbox-styled checkbox-success">
+										<div ng-if="(SVC.completedTasks[value.step - 1] || value.step == 1) && !SVC.completedTasks[value.step + 1]" class="checkbox checkbox-styled checkbox-success">
 											<label>
-												<input ng-disabled="!SVC.editable" ng-model="SVC.steps.complete[value.step]" type="checkbox" value>
+												<input ng-disabled="!SVC.editable" ng-model="SVC.completedTasks[value.step]" ng-change="SVC.checkStep(value.step)" type="checkbox">
 												<span></span>
 											</label>
 										</div>
 
-										<div ng-if="SVC.steps.complete[value.step] && SVC.steps.complete[value.step + 1]" class="checkbox checkbox-styled checkbox-info">
+										<div ng-if="SVC.completedTasks[value.step] && SVC.completedTasks[value.step + 1]" class="checkbox checkbox-styled checkbox-info">
 											<label>
-												<input ng-model="SVC.steps.complete[value.step]" type="checkbox" value disabled checked>
+												<input ng-model="SVC.completedTasks[value.step]" type="checkbox" value disabled checked>
 												<span></span>
 											</label>
 										</div>
 
-										<div ng-show="!SVC.steps.complete[value.step -1] && value.step != 1" class="checkbox checkbox-styled checkbox-success" tooltip-placement="right-top" uib-tooltip="Must complete prior steps first">
+										<div ng-show="!SVC.completedTasks[value.step -1] && value.step != 1" class="checkbox checkbox-styled checkbox-success" tooltip-placement="right-top" uib-tooltip="Must complete prior steps first">
 											<label>
-												<input ng-model="SVC.steps.complete[value.step]" type="checkbox" value disabled>
+												<input ng-model="SVC.completedTasks[value.step]" type="checkbox" value disabled>
 												<span></span>
 											</label>
 										</div>
