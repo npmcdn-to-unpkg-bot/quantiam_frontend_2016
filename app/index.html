@@ -40,7 +40,7 @@
 
 
 
-<body class="menubar-hoverable header-fixed" ng-class="{'menubar-visible': false, 'menubar-pin': expandedsidebarstate}"  ng-controller="IndexController as IC">
+<body class="menubar-hoverable header-fixed" ng-class="{'menubar-visible': IC.memubar_visible, 'menubar-pin': IC.expandedsidebarstate}"  ng-controller="IndexController as IC">
 
 <!-- BEGIN HEADER-->
 <header ng-show="user" id="header" >
@@ -56,7 +56,7 @@
                     </div>
                 </li>
                 <li>
-                    <a class="btn btn-icon-toggle menubar-toggle" ng-click="expandSidebar()" data-toggle="menubar" href="javascript:void(0);">
+                    <a class="btn btn-icon-toggle menubar-toggle" ng-click="IC.expandSidebar()" data-toggle="menubar" href="javascript:void(0);">
                         <i class="fa fa-bars"></i>
                     </a>
                 </li>
@@ -112,7 +112,7 @@
     <!-- END CONTENT -->
 
     <!-- BEGIN MENUBAR-->
-    <div ng-show="user" id="menubar" class="menubar-inverse "> 
+    <div ng-show="user" id="menubar" class="menubar-inverse " ng-mouseenter="IC.menubarHover()" ng-mouseleave="IC.menubarLeave()"> 
         <div class="menubar-fixed-panel">
             <div>
                 <a class="btn btn-icon-toggle btn-default menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
@@ -148,7 +148,7 @@
 					
 								
 								
-						<li class="gui-folder"   ng-class="{ 'expanded active': 'true', 'expanded active': isActive('/rto') || isLastSelectedSidebar('Timesheet'), 'expanded': expandedsidebarmenustate}" >
+						<li class="gui-folder"   ng-class="{ 'expanded': (isActive('/rto') && IC.memubar_visible) || (isLastSelectedSidebar('Timesheet') && IC.memubar_visible), 'active': isActive('/rto') || isLastSelectedSidebar('Timesheet') }" >
 							<a      ng-click="expandSidebarMenuItem($event)"">
 								<div class="gui-icon"><i class="fa fa-calendar"></i></div>
 								<span ng-model="lastSelectedSidebar" class="title">Timesheet</span>
@@ -168,7 +168,7 @@
 						
 						
 										
-						<li class="gui-folder"     ng-class="{  'expanded active': isActive('/slipcast') || isLastSelectedSidebar('Manufacturing'), 'expanded': expandedsidebarmenustate}" >
+						<li class="gui-folder"     ng-class="{  'active': isActive('/slipcast') || isLastSelectedSidebar('Manufacturing'),  'expanded': (isActive('/slipcast') && IC.memubar_visible) || (isLastSelectedSidebar('Manufacturing')  && IC.memubar_visible)}" >
 							<a   ng-click="expandSidebarMenuItem($event)" >
 								<div class="gui-icon"><i class="fa fa-industry"></i></div>
 								<span class="title">Manufacturing</span>

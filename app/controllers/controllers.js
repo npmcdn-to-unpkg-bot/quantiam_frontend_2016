@@ -1,7 +1,20 @@
 App.controller('IndexController', ['$scope', '$location','userService','select2request', function($scope, $location, userService,select2request ) {
-  //var vm = this;
+  var vm = this;
+	vm.memubar_visible = false;
+	vm.expandedsidebarstate = false;
+	
 	$scope.select2request = select2request;
-
+	
+	
+	vm.menubarHover = function()
+	{
+		vm.memubar_visible = true;
+	}
+	
+		vm.menubarLeave = function()
+	{
+		vm.memubar_visible = false;
+	}
 	
 	
 	
@@ -56,12 +69,12 @@ App.controller('IndexController', ['$scope', '$location','userService','select2r
 	
 	/// Expanded Class Javascript Logics
 	
-	$scope.expandedsidebarstate = 'menubar-pin';
-	 $scope.expandSidebar = function(){
-    if ($scope.expandedsidebarstate === "menubar-pin")
-      $scope.expandedsidebarstate = "";
+
+	 vm.expandSidebar = function(){
+    if (vm.expandedsidebarstate == true)
+      vm.expandedsidebarstate = false;
     else
-      $scope.expandedsidebarstate = "menubar-pin";
+     vm.expandedsidebarstate = true;
   };
 	
 	$scope.expanded = ""; //default close all "expanded" menu elements
