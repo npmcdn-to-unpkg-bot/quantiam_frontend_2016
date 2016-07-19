@@ -95,7 +95,7 @@ body {
 	background-color: rgba(12, 12, 12, 0.25);
 }
 
-.clickable tbody tr:hover{
+.clickablerows tbody tr:hover{
 	
 	
 	cursor:pointer;
