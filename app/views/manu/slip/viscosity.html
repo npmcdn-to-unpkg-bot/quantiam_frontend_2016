@@ -2,9 +2,7 @@
 	
 	<h3 class='page-header' style='margin-top:0px'>Slip Viscosity
 		
-			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-info btn btn-xs' style='margin-left:170px'>{{VC.slipObj.identifier}}</a>
-			<a ng-if="VC.slipObj.recipe.viscosity" class='btn-primary btn btn-xs' style='margin-left:20px'> {{VC.slipObj.recipe.viscosity}}  cps</a>
-		 
+		
 		 
 			
 	 
@@ -47,17 +45,26 @@
 		
 <div style='margin-bottom:20px;' class='row'>
 	
-		<div class="col-md-4">
-			<b> Solvent Added at Filtering (g) </b>
-		</div>
-		<div class='col-md-2'>
+		<div class="col-md-3 col-md-offset-2">
+			<b> Filtering Solvent Added (g) </b>
+	
 				<input placeholder="Solvent (g)" id="solvent_addition"
 				
 				ng-model='VC.slipObj.solvent_added_at_filtering'
 				
 				ng-blur="VC.editSlipcastObj('solvent_added_at_filtering',VC.slipObj.solvent_added_at_filtering)" class='form-control'></input>
 		</div>
+		<div class='col-md-2'>
+		
+			<label><b>Target Viscosity</b></label>	<a ng-if="VC.slipObj.recipe.viscosity" class='btn-primary btn btn-sm' style='margin-left:10px'> {{VC.slipObj.recipe.viscosity}}  cps</a>
+		</div>
+		<div class='col-md-2'>
+		<center><label> <b> Slip Identifier </b></label></center>
+		
+		<a ng-if="VC.slipObj.recipe.viscosity" class='btn-info btn btn-sm' style='margin-left:20px'>{{VC.slipObj.identifier}}</a>
 	
+		 
+		</div>
 		</div>
 <!-- 		
 		<form name="VC.myForm">
