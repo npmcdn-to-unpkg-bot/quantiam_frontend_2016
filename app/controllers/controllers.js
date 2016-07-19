@@ -228,7 +228,10 @@ App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptions
 }]);
 
 App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService', 'apiRequest',
-        function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService, apiRequest) {
+       
+			 
+			 
+			 function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService, apiRequest) {
   
         $scope.$on("$locationChangeStart", function() {
             console.log('this is how you do functions on leaving page.');
@@ -250,6 +253,7 @@ App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$loca
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
+			console.log(r.data);
            // console.log($scope.rtoData.requested_time[0].date);
 					 
 			$scope.checkExistingAbsences();
@@ -858,126 +862,3 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
 
 
 
-App.controller('CommentsController', function($scope,apiRequest, $location, $sce) {
-	
-		$scope.comments;
-		$scope.user_comment;
-		
-		$scope.to_trusted = function(html_code) {
-    return $sce.trustAsHtml(html_code);
-}
-		
-	
-		$scope.fetchComments = function () {
-			
-				
-			var params = {
-				'path': $location.path(),
-				
-				};
-				
-				
-			apiRequest.send('get', '/comment', params).success(function(r){
-				
-				
-				$scope.comments = r;
-				console.log(r);
-				
-				}).error(function(e){
-				
-			/*
-				toastr.error('Comments could not be loaded');
-				*/
-				});
-			
-			$scope.comments = ['comment1', 'comment2'];
-		
-			}
-	
-		$scope.addComment = function (user_comment) {
-				var params = {
-				'comment_text': user_comment,
-				'comment_path': $location.path(),
-				
-				};
-				
-			
-			apiRequest.send('post', '/comment', params).success(function(r){
-				
-				 $scope.user_comment = null;
-				$scope.comments.unshift(r[0]);
-				
-				}).error(function(e){
-				
-
-				toastr.error('Comments failed to create.');
-				
-				});
-
-			
-			}
-			
-			
-		$scope.removeComment = function (commentID, commentArrayIndex){
-		
-	
-	
-			
-			apiRequest.send('delete', '/comment/'+commentID, null).success(function(r){
-				
-				
-			$scope.comments.splice(commentArrayIndex, 1);
-				
-				toastr.success('Comment removed.');
-				
-				}).error(function(e){
-				
-				
-				toastr.error('Comment failed to remove.');
-				
-				});
-			
-			
-		}
-			
-			
-		
-		
-		
-		//run on intiatilizatiopn
-		$scope.fetchComments();
-	
-	
-
-});
-
-
-
-
-
-
-
-
-App.controller('TolueneDataController', function() {
-
-    $('#container').highcharts({
-        xAxis:{
-            categories: ['Time']
-        },
-
-        series:[{
-            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        }]
-    });
-
-
-
-
-});
-App.controller('HumidityDataController', function() {
-
-
-
-
-
-});

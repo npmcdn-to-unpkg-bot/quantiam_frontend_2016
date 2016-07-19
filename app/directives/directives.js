@@ -38,7 +38,114 @@ App.directive('comments', function(){
         restrict: 'E',
         templateUrl: 'views/comment_section.html',
 				replace: true,
- }
+				scope:{
+							identifier: '@identifier',
+						
+					},
+				link: function(scope, element, attrs) {
+					
+			
+						attrs.$observe('identifier',function(newValue,oldValue) {
+								//This gets called when data changes.
+								if(attrs.identifier != '')
+								{
+									scope.CC.getComments();
+								}	
+						});
+					},
+					controller:function($scope,apiRequest, $location, $sce){ 
+								
+								var vm = this;
+								vm.comments;
+								vm.user_comment;
+					
+					vm.to_trusted = function(html_code) {
+							return $sce.trustAsHtml(html_code);
+					}
+					
+				
+					vm.getComments = function () {
+						
+							
+						var params = {
+							'comment_hash': this.identifier,
+							
+							};
+							
+							
+						apiRequest.send('get', '/comment', params).success(function(r){
+							
+							
+							vm.comments = r;
+							console.log(r);
+							
+							}).error(function(e){
+							
+						
+									toastr.error('Comments could not be loaded');
+							
+							});
+						
+					
+					
+						}
+				
+						vm.addComment = function (user_comment) {
+								var params = {
+								'comment_text': user_comment,
+								'comment_hash': this.identifier,
+								
+								};
+							
+						
+							apiRequest.send('post', '/comment', params).success(function(r){
+								
+								 vm.user_comment = null;
+								vm.comments.unshift(r[0]);
+								
+								}).error(function(e){
+								
+
+								toastr.error('Comments failed to create.');
+								
+								});
+
+						
+						}
+						
+								
+							vm.removeComment = function (commentID, commentArrayIndex){
+							
+						
+						
+								
+								apiRequest.send('delete', '/comment/'+commentID, null).success(function(r){
+									
+									
+								vm.comments.splice(commentArrayIndex, 1);
+									
+									toastr.success('Comment removed.');
+									
+									}).error(function(e){
+									
+									
+									toastr.error('Comment failed to remove.');
+									
+									});
+								
+								
+							}
+						
+
+					//vm.getComments();
+								
+								
+								
+								
+							},
+							controllerAs: 'CC',
+							bindToController: true,
+			 }
 	
 	
 });
@@ -248,7 +355,6 @@ App.directive('dropzone', function(){
 
 												vm.openLightboxModal = function (index) {
 												
-												//console.log(Lightbox);
 													Lightbox.openModal(vm.images, index);
 												};
 											

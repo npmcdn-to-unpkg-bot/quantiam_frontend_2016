@@ -1,8 +1,8 @@
-<div  ng-controller = "CommentsController">
+<div >
 	
 
 <!-- Display previous comments -->
-<div  ng-hide="comments[0]" class='card'>
+<div  ng-hide="CC.comments[0]" class='card'>
 
 			<div class='card-body' >
 				
@@ -10,7 +10,7 @@
 				</div>
 </div>
 	
-<div  ng-repeat="key in comments"    class='card'>
+<div  ng-repeat="key in CC.comments"    class='card'>
 
 			<div class='card-body' style='padding:10px;'>
 		
@@ -20,9 +20,9 @@
 							<i><small>{{key.comment_datetime}}</small></i>
 						</div>
 					</div>
-					<div  style="display:inline-table; align:center; padding:5px 5px 0px 15px;"><div  ng-bind-html="to_trusted(key.comment_text)"></div>	</div>
+					<div  style="display:inline-table; align:center; padding:5px 5px 0px 15px;"><div  ng-bind-html="CC.to_trusted(key.comment_text)"></div>	</div>
 					<div style="display:inline-table; float:right; padding:5px 0px 0px 15px;">
-						<a ng-if="key.comment_employee_id == user.employeeID" class="btn btn-flat btn-danger ink-reaction" ng-click="removeComment(key.comment_entry_id, $index)">Remove</a> 
+						<a ng-if="key.comment_employee_id == user.employeeID" class="btn btn-flat btn-danger ink-reaction" ng-click="CC.removeComment(key.comment_entry_id, $index)">Remove</a> 
 		
 											<!-- <a class="btn btn-flat btn-default ink-reaction" ngclick="editCommentPrep()">Edit</a> -->
 					
@@ -46,7 +46,7 @@
 	</div>
 	<div class="card-actionbar">
 										<div class="card-actionbar-row">
-											<a class="btn btn-flat btn-primary ink-reaction" ng-click="addComment(user_comment)">Add comment</a>
+											<a class="btn btn-flat btn-primary ink-reaction" ng-click="CC.addComment(user_comment)">Add comment</a>
 										</div>
 		</div>
 </div>	
