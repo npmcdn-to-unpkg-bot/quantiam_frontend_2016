@@ -2,14 +2,19 @@
 
 
 <div class="col-md-6">
-        <highchart id="chart1" config="chartConfig"></highchart>
+
 </div>
-    
 
+<div class="row">
+<div class=col-lg-4" ng-app="App" ng-controller="WeatherCtrl">
+    <div class="card">
 
- 
-<div class="col-md-6">
-         <comments></comments>
+          <h2>Weather in Edmonton, Alberta</h2>
+          <weather-icon cloudiness="{{ weather.clouds }}"></weather-icon>
+          <h3>Current: {{ weather.temp.current | temp:2 }}</h3>
+          min: {{ weather.temp.min | temp }}, max: {{ weather.temp.max | temp }}
+    </div>
+    </div>
 </div>
     
 

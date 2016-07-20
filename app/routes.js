@@ -9,8 +9,23 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         })
         .state('dashboard', {
             url:'/dashboard',
-            templateUrl: 'views/dashboard.html',
-            controller: 'HomeController as HC'
+            views: {
+
+                        '': {
+                            templateUrl: 'views/dashboard.html',
+                            controller: 'HomeController as HC'
+                             },
+                        'weather': {
+                                 templateUrl:'views/weather.html',
+                                 controller: 'WeatherCtrl as WC'
+                        }
+
+            }
+        })
+        .state('weather', {
+            url:'/weather',
+            templateUrl: 'views/weather.html',
+            controller: 'WeatherCtrl as WC'
         })
         .state('login', {
             url:'/login',

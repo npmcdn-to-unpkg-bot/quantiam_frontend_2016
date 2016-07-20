@@ -872,6 +872,9 @@ App.controller('usersController', ['$scope', '$rootScope', '$location', '$stateP
 
 }]);
 
+App.controller('WeatherCtrl', function ($scope, weatherService) {
+    $scope.weather = weatherService.getWeather();
+});
 
 
 
