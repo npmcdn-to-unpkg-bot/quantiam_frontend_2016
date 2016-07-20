@@ -78,10 +78,9 @@
 													style="width:100%"
 											
 													ng-change="SVC.editSlipcastObj('manu_slipcasting_table_id',SVC.slipCastObj.manu_slipcasting_table_id)"
-													options="SVC.slipcastingTables"
+													options="select2request.fetchList('/slipcast/table/list', null)"
 													ng-model="SVC.slipCastObj.manu_slipcasting_table_id"
-													s2-options="Tables.manu_slipcasting_table_id as Tables.manu_slipcasting_table_name
-																	for Tables in SVC.slipcastingTables"
+								
 															ng-disabled="!SVC.editable"		
 															>
 																	 <option value=""></option> 
@@ -541,15 +540,25 @@
 																	style="font-size:11px;"
 																	placeholder="Profile Selection"
 																	ng-change="SVC.editSlipcastObj('manu_slipcasting_profile_id',SVC.slipCastObj.manu_slipcasting_profile_id)"
-																	options="SVC.slipcastingProfiles"
+																	options="select2request.fetchList('/slipcast/profile/list',{'active': 1})"
 																	ng-model="SVC.slipCastObj.manu_slipcasting_profile_id"
-																	s2-options="profile.manu_slipcasting_profile_id as profile.profile_name
-																					for profile in SVC.slipcastingProfiles"
+																
 																			ng-disabled="!SVC.editable"		
 																			>
 																					 <option value=""></option> 
 																				
 															</select2>
+															
+															
+													<!-- 		
+														<select2 
+																	style="width: 100%; font-size:11px;"
+																	ng-change="SVC.addSteel()"
+																	placeholder="Steel Selection"
+																	options="select2request.fetchList('/steel/list', null)"
+																	ng-model="SVC.selectedSteel"
+																	ng-disabled="!SVC.editable"
+																	></select2>   -->
 						
 						</div>
 					</h3>

@@ -189,7 +189,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			console.log(r);
 				vm.slipCastObj = r;
 				
-				vm.getSlipProfileList();
+				
 					
 					vm.getSlip();
 				vm.checkEditable();
@@ -262,38 +262,11 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		
 	}
 	
-	vm.getRampProfileList = function ()
-	{
-			if(!vm.slipcastingRampProfiles)
-			{
-			apiRequest.send('get','/ramp/profile/list/slipcasting/1', null).success(function(r){
-				
-				
-				console.log(r);
-				vm.slipcastingRampProfiles = r; 
-				
-				});
-			}
-	}
-	
-		vm.getSlipProfileList = function ()
-	{
-		
-			if(!vm.slipcastingProfiles)
-			{
-		
-		var params = { } ;
-			apiRequest.send('get','/slipcast/profile/list', params).success(function(r){
-				vm.slipcastingProfiles = r; 
-				
-				});
-			}
-	}
-	
+
 	vm.getSlipTableList = function ()
 	{
 		
-			if(!vm.slipcastingProfiles)
+			if(!vm.slipcastingTables)
 			{
 			apiRequest.send('get','/slipcast/table/list', null).success(function(r){
 			
@@ -302,6 +275,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 				});
 			}
 	}
+	
 	
 	vm.addSteel = function (steel)
 	{
@@ -759,4 +733,10 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, $w
 
 
 
+});
+
+
+App.controller('SlipcastAnalyticalController', function($scope, $stateParams, $window, apiRequest) {
+	
+	
 });

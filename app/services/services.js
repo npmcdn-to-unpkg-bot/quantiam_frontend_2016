@@ -549,26 +549,27 @@ App.service('select2request', function(apiRequest){
 	
 	
 	var vm = this;
+	vm.params; //store paramters in this service instance
 	
-	
-	vm.fetchList = function(path,params)
+	vm.fetchList = function(path,params = null)
 	{
-		
-		
+			vm.params = params;	
+	
 	return 	{
 		
 		
 		 query: function (query) {
-            
-						var params = {'like': query.term};
+        
+						vm.params.like = query.term;
+				
 						
-						apiRequest.send('get',path, params).success(function(r){
+						apiRequest.send('get',path, vm.params).success(function(r){
 							
 							var data = {};
-						data.results = r;
+							data.results = r;
          
 
-            query.callback(data);
+							query.callback(data);
 							
 							});
 					
