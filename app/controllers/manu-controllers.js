@@ -129,8 +129,6 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 		vm.getSlipcastObj(vm.slipcastID);
 		
-	//	vm.getRampProfileList();
-		vm.getSlipTableList();
 		userInfoService.getUsers().then(function(r) {
 		
 					$scope.userData = r.data;
@@ -246,7 +244,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 				});
 	
 			vm.selectedOperator = 'none';
-			//$('.chosen-select').trigger('chosen:updated');
+		
 		
 		
 	}
@@ -263,20 +261,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	}
 	
 
-	vm.getSlipTableList = function ()
-	{
-		
-			if(!vm.slipcastingTables)
-			{
-			apiRequest.send('get','/slipcast/table/list', null).success(function(r){
-			
-				vm.slipcastingTables = r; 
-				
-				});
-			}
-	}
-	
-	
+
 	vm.addSteel = function (steel)
 	{
 	
