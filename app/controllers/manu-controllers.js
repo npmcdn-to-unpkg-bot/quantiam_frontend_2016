@@ -99,7 +99,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
  
 
-App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,userInfoService,webSocket) {
+App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,userService, userInfoService,webSocket) {
 
 	var vm = this;
 	
@@ -107,7 +107,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.slipcastID = $stateParams.slipcastid;
 	vm.slipCastObj = {};
 	vm.editable = 0; //default can't edit
-	vm.editableDays = 0;
+	vm.editableDays = 1;
+	vm.admin = 0;
 	vm.selectedOperator = '';
 	vm.slipObj;
 	vm.slipcastingRampProfiles;
@@ -119,6 +120,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.scaleValue;
 	vm.scaleValuePrevious;
 	vm.scaleStatus;
+	vm.previousContainerWeightData = {};
 	vm.completedTasks = [];
 
 	
@@ -140,6 +142,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		
 		}
 		
+		
+
 		
 	vm.getSlip = function (){
 		
@@ -164,6 +168,14 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		if(diff >= vm.editableDays )
 		{
 				vm.editable = 1;
+		}
+		
+		
+		if(userService.checkIfUserGroupMember(41) || userService.checkIfUserGroupMember(5))
+		{
+			
+			vm.admin = 1;
+			vm.editable = 1;
 		}
 		
 	
@@ -366,6 +378,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 					vm.slipCastObj.steel[steelIndex].container_weights[container-1] = r;
 					
+					vm.previousContainerWeightData = {'steelIndex' : steelIndex, 'container': container-1};
 					console.log(r);
 				
 					 toastr.success('Successfully Saved');
@@ -374,6 +387,21 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		
 		 
 		} 
+		
+		vm.undoSlipWeigh = function () {
+			
+			if(vm.previousContainerWeightData.steelIndex)
+			{
+				vm.slipCastObj.steel[vm.previousContainerWeightData.steelIndex].container_weights.splice(vm.previousContainerWeightData.container, 1);
+				toastr.success("Removed");
+			}
+			else
+			{
+				
+			toastr.error("Nothing to undo");	
+			}
+			
+		}
 	 
 	 
    
@@ -441,6 +469,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 				vm.completedTasks[stepID] = true;
 			})
 		};
+		
+		
 		vm.checkStep = function (stepid)
 		{
 			var httpVerb;
@@ -467,6 +497,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 				toastr.error('Could not change task');
 			})
 		}
+		
+		
 });
 
 App.controller('SlipcastViewGraphsController', function($scope, $stateParams, $window, apiRequest) {
