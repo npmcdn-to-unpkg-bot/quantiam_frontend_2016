@@ -74,4 +74,16 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               controller: 'SlipcastProfileController as SC'
 
         })
+				 .state('furnacerun', {
+            url:'/furnacerun',
+              templateUrl: 'views/manu/furnace/furnacerun.html',
+              controller: 'FurnaceRunController as FRC'
+
+        })
+				 .state('furnacerunview', {
+            url:'/furnacerun/:furnacerunid',
+              templateUrl: 'views/manu/furnace/furnacerunview.html',
+              controller: 'FurnaceRunViewController as FRC'
+
+        })
 }]);

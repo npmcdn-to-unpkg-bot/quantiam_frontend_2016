@@ -725,3 +725,84 @@ App.controller('SlipcastAnalyticalController', function($scope, $stateParams, $w
 	
 	
 });
+
+
+App.controller('FurnaceRunController', function($scope, $stateParams, $location, apiRequest, DTColumnBuilder, dtRequest) {
+	
+	
+	var vm = this;
+	
+	
+	 vm.rowClickHandler = function (info) {
+     
+			$location.path('/furnacerun/' + info.furnace_run_id);
+			
+     
+			$scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise. 
+
+    }
+
+	vm.updateTable = function() {
+	
+		vm.getdtTable();
+		
+		}
+  	
+		
+	vm.getdtTable = function () {
+		
+		var customOptions = {
+							 
+							 'campaign_id' : vm.campaignID,
+							 'profile_id' : vm.profileID,
+							 'furnace_id' : vm.furnaceID,
+							 'furnace_run_type_id' : vm.furnaceruntypeID,
+							 
+							 };
+
+							//what columns do we want to show?
+		var dtColumns = [
+								
+
+										DTColumnBuilder.newColumn('datamatrix').withTitle('Code').renderWith(function(data, type, full) {
+									//	console.log(full);
+										
+																		return '<img width=40px src="'+full.datamatrix+'"</img>';
+																}),
+										DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
+																			return '<b>QMFR-'+full.furnace_run_id+'</b>';
+																	}),
+																	
+										DTColumnBuilder.newColumn('furnace_run_name', 'Name').notSortable(),
+										DTColumnBuilder.newColumn('furnace_run_type_name', 'Type').notSortable(),
+										DTColumnBuilder.newColumn('profile_name', 'Profile').notSortable(),
+										DTColumnBuilder.newColumn('campaign_name', 'Campaign').notSortable(),
+								
+									
+									
+		
+														
+									DTColumnBuilder.newColumn('date_created', 'Created'),
+								
+								
+							];
+							
+
+		vm.dtTable = dtRequest.build_dtOptions('furnacerun/list/datatable', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response 
+	
+		console.log(vm.dtTable);
+	}
+	
+	vm.getdtTable();
+	
+});
+
+
+
+
+
+
+App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, apiRequest, DTColumnBuilder) {
+
+});
+	

@@ -1,0 +1,62 @@
+<div>
+	
+	
+	
+							
+								
+	<div class='col-md-8 col-md-offset-2'>
+	
+		<div class='row'>		
+		
+					<h3> Furnace Runs</h3>
+			
+		
+															<select2 
+																	style="font-size:11px;"
+																	placeholder="Campaign Filter"
+																	ng-change="FRC.updateTable()"
+																	options="select2request.fetchList('/campaign/list',{})"
+																	ng-model="FRC.campaignID"
+													
+																	></select2>
+			
+									<!-- 						<select2 
+																	style="font-size:11px;"
+																	placeholder="Furnace Filter"
+																	ng-change="FRC.updateTable()"
+																	options="select2request.fetchList('/furnace/list',null)"
+																	ng-model="FRC.furnaceID"
+													
+																	></select2>
+	
+															
+															<select2 
+																	style="font-size:11px;"
+																	placeholder="Profile Filter"
+																	ng-change="FRC.updateTable()"
+																	options="select2request.fetchList('/furnace/profile/list',null)"
+																	ng-model="FRC.furnaceprofileID"
+													
+																	></select2>
+					
+															
+															<select2 
+																	style="font-size:11px;"
+																	placeholder="Run Type Filter"
+																	ng-change="FRC.updateTable()"
+																	options="select2request.fetchList('/furnacerun/type/list',null)"
+																	ng-model="FRC.furnaceruntypeID"
+													
+																	></select2>  -->
+						
+	
+	
+								</div>
+	
+	
+				<table datatable="" dt-options="FRC.dtTable"  class="table table-condensed table-striped table-hover table-stats  dataTable shadow clickablerows" style='Width:100%; margin-top:10px;'>
+		
+				</table>
+	</div>
+		
+</div>
