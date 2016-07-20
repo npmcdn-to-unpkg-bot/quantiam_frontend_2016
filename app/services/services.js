@@ -555,6 +555,7 @@ App.service('select2request', function(apiRequest){
 	{
 			vm.params = params;	
 	
+	console.log(params);
 	return 	{
 		
 		

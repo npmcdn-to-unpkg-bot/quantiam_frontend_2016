@@ -765,7 +765,7 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 								
 
 										DTColumnBuilder.newColumn('datamatrix').withTitle('Code').renderWith(function(data, type, full) {
-									//	console.log(full);
+										console.log(full);
 										
 																		return '<img width=40px src="'+full.datamatrix+'"</img>';
 																}),
@@ -782,7 +782,7 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 									
 		
 														
-									DTColumnBuilder.newColumn('date_created', 'Created'),
+									DTColumnBuilder.newColumn('created_date', 'Created'),
 								
 								
 							];

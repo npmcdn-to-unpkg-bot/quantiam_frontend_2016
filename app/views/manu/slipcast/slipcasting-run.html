@@ -54,16 +54,17 @@
 									<div class="form-group col-sm-2" style="width:130px">
 										<b> Slip ID </b> 
 									
-										<select2 style="width: 100%"
-	
-													options="select2request.fetchList('/slip/list', null)"
-														ng-change="SVC.editSlipcastObj('manu_slip_id',SVC.slipCastObj.manu_slip_id)"
+										<select2 
+													style="width: 100%"
+													
+													options="select2request.fetchList('/slip/list', {'guarantee': SVC.slipCastObj.manu_slip_id,'test': 'thing'})"
+													ng-change="SVC.editSlipcastObj('manu_slip_id',SVC.slipCastObj.manu_slip_id)"
 													ng-model="SVC.slipCastObj.manu_slip_id"
 													ng-disabled="!SVC.editable">
 													
 											
 																	
-																
+																<option></option>
 											</select2>  
 										
 										
