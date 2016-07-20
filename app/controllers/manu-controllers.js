@@ -107,7 +107,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.slipcastID = $stateParams.slipcastid;
 	vm.slipCastObj = {};
 	vm.editable = 0; //default can't edit
-	vm.editableDays = 1;
+	vm.editableDays = -1;
 	vm.admin = 0;
 	vm.selectedOperator = '';
 	vm.slipObj;

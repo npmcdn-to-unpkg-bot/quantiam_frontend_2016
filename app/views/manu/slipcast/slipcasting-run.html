@@ -352,7 +352,7 @@
 																<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,  $parent.$parent.$index, $index+1,'container')"
-																	ng-disabled="!SVC.scaleStatus"
+																	ng-disabled="!SVC.scaleStatus || !SVC.editable"
 																	ng-if="Obj.container_weights[$index].container == null"	> Record </button>
 																
 															
@@ -361,7 +361,7 @@
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
-																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null"
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || !SVC.editable"
 																		ng-if="Obj.container_weights[$index].slip == null"> Record </button>
 																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].slip != null">{{Obj.container_weights[$index].slip}} g</p>
 																	<!-- somethign else -->
@@ -369,7 +369,7 @@
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																		ng-if="Obj.container_weights[$index].remainder == null"
-																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].slip == null" > Record </button>
+																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].slip == null || !SVC.editable" > Record </button>
 																		<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
 																<!-- somethign else -->
 																</td>
