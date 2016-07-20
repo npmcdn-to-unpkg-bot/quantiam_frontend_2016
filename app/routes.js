@@ -9,23 +9,8 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         })
         .state('dashboard', {
             url:'/dashboard',
-            views: {
-
-                        '': {
-                            templateUrl: 'views/dashboard.html',
-                            controller: 'HomeController as HC'
-                             },
-                        'weather': {
-                                 templateUrl:'views/weather.html',
-                                 controller: 'WeatherCtrl as WC'
-                        }
-
-            }
-        })
-        .state('weather', {
-            url:'/weather',
-            templateUrl: 'views/weather.html',
-            controller: 'WeatherCtrl as WC'
+            templateUrl: 'views/dashboard.html',
+            controller: 'HomeController as HC'
         })
         .state('login', {
             url:'/login',
@@ -53,7 +38,7 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/users/user_info.html',
             controller: 'usersController as UC'
         })
-			.state('slipcast/analytics', {
+			.state('slipcast-analytics', {
 									url:'/slipcast/analytics/',
 										templateUrl: 'views/manu/slipcast/analytics.html',
 										controller: 'SlipcastAnalyticalController as SAC'
@@ -77,15 +62,15 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               controller: 'SlipcastController as SC'
 
         }) 
-				 .state('slipcast/profile/list', {
+				 .state('slipcast-profile-list', {
             url:'/slipcast/profile/list',
               templateUrl: 'views/manu/slipcast/profile_list.html',
               controller: 'SlipcastProfileListController as SC'
 
         }) 
-				 .state('slipcast/profile', {
-            url:'/slipcast/profile/',
-              templateUrl: 'views/manu/slipcast/profile.html',
+				 .state('slipcast-profiles', {
+            url:'/slipcast/profiles/',
+              templateUrl: 'views/manu/slipcast/slipcastprofile.html',
               controller: 'SlipcastProfileController as SC'
 
         })
