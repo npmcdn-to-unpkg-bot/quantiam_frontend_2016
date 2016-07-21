@@ -726,8 +726,6 @@ App.controller('SlipcastAnalyticalController', function($scope, $stateParams, $w
 	
 });
 
-<<<<<<< Updated upstream
-
 App.controller('FurnaceRunController', function($scope, $stateParams, $location, apiRequest, DTColumnBuilder, dtRequest) {
 	
 	
@@ -797,7 +795,7 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 	vm.getdtTable();
 	
 });
-=======
+
 App.controller('SlipcastProfileListController', function($scope, apiRequest) {
 
 
@@ -844,19 +842,13 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest) {
 
 
 	}
->>>>>>> Stashed changes
 
-
-
-
-<<<<<<< Updated upstream
 
 
 App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, apiRequest, DTColumnBuilder) {
 
 });
-	
-=======
+
 	vm.getdtTable();
 
 
@@ -870,4 +862,3 @@ App.controller('SlipcastProfileController', function() {
 
 
 });
->>>>>>> Stashed changes
