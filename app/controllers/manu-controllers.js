@@ -767,10 +767,10 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 									//	console.log(full);
 										
 																		return '<img width=40px src="'+full.datamatrix+'"</img>';
-																}),
+																}).notSortable(),
 										DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
 																			return '<b>QMFR-'+full.furnace_run_id+'</b>';
-																	}),
+																	}).notSortable(),
 																	
 										DTColumnBuilder.newColumn('furnace_run_name', 'Name').notSortable(),
 										DTColumnBuilder.newColumn('furnace_run_type_name', 'Type').notSortable(),
@@ -781,7 +781,7 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 									
 		
 														
-									DTColumnBuilder.newColumn('created_date', 'Created'),
+									DTColumnBuilder.newColumn('created_date', 'Created').notSortable(),
 								
 								
 							];
