@@ -64,12 +64,12 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         }) 
 				 .state('slipcast-profile-list', {
             url:'/slipcast/profile/list',
-              templateUrl: 'views/manu/slipcast/profile_list.html',
+              templateUrl: 'views/manu/slipcast/slipcastprofile.html',
               controller: 'SlipcastProfileListController as SC'
 
         }) 
-				 .state('slipcast-profiles', {
-            url:'/slipcast/profiles/',
+				 .state('slipcast-profile', {
+            url:'/slipcast/profile/:profile_id',
               templateUrl: 'views/manu/slipcast/slipcastprofile.html',
               controller: 'SlipcastProfileController as SC'
 

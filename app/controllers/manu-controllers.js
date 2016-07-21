@@ -726,6 +726,7 @@ App.controller('SlipcastAnalyticalController', function($scope, $stateParams, $w
 	
 });
 
+<<<<<<< Updated upstream
 
 App.controller('FurnaceRunController', function($scope, $stateParams, $location, apiRequest, DTColumnBuilder, dtRequest) {
 	
@@ -796,13 +797,77 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 	vm.getdtTable();
 	
 });
+=======
+App.controller('SlipcastProfileListController', function($scope, apiRequest) {
+
+
+	var vm = this;
+
+
+
+	vm.rowClickHandler = function (info) {
+
+		$location.path('/slipcast/profile/' + info.id);
+
+
+		$scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise.
+
+	}
+
+	vm.updateTable = function() {
+
+		vm.getdtTable();
+
+	}
+
+
+	vm.getdtTable = function (DTOptionsBuilder) {
+
+
+		vm.dtOptions=DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withDisplayLength(2);
+		//what columns do we want to show?
+
+		var dtColumns = [
+
+
+			DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
+				return '<b>Project ID:'+full.id+'</b>';
+			}),
+
+			DTColumnBuilder.newColumn('text', 'Slipcasting Profile').notSortable(),
+
+		];
+
+
+		vm.dtTable = dtRequest.build_dtOptions('slipcasting/profile/list', dtColumns, vm.dtOptions, 'rowClickHandler'); //query endpoint for datables response
+
+
+
+	}
+>>>>>>> Stashed changes
 
 
 
 
+<<<<<<< Updated upstream
 
 
 App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, apiRequest, DTColumnBuilder) {
 
 });
 	
+=======
+	vm.getdtTable();
+
+
+
+
+});
+
+App.controller('SlipcastProfileController', function() {
+
+
+
+
+});
+>>>>>>> Stashed changes
