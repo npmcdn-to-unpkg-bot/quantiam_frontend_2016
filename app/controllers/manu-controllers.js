@@ -800,13 +800,14 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 
 	var vm = this;
-	vm.profileList=[];
 
 	vm.init = function(){
 
 		apiRequest.send('get', '/slipcast/profile/list', null).success(function(r) {
 
 			vm.profileList = r;
+			console.log(vm.profileList);
+			toastr.success('why');
 		}).error(function(e) {
 
 			toastr.error('Could not fetch Profile data');
