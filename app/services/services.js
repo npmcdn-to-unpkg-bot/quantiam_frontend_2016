@@ -553,12 +553,19 @@ App.service('select2request', function(apiRequest){
 	
 	vm.fetchList = function(path,params = null)
 	{
+		if(!params)
+		{
+			vm.params = {};
+		}
+		else
+		{
 			vm.params = params;	
-	
+		}
+		
 	console.log(params);
 	return 	{
 		
-		
+		 allowClear: true,
 		 query: function (query) {
         
 						vm.params.like = query.term;

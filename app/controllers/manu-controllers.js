@@ -753,7 +753,7 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 		var customOptions = {
 							 
 							 'campaign_id' : vm.campaignID,
-							 'profile_id' : vm.profileID,
+							 'furnace_profile_id' : vm.furnaceprofileID,
 							 'furnace_id' : vm.furnaceID,
 							 'furnace_run_type_id' : vm.furnaceruntypeID,
 							 
@@ -764,7 +764,7 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 								
 
 										DTColumnBuilder.newColumn('datamatrix').withTitle('Code').renderWith(function(data, type, full) {
-										console.log(full);
+									//	console.log(full);
 										
 																		return '<img width=40px src="'+full.datamatrix+'"</img>';
 																}),
