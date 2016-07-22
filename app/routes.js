@@ -43,8 +43,8 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 										templateUrl: 'views/manu/slipcast/analytics.html',
 										controller: 'SlipcastAnalyticalController as SAC'
 
-							}) 
-					
+							})
+
         .state('slipcastview', {
             url:'/slipcast/:slipcastid',
               templateUrl: 'views/manu/slipcast/slipcasting-run.html',
@@ -61,17 +61,17 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               templateUrl: 'views/manu/slipcast/slipcast.html',
               controller: 'SlipcastController as SC'
 
-        }) 
+        })
 				 .state('slipcast-profile-list', {
             url:'/slipcast/profile/list',
               templateUrl: 'views/manu/slipcast/slipcastprofile.html',
               controller: 'SlipcastProfileListController as SC'
 
         }) 
-				 .state('slipcast-profile', {
-            url:'/slipcast/profile/:profile_id',
-              templateUrl: 'views/manu/slipcast/slipcastprofile.html',
-              controller: 'SlipcastProfileController as SC'
+				 .state('slipcast-profile-list.view', {
+            url:'/:profile_id',
+              templateUrl: 'views/manu/slipcast/slipcastprofileview.html',
+              controller: 'SlipcastProfileViewController as SVC'
 
         })
 				 .state('furnacerun', {

@@ -807,7 +807,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 			vm.profileList = r;
 			console.log(vm.profileList);
-			toastr.success('why');
+
 		}).error(function(e) {
 
 			toastr.error('Could not fetch Profile data');
@@ -817,7 +817,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 	vm.viewProfile = function(profile_id){
 
-		$location.path('/slipcast/profile/' + profile_id);
+		$location.path('/slipcast/profile/list/' + profile_id);
 
 	};
 
@@ -825,6 +825,16 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 
 });
+
+App.controller('SlipcastProfileViewController', function($stateParams) {
+
+	var vm = this;
+	vm.profile_id = $stateParams.profile_id;
+
+	console.log($stateParams);
+
+
+})
 
 
 App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, apiRequest, DTColumnBuilder) {

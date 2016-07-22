@@ -54,47 +54,6 @@ body {
 		
 }
 
-.ink-reaction {
-	position: relative;
-	overflow: hidden;
-}
-.ink-reaction .ink {
-	position: absolute;
-	width: 200px;
-	height: 200px;
-	margin-left: -100px;
-	margin-top: -100px;
-	background-color: rgba(255, 255, 255, 0.5);
-	border-radius: 50%;
-	z-index: 1;
-	pointer-events: none;
-	opacity: 0;
-	-webkit-animation: ripple-animation 1.5s;
-	animation: ripple-animation 1.5s;
-}
-.ink-reaction .ink.inverse {
-	background-color: rgba(12, 12, 12, 0.5);
-}
-.ink-reaction.btn-icon-toggle,
-.ink-reaction.btn-floating-action {
-	overflow: visible;
-}
-.ink-reaction.btn-icon-toggle .ink,
-.ink-reaction.btn-floating-action .ink {
-	width: 100px;
-	height: 100px;
-	margin-left: -50px;
-	margin-top: -50px;
-}
-.ink-reaction.btn-icon-toggle .ink,
-.ink-reaction.btn-flat .ink {
-	background-color: rgba(255, 255, 255, 0.25);
-}
-.ink-reaction.btn-icon-toggle .ink.inverse,
-.ink-reaction.btn-flat .ink.inverse {
-	background-color: rgba(12, 12, 12, 0.25);
-}
-
 .clickablerows tbody tr:hover{
 	
 	
@@ -177,6 +136,11 @@ body {
 	
 	border: 2px dashed #0087F7;
 	
+}
+
+table.sexystripes   th {
+	color: white;
+	background-color: #456382;
 }
 
 
