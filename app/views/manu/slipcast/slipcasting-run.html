@@ -6,9 +6,16 @@
 				 <B> Notice: </B>  The period in which you could edit this slipcasting run has expired.  Please contact the database adminsitrator if you must edit this. 
 			 </uib-alert>
 			 
-			   <div ng-if="SVC.editable && SVC.admin" class="alert-success alert">
-				 <B> Notice: </B>  You are editing this slipcasting run with admin privledges.
+			   <div ng-if="SVC.admin && SVC.admin_edit_notice" class="alert-warning alert">
+				<p> <B> Notice: </B>  You could edit this with admin rights.
+				 <button class='btn btn-xs' ng-click="SVC.enableAmindEditing()" style='margin-left:30px' > Enable Editing </button>
+				 </p>
 				 </div>
+				 
+			<div ng-if="SVC.editable" class="alert-success alert">
+				 <B> Notice: </B>  This run is currently editable. 
+			
+			 </div>
 			 
 			 
 </div>
@@ -153,7 +160,7 @@
 																	style="width: 100%; font-size:11px;"
 																	ng-change="SVC.addSteel()"
 																	placeholder="Steel Selection"
-																	options="select2request.fetchList('/steel/list', null)"
+																	options="select2request.fetchList('/steel/list', {})"
 																	ng-model="SVC.selectedSteel"
 																	ng-disabled="!SVC.editable"
 																	></select2>  

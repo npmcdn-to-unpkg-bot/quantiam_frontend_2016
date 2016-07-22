@@ -1,13 +1,15 @@
 <div class='row'>
 	
 	   <div class="col-lg-9">
+		 
+		 
         <div class="card card-underline">
             <div class="card-head">
-                    <header>Furnace Run: <span style="color: #778899" ng-if="SVC.slipCastObj"> {{ FRV.furnacerunObj.furnace_run_name }} </span></header>
+                    <header>Furnace Run: <span style="color: #778899" ng-if="SVC.slipCastObj"> {{ FRV.furnacerunObj.identifier }} </span></header>
 									
 									<div class='tools'>
 
-										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Graphs" ui-sref="slipcastviewGraphs({ slipcastid: SVC.slipCastObj.manu_slipcasting_id })">
+										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Graphs" ui-sref="slipcastviewGraphs({ slipcastid: SFRV.furnacerunObj.manu_slipcasting_id })">
 											<i class="fa fa-bar-chart" aria-hidden="true"></i>
 										</a>
 									
@@ -34,7 +36,7 @@
 									
 										<div class='col-lg-1 form-group' >
 											
-															<center><img width='100%' src="{{SVC.slipCastObj.datamatrix}}"></img></center>
+															<center><img width='100%' src="{{FRV.furnacerunObj.datamatrix}}"></img></center>
 										</div>
 									
 									
@@ -116,5 +118,145 @@
         </div>
 	
 	
+	
+	
+	
+		
+						<div id="steel_thing">				
+						
+						
+							<h3 class='page-header' style='margin-top:0px'>Steel <small> Tip: When entering data - use "Tab" to quickly cycle through each field. </small>
+								
+									<div style='float:right'>
+																
+																
+																<select2 
+																				style="width: 100%; font-size:11px;"
+																				ng-change="FRV.addSteel()"
+																				placeholder="Steel Selection"
+																				options="select2request.fetchList('/steel/list', {})"
+																				ng-model="FRV.selectedSteel"
+																				ng-disabled="!FRV.editable"
+																				></select2>  
+									
+									</div>
+								</h3>
+								<table class='table table-striped table-stats table-condensed shadow'>
+									<thead>
+										<tr>
+											<th style="width:5%" > Code </th>
+											<th  style="width:10%"> ID </th>
+											<th  style="width:10%"> Name </th>
+								
+											<th style="width:10%"> Layer </th>
+											<th style="width:10%"> Position </th>
+										
+								
+											<th> Actions</th>
+										</tr>
+									</thead>
+									<tr ng-if="!FRV.furnacerunObj.steel[0]"><td colspan=9><center> No steel objects were found. </center></td></tr>
+									
+										<tr ng-repeat="Obj in FRV.furnacerunObj.steel" >
+									
+										
+											<td>  <img  style="width:75%" src="{{Obj.datamatrix}}"></img>  </td>
+											<td>  <b> QMIS-{{Obj.inventory_id}} </b>  </td>
+											<td>   {{Obj.heat_id}} <span ng-if="Obj.rework">R:{{Obj.rework}}</span> </td>
+										
+										
+
+										
+												
+											<td>
+										
+												
+											</td>
+												
+											<td>
+											
+											</td>
+											<td>
+											
+														<a 	ng-disabled="!FRV.editable"		
+											class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="FRV.removeSteel(Obj.inventory_id,$index)">
+
+															<i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+													</a>
+												
+											</td>
+										</tr>
+									
+						
+									
+									</table>
+
+
+						</div>
+
+			
 </div>
+
+<div class='col-lg-3'>
+	
+<div id="operators_thing">
+
+	<h3 class='page-header' style='margin-top:0px'>Operators
+		
+		<div style='float:right'>
+										<select2 
+													
+													style="font-size:11px;"
+													placeholder="Operator Selection"
+													ng-change="FRV.addOperator()"
+													options="userData"
+													ng-model="FRV.selectedOperator"
+													s2-options="user.employeeid as user.firstname +' '+ user.lastname
+																	for user in userData"
+													ng-disabled="!FRV.editable"				
+													>
+																	 <option value="none" ></option> 
+																
+											</select2>
+		</div>
+											
+		</h3>
+						<table class='table table-striped table-stats table-condensed shadow'>
+						<thead>
+							<tr>
+								<th> Name</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+							<tr ng-if="!SVC.slipCastObj.operators[0]"><td colspan=2><center>Please add an Operator</center></td></tr>
+							<tr ng-repeat="operator in SVC.slipCastObj.operators" >
+								<td><b>{{operator.firstname}} {{operator.lastname}}</b></td>
+								<td>
+								<a 	ng-disabled="!SVC.editable"		
+								class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="SVC.removeOperator(operator.employeeID)">
+
+                        <i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+                    </a>
+									
+									</td>
+							</tr>
+						
+						
+						
+						</table>
+
+
+	
+	</div>
+	
+	
+			
+			
+			
+	
+	
+</div>
+
+
+
 </div>

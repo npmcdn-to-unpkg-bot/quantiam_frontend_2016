@@ -109,6 +109,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.editable = 0; //default can't edit
 	vm.editableDays = -1;
 	vm.admin = 0;
+	vm.admin_edit_notice = false;
 	vm.selectedOperator = '';
 	vm.slipObj;
 	vm.slipcastingRampProfiles;
@@ -141,6 +142,12 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		}
 		
 		
+		vm.enableAmindEditing = function ()
+		{
+			vm.admin_edit_notice = false;
+			vm.editable = 1;
+			
+		}
 
 		
 	vm.getSlip = function (){
@@ -166,14 +173,17 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		if(diff >= vm.editableDays )
 		{
 				vm.editable = 1;
+				vm.admin_edit_notice = false;
 		}
 		
 		
-		if(userService.checkIfUserGroupMember(41) || userService.checkIfUserGroupMember(5))
+		if((userService.checkIfUserGroupMember(41) || userService.checkIfUserGroupMember(5)))
 		{
-			
 			vm.admin = 1;
-			vm.editable = 1;
+			if( vm.editable == 0)
+			{
+				vm.admin_edit_notice = true;
+			}
 		}
 		
 	
