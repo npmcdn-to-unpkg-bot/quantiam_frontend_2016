@@ -2,18 +2,35 @@
 
     <table class="table table-striped table-hover sexystripes table-stats shadow">
         <thead>
-            <th>dog</th>
-            <th>dog</th>
+            <th>Key</th>
+            <th>Value</th>
         </thead>
 
         <tbody>
-            <tr>
-                <td>cat</td>
-                <td>mouse</td>
+            <tr ng-if="!SVC.isArray(value)" ng-repeat="(key, value) in SVC.profile_data">
+
+                    <td><b>{{ humanize(key) }}</b></td>
+                    <td><input ng-change="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data.$index"></td>
             </tr>
-            <tr>
-                <td>horse</td>
-                <td>elephant</td>
+        <!-- Steps Row is special -->
+            <tr ng-if="SVC.isArray(value)" ng-repeat="(key, value) in SVC.profile_data">
+                <td><b>{{ humanize(key) }}</b></td>
+                <td>
+                    <table style="column-count:4">
+                        <tbody>
+                            <tr  ng-repeat="obj in value">
+                                <td>{{ obj.step }}</td>
+                                <td>{{ obj.tasks }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
+
         </tbody>
+        <tfoot>
+            <tr>
+                <td ng-click="SVC.newPair()" colspan="2" style="text-align:center; cursor:pointer">Add another key/value pair</td>
+            </tr>
+        </tfoot>
     </table>

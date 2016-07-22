@@ -812,6 +812,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 
 	var vm = this;
+	vm.offset = 1;
 
 	vm.init = function(){
 
@@ -828,7 +829,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 	};
 
 	vm.viewProfile = function(profile_id){
-
+		vm.offset = 0;
 		$location.path('/slipcast/profile/list/' + profile_id);
 
 	};
@@ -838,13 +839,37 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 });
 
-App.controller('SlipcastProfileViewController', function($stateParams) {
+App.controller('SlipcastProfileViewController', function($stateParams, apiRequest) {
 
 	var vm = this;
+	vm.isArray = angular.isArray;
 	vm.profile_id = $stateParams.profile_id;
+	vm.editableData = {};
 
-	console.log($stateParams);
+	vm.init = function() {
 
+		apiRequest.send('get', '/slipcast/profile/' + vm.profile_id, null).success(function(r) {
+
+			vm.profile_data = r;
+			vm.editable_data = r;
+
+		}).error(function(e) {
+
+			toastr.error('Could not load profile information.');
+		});
+
+
+		vm.offset = 0;
+	};
+
+	vm.editRow = function (toEdit, newvalue){
+
+		console.log(toEdit);
+		console.log(newvalue);
+		console.log(vm.profile_data);
+	}
+
+	vm.init();
 
 })
 
