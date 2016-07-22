@@ -142,6 +142,10 @@ table.sexystripes   th {
 	color: white;
 	background-color: #456382;
 	text-align: center;
+	border-right: 1px solid white;
+}
+table.sexystripes th:last-child{
+	border-right: 0;
 }
 
 

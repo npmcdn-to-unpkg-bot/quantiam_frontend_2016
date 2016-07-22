@@ -11,8 +11,8 @@
             <tr ng-if="!SVC.isArray(value)" ng-repeat="(key, value) in SVC.profile_data">
 
                     <td><b>{{ humanize(key) }}</b></td>
-                    <td><input ng-change="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data.$index"></td>
-                    <td>Del</td>
+                    <td style="text-align:center"><input ng-blur="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data[key]"></td>
+                    <td style="text-align: center"><i class="fa fa-trash fa-2x"></i></td>
             </tr>
         <!-- Steps Row is special -->
             <tr ng-if="SVC.isArray(value)" ng-repeat="(key, value) in SVC.profile_data">
@@ -20,14 +20,15 @@
                 <td>
                     <table style="column-count:4">
                         <tbody>
-                            <tr  ng-repeat="obj in value">
+                            <tr ng-repeat="obj in value">
                                 <td>{{ obj.step }}</td>
                                 <td>{{ obj.tasks }}</td>
-                                <td>del</td>
+                                <td><i class="fa fa-trash fa-2x"></i></td>
                             </tr>
                         </tbody>
                     </table>
                 </td>
+                <td></td>
             </tr>
 
         </tbody>

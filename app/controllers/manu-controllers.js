@@ -812,7 +812,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 
 	var vm = this;
-	vm.offset = 1;
+
 
 	vm.init = function(){
 
@@ -829,7 +829,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 	};
 
 	vm.viewProfile = function(profile_id){
-		vm.offset = 0;
+
 		$location.path('/slipcast/profile/list/' + profile_id);
 
 	};
@@ -859,14 +859,20 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		});
 
 
-		vm.offset = 0;
 	};
 
 	vm.editRow = function (toEdit, newvalue){
 
 		console.log(toEdit);
 		console.log(newvalue);
-		console.log(vm.profile_data);
+
+		apiRequest.send('put', '/slipcast/profile/' + vm.profile_id + '/edit/' + toEdit + '/' + newvalue, null).success(function(r) {
+			console.log(r);
+			toastr.success(toEdit + ' changed to ' + newvalue);
+		}).error(function(e) {
+			toastr.error('Could not change ' + toEdit);
+			console.log('error', e);
+		})
 	}
 
 	vm.init();
