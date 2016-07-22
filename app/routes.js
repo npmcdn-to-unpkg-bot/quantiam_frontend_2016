@@ -68,8 +68,8 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               controller: 'SlipcastProfileListController as SC'
 
         }) 
-				 .state('slipcast-profile-list.view', {
-            url:'/:profile_id',
+				 .state('slipcast-profile-view', {
+            url:'/slipcast/profile/:profile_id',
               templateUrl: 'views/manu/slipcast/slipcastprofileview.html',
               controller: 'SlipcastProfileViewController as SVC'
 

@@ -830,7 +830,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 	vm.viewProfile = function(profile_id){
 
-		$location.path('/slipcast/profile/list/' + profile_id);
+		$location.path('/slipcast/profile/' + profile_id);
 
 	};
 
@@ -845,6 +845,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 	vm.isArray = angular.isArray;
 	vm.profile_id = $stateParams.profile_id;
 	vm.editableData = {};
+	vm.hiddenRows = ['steps', 'created_by', 'created_datetime', 'last_updated_datetime', 'manu_slipcasting_profile_id'];
 
 	vm.init = function() {
 

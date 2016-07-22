@@ -147,5 +147,8 @@ table.sexystripes   th {
 table.sexystripes th:last-child{
 	border-right: 0;
 }
+table.sexystripes tbody td {
+	padding: 0.75em;
+}
 
 
