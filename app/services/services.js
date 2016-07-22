@@ -1,4 +1,4 @@
-App.service(  "apiRequest",  function($http,   errorService) {
+App.service(  "apiRequest",  function($http,  $location, errorService) {
 
 	var apiUrl = "http://apps.edm.quantiam.com:2000";
 	//var apiUrl = "http://localhost/quantiam_api/public"
@@ -23,7 +23,17 @@ App.service(  "apiRequest",  function($http,   errorService) {
 															 params: params,
 													         //dataType: 'text',
 										}
-										 response =	$http(req);
+										 response =	$http(req).error(function(e,code){
+											 
+											 
+															if(code == '401')
+															{
+																	toastr.error('Your login session is no longer valid');
+																	$location.path('/login');
+															}
+											 
+											 
+											 });
 										return response;
 									},
 									apiUrl: apiUrl,
@@ -40,6 +50,11 @@ App.service('dtRequest', function() {
 		
 		function build_dtOptions (requestPath, dtColumns, customData,Obj, RowClickCallbackName) {
 				
+				//requestPath     			api route for the datatables request
+				//dtColumns      				 angular dtColumns object
+				//customData							custom paramters/values you want set object format
+				//Obj											the angular datatables object
+				//RowClickCallbackName   the name of the function for which you want the rows to react using
 				
 				if(!dtColumns)
 				{

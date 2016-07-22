@@ -112,6 +112,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.admin_edit_notice = false;
 	vm.selectedOperator = '';
 	vm.slipObj;
+	vm.slipCastObjLoaded = false;
 	vm.slipcastingRampProfiles;
 	vm.slipcastingTables;
 	vm.slipcastingProfiles;
@@ -197,7 +198,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			console.log(r);
 				vm.slipCastObj = r;
 				
-				
+				vm.slipCastObjLoaded = true;
 					
 					vm.getSlip();
 				vm.checkEditable();

@@ -155,14 +155,14 @@ App.controller('AuthController', ['$scope', '$location', 'userService', function
 				
 			
 				var lastPath = userService.getlastPath();
-				console.log(lastPath);
-				if(lastPath)
+			
+				if(lastPath && lastPath != '/login')
 				{
 					$location.path(lastPath);
 				}
 				else
 				{
-				$location.path('/dashboard');
+					$location.path('/dashboard');
 				}
 				
 				}).error(function(e){
