@@ -4,6 +4,7 @@
         <thead>
             <th>Key</th>
             <th>Value</th>
+        <th>Actions</th>
         </thead>
 
         <tbody>
@@ -11,6 +12,7 @@
 
                     <td><b>{{ humanize(key) }}</b></td>
                     <td><input ng-change="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data.$index"></td>
+                    <td>Del</td>
             </tr>
         <!-- Steps Row is special -->
             <tr ng-if="SVC.isArray(value)" ng-repeat="(key, value) in SVC.profile_data">
@@ -21,6 +23,7 @@
                             <tr  ng-repeat="obj in value">
                                 <td>{{ obj.step }}</td>
                                 <td>{{ obj.tasks }}</td>
+                                <td>del</td>
                             </tr>
                         </tbody>
                     </table>
