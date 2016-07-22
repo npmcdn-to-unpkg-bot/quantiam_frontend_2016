@@ -867,14 +867,28 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		console.log(toEdit);
 		console.log(newvalue);
 
-		apiRequest.send('put', '/slipcast/profile/' + vm.profile_id + '/edit/' + toEdit + '/' + newvalue, null).success(function(r) {
+		apiRequest.send('put', '/slipcast/profile/' + vm.profile_id + '/' + toEdit + '/' + newvalue, null).success(function(r) {
 			console.log(r);
 			toastr.success(toEdit + ' changed to ' + newvalue);
 		}).error(function(e) {
 			toastr.error('Could not change ' + toEdit);
 			console.log('error', e);
 		})
-	}
+	};
+
+	vm.deleteRow = function(key) {
+
+		apiRequest.send('delete', '/slipcast/profile/' + vm.profile_id + '/' + key, null).success(function(r) {
+			toastr.success('Deleted ' + key);
+		}).error(function(e) {
+			toastr.error('Couldn\'t delete me that easy!');
+			console.log(e);
+		})
+
+
+
+							console.log(key);
+	};
 
 	vm.init();
 
