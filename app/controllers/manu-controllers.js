@@ -881,22 +881,117 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 })
 
 
-App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, apiRequest, DTColumnBuilder) {
+App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, userService,apiRequest, DTColumnBuilder) {
 
 var vm = this;
+vm.admin = false;
+vm.admin_edit_notice = true;
 vm.editable = true;
+vm.editableDays = -1; //1 day ago
 vm.furnacerunID = $stateParams.furnacerunid;
 vm.furnacerunObj;
+vm.furnacerunObjLoaded = false;
+vm.steelLayers = [{'id':'1','name':'1'},{'id':'2','name':'2'},{'id':'3','name':'3'},{'id':'4','name':'4'}];
+vm.steelLayers = ['1','2','3','4'];
+vm.steelPositions = ['1','2','3','4','5','6','7','8','9','10'];
+vm.furnaceRunProfileFilter = [];
 
 
 vm.init = function ()
 {
 	
+	vm.getFurnaceObj();
+	
+}
+
+	
+vm.checkEditable = function (){
+		
+		var created = moment(vm.furnacerunObj.created_date)
+		var now = moment();
+		
+		var diff = created.diff(now,'days');
+		
+		if(diff >= vm.editableDays )
+		{
+				vm.editable = true;
+				vm.admin_edit_notice = false;
+		}
+		
+		
+		if((userService.checkIfUserGroupMember(5)))
+		{
+			vm.admin = true;
+			if( vm.editable == false)
+			{
+				vm.admin_edit_notice = true;
+			}
+		}
+		
+	
+}	
+
+vm.getFurnaceObj = function () {
+	
+	apiRequest.send('get','/furnacerun/'+vm.furnacerunID, null).success(function(r){
+		
+			console.log(r);
+			vm.furnacerunObj = r; //save furnacerunobject response
+			vm.furnacerunObjLoaded = true; //change state
+			vm.checkEditable(); //check the edit situation
+		});
+}
+
+vm.updateFurnacerunObjObj = function(){
+	
+	
+	apiRequest.send('put','/furnacerun/'+vm.furnacerunID,vm.furnacerunObj).success(function(r){
+		
+				toastr.success('Updated');
+				vm.furnacerunObj = r;
+		
+		
+	}).error(function(e){
+		
+			toastr.error("An error occured, contact administrator.");
+		
+		});
 	
 	
 }
 
-vm.checkEditable = function (){
+
+
+vm.addSteel = function (){
+	
+	
+	
+	
+}
+
+
+vm.removeSteel = function (){
+
+
+
+
+}
+
+vm.editSteel = function (){
+	
+	
+	console.log(vm.furnacerunObj);
+	
+	
+}
+
+vm.addoperator = function (){
+	
+	
+	
+}
+
+vm.removeOperator = function (){
 	
 	
 	
@@ -907,6 +1002,7 @@ vm.checkEditable = function (){
 vm.init();// run initialization functions
 
 });
+
 
 
 App.controller('SlipcastProfileController', function() {

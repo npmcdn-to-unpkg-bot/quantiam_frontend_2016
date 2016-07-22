@@ -9,10 +9,10 @@
 									
 									<div class='tools'>
 
-										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Graphs" ui-sref="slipcastviewGraphs({ slipcastid: SFRV.furnacerunObj.manu_slipcasting_id })">
+							<!-- 			<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Graphs" ui-sref="slipcastviewGraphs({ slipcastid: SFRV.furnacerunObj.manu_slipcasting_id })">
 											<i class="fa fa-bar-chart" aria-hidden="true"></i>
 										</a>
-									
+									 -->
 							<!-- 			<a class='btn btn-icon-toggle btn-refresh'  ng-click="SVC.openModalJson()" tooltip-placement="top" uib-tooltip="Data Model">
 											<i class="fa fa-code" style="font-size:15px" aria-hidden="true"></i>
 										</a>
@@ -55,8 +55,8 @@
 										
                     </div>		
 
-										<div class="form-group col-lg-2" style="width:120px">
-										<b> Run Name </b> <input  style="width:100%" type="number" class='form-control' ng-model="FRV.furancerunObj.furnace_run_name"
+										<div class="form-group col-lg-3" style="width:170px">
+										<b> Run Name </b> <input  style="width:100%" type="text" class='form-control' ng-model="FRV.furnacerunObj.furnace_run_name"
 										ng-blur=""  placeholder="" 	ng-disabled="!FRV.editable"		> 
                     </div>  
 										
@@ -71,7 +71,7 @@
 																	placeholder="Furnace Run Type"
 																	ng-change="FRV.updateTable()"
 																	options="select2request.fetchList('/furnacerun/type/list',null)"
-																	ng-model="FRV.furancerunObj.furnace_run_type_id"
+																	ng-model="FRV.furnacerunObj.furnace_run_type_id"
 													
 																	></select2>  
 										
@@ -93,7 +93,7 @@
 													<div class="input-group">
 													
 													<input type="text" class="form-control"
-													data-ng-model="FRV.slipCastObj.datetime"
+													data-ng-model="FRV.furnacerunObj.created_date"
 													ng-disabled="!FRV.editable"		>
 													<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 													</div>
@@ -124,7 +124,9 @@
 	
 	
 	
-		
+				<div class='row'>
+					
+					<div class='col-lg-9'>
 						<div id="steel_thing">				
 						
 						
@@ -149,10 +151,10 @@
 										<tr>
 											<th style="width:5%" > Code </th>
 											<th  style="width:10%"> ID </th>
-											<th  style="width:10%"> Name </th>
+											<th  style="width:15%"> Name </th>
 								
-											<th style="width:10%"> Layer </th>
-											<th style="width:10%"> Position </th>
+											<th style="width:8%"> Layer </th>
+											<th style="width:8%"> Position </th>
 										
 								
 											<th> Actions</th>
@@ -172,17 +174,34 @@
 										
 												
 											<td>
-										
+															<select2
+																				style="width: 100%; font-size:11px;"
+																				ng-change="FRV.editSteel($index)"
+																				placeholder="Layer"
+																				options=""
+																				s2-options="layer as layer for layer in FRV.steelLayers"
+																				ng-model="FRV.furnacerunObj.steel[$index].layer_id"
+																				ng-disabled="!FRV.editable"
+															></select2>  
+									
 												
 											</td>
 												
 											<td>
-											
+														<select2
+																				style="width: 100%; font-size:11px;"
+																				ng-change="FRV.editSteel($index)"
+																				placeholder="Position"
+																				options=""
+																				s2-options="layer as layer for layer in FRV.steelPositions"
+																				ng-model="FRV.furnacerunObj.steel[$index].order_id"
+																				ng-disabled="!FRV.editable"
+															></select2>  
 											</td>
 											<td>
 											
 														<a 	ng-disabled="!FRV.editable"		
-											class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="FRV.removeSteel(Obj.inventory_id,$index)">
+											class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="FRV.removeSteel( $index)">
 
 															<i style="color:red;" class="fa fa-trash-o fa-1x"></i>
 													</a>
@@ -196,8 +215,8 @@
 
 
 						</div>
-
-			
+					</div>
+				</div>
 </div>
 
 <div class='col-lg-3'>
@@ -212,10 +231,8 @@
 													style="font-size:11px;"
 													placeholder="Operator Selection"
 													ng-change="FRV.addOperator()"
-													options="userData"
+													options="select2request.fetchList('/user/list', {'active':1})"
 													ng-model="FRV.selectedOperator"
-													s2-options="user.employeeid as user.firstname +' '+ user.lastname
-																	for user in userData"
 													ng-disabled="!FRV.editable"				
 													>
 																	 <option value="none" ></option> 
@@ -256,7 +273,54 @@
 			
 			
 			
-	
+		<div id="profile_thing">				
+			
+			
+				<h3 class='page-header' style='margin-top:0px'>Profile
+					
+						<div style='float:right'>
+															<select2 
+																	
+																	style="font-size:11px;"
+																	placeholder="Profile Selection"
+																	ng-change="FRV.updateFurnaceRunObj()"
+																	options="select2request.fetchList('/furnacerun/profile/list',{'active': 1})"
+																	ng-model="FRV.furnacerunObj.furnace_profile_id"
+																
+																			ng-disabled="!FRV.editable"		
+																			>
+																					 <option value=""></option> 
+																				
+															</select2>
+															
+															
+						
+						
+						</div>
+					</h3>
+					<table class='table table-striped table-stats table-condensed shadow'>
+						<thead>
+							<tr>
+								<th> Attribute</th>
+								<th> Value</th>
+							</tr>
+						</thead>
+							<tr ng-if="!FRV.furnacerunObj.profile"><td colspan=2><center>Please select a Profile</center></td></tr>
+							
+							<tr ng-repeat="(key,value) in FRV.furnacerunObj.profile" ng-if="FRV.furnaceRunProfileFilter.indexOf(key) == -1 && value && key != 'steps'">
+								<td><b>{{humanize(key)}}</b></td>
+								<td>
+									{{value}}
+									</td>
+							</tr>
+						
+			
+						
+						</table>
+
+
+			</div>
+
 	
 </div>
 

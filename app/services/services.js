@@ -585,7 +585,7 @@ App.service('select2request', function(apiRequest){
         
 						params.like = query.term;
 				
-						console.log(params);
+					//	console.log(params);
 						apiRequest.send('get',path, params).success(function(r){
 							
 							var data = {};
