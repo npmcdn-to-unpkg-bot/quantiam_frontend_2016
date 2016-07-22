@@ -83,7 +83,7 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 				 .state('furnacerunview', {
             url:'/furnacerun/:furnacerunid',
               templateUrl: 'views/manu/furnace/furnacerunview.html',
-              controller: 'FurnaceRunViewController as FRC'
+              controller: 'FurnaceRunViewController as FRV'
 
         })
 }]);

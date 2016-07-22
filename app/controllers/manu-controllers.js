@@ -829,6 +829,29 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, apiRequest, DTColumnBuilder) {
 
+var vm = this;
+vm.editable = true;
+vm.furnacerunID = $stateParams.furnacerunid;
+vm.furnacerunObj;
+
+
+vm.init = function ()
+{
+	
+	
+	
+}
+
+vm.checkEditable = function (){
+	
+	
+	
+	
+}
+
+
+vm.init();// run initialization functions
+
 });
 
 

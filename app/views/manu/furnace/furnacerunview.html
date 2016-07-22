@@ -1,0 +1,120 @@
+<div class='row'>
+	
+	   <div class="col-lg-9">
+        <div class="card card-underline">
+            <div class="card-head">
+                    <header>Furnace Run: <span style="color: #778899" ng-if="SVC.slipCastObj"> {{ FRV.furnacerunObj.furnace_run_name }} </span></header>
+									
+									<div class='tools'>
+
+										<a class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Graphs" ui-sref="slipcastviewGraphs({ slipcastid: SVC.slipCastObj.manu_slipcasting_id })">
+											<i class="fa fa-bar-chart" aria-hidden="true"></i>
+										</a>
+									
+							<!-- 			<a class='btn btn-icon-toggle btn-refresh'  ng-click="SVC.openModalJson()" tooltip-placement="top" uib-tooltip="Data Model">
+											<i class="fa fa-code" style="font-size:15px" aria-hidden="true"></i>
+										</a>
+										
+										<a class='btn btn-icon-toggle btn-refresh' style="font-size:15px;" tooltip-placement="top" uib-tooltip="Download">
+												<i class="fa fa-download"   aria-hidden="true"></i>
+										</a> -->
+									
+									</div>
+									
+										
+            </div>
+						
+						
+            <div class="card-body">
+                <form class="form-inline">
+										
+				
+									<div class='row'>
+									
+									
+										<div class='col-lg-1 form-group' >
+											
+															<center><img width='100%' src="{{SVC.slipCastObj.datamatrix}}"></img></center>
+										</div>
+									
+									
+									<div class="form-group col-sm-2" style="width:130px">
+										<b> Furnace </b> 
+									
+											<select2 
+																	style="font-size:11px;"
+																	allow-clear=true
+																	placeholder="Furnace Selection"
+																	ng-change="FRV.updateTable()"
+																	options="select2request.fetchList('/furnace/list',null)"
+																	ng-model="FRV.furnacerunObj.furnace_id"
+													
+																	></select2>
+										
+                    </div>		
+
+										
+										<div class="form-group col-lg-3" style="width:150px">
+										<b> Run Type  </b> 
+					
+											
+																		<select2 
+																	style="font-size:11px;"
+																	placeholder="Furnace Run Type"
+																	ng-change="FRV.updateTable()"
+																	options="select2request.fetchList('/furnacerun/type/list',null)"
+																	ng-model="FRV.furancerunObj.furnace_run_type_id"
+													
+																	></select2>  
+										
+										
+                    </div>
+									
+               
+
+               
+							 			
+								<!-- 		<div class="form-group col-lg-2" style="width:120px">
+										<b> Humidity (%) </b> <input  style="width:100%" type="number" class='form-control' ng-model="SVC.slipCastObj.humidity"
+										ng-blur="SVC.editSlipcastObj('humidity',SVC.slipCastObj.humidity)"  placeholder="" 	ng-disabled="!SVC.editable"		> 
+                    </div>  -->
+								
+								     <div class="form-group col-lg-3">
+						
+											<b>Date Time</b> <br>
+
+											<div class="dropdown">
+												<a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" >
+													<div class="input-group">
+													
+													<input type="text" class="form-control"
+													data-ng-model="FRV.slipCastObj.datetime"
+													ng-disabled="!FRV.editable"		>
+													<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+													</div>
+												</a>
+												<ul class="dropdown-menu"  ng-if="FRV.editable" role="menu" aria-labelledby="dLabel">
+													<datetimepicker 
+													data-on-set-time="FRV.furnacerunObj('datetime',FRV.furnacerunObj.created_date)"
+													data-ng-model="FRV.furnacerunObj.created_date"
+													data-datetimepicker-config="{
+													dropdownSelector: '#dropdown2',
+													modelType: 'YYYY-MM-DD HH:mm:ss'
+													
+													}"
+															
+													/>
+												</ul>
+											</div>
+
+                    </div>
+										 
+									
+									</div>
+                </form>
+            </div>
+        </div>
+	
+	
+</div>
+</div>
