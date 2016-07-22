@@ -495,10 +495,9 @@
 													style="font-size:11px;"
 													placeholder="Operator Selection"
 													ng-change="SVC.addOperator()"
-													options="userData"
+													options="select2request.fetchList('/user/list',{'active': 1})"
 													ng-model="SVC.selectedOperator"
-													s2-options="user.employeeid as user.firstname +' '+ user.lastname
-																	for user in userData"
+													
 													ng-disabled="!SVC.editable"				
 													>
 																	 <option value="none" ></option> 

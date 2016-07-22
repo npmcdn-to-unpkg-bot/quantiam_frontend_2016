@@ -99,7 +99,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
  
 
-App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,userService, userInfoService,webSocket) {
+App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,userService, userInfoService,webSocket,select2request) {
 
 	var vm = this;
 	
@@ -124,6 +124,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.scaleStatus;
 	vm.previousContainerWeightData = {};
 	vm.completedTasks = [];
+	vm.operatorList = select2request;
 
 	
 	vm.init = function (){

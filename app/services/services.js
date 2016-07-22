@@ -570,23 +570,23 @@ App.service('select2request', function(apiRequest){
 	{
 		if(!params)
 		{
-			vm.params = {};
+			var params = {};
 		}
 		else
 		{
-			vm.params = params;	
+			var params = params;	
 		}
 		
-	console.log(params);
+	
 	return 	{
 		
 		 allowClear: true,
 		 query: function (query) {
         
-						vm.params.like = query.term;
+						params.like = query.term;
 				
-						
-						apiRequest.send('get',path, vm.params).success(function(r){
+						console.log(params);
+						apiRequest.send('get',path, params).success(function(r){
 							
 							var data = {};
 							data.results = r;
