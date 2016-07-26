@@ -908,6 +908,7 @@ vm.editableDays = -1; //1 day ago
 vm.furnacerunID = $stateParams.furnacerunid;
 vm.furnacerunObj;
 vm.furnacerunObjLoaded = false;
+vm.steelCount; 
 vm.steelLayers = [{'id':'1','name':'1'},{'id':'2','name':'2'},{'id':'3','name':'3'},{'id':'4','name':'4'}];
 vm.steelLayers = ['1','2','3','4'];
 vm.steelPositions = ['1','2','3','4','5','6','7','8','9','10'];
@@ -921,7 +922,13 @@ vm.init = function ()
 	
 }
 
+
+vm.countSteel = function ()
+{
 	
+	vm.steelCount = vm.furnacerunObj.steel.length;
+}
+
 vm.checkEditable = function (){
 		
 		var created = moment(vm.furnacerunObj.created_date)
@@ -956,12 +963,16 @@ vm.getFurnaceObj = function () {
 			vm.furnacerunObj = r; //save furnacerunobject response
 			vm.furnacerunObjLoaded = true; //change state
 			vm.checkEditable(); //check the edit situation
+			vm.countSteel();
 		});
 }
 
 vm.updateFurnaceRunObj = function(){
 	
-	console.log('worked');
+	if(!vm.furnacerunObj.furnace_run_name)
+	{
+		vm.furnacerunObj.furnace_run_name = vm.furnacerunObj.furnace_name+'-';
+	}
 	
 	apiRequest.send('put','/furnacerun/'+vm.furnacerunID,vm.furnacerunObj).success(function(r){
 		
@@ -986,6 +997,7 @@ vm.addSteel = function (){
 		
 				console.log(r);
 				vm.furnacerunObj.steel.push(r);
+				vm.countSteel();
 		
 			toastr.success('Steel Object '+vm.selectedSteel,'Added');
 	}).error(function(e){
@@ -995,7 +1007,7 @@ vm.addSteel = function (){
 		});
 	
 	
-	
+	vm.selectedSteel = 'none';
 }
 
 
@@ -1007,7 +1019,7 @@ var inventoryID = vm.furnacerunObj.steel[index].inventory_id;
 		
 				
 				vm.furnacerunObj.steel.splice(index, 1);
-				
+				vm.countSteel();
 				toastr.success('Steel Object '+vm.selectedSteel,'Removed');
 				
 	}).error(function(e){
@@ -1021,24 +1033,49 @@ var inventoryID = vm.furnacerunObj.steel[index].inventory_id;
 
 }
 
-vm.editSteel = function (){
+vm.editSteel = function (index){
 	
-	
-	console.log(vm.furnacerunObj);
+	var inventoryID = vm.furnacerunObj.steel[index].inventory_id; 
+
+	apiRequest.send('put','/furnacerun/'+vm.furnacerunID+'/steel/'+inventoryID,vm.furnacerunObj.steel[index]).success(function(r){
+		
+				
+				vm.furnacerunObj.steel[index] = r;
+		
+		toastr.success('Steel Object '+inventoryID,'Updated');
+	}).error(function(e){
+		
+			toastr.error("An error occured, contact administrator.");
+		
+		});
 	
 	
 }
 
-vm.addoperator = function (){
+vm.addOperator = function (){
 	
+			
+			apiRequest.send('post', '/furnacerun/'+vm.slipcastID+'/operator/'+vm.selectedOperator, null).success(function(r){
+				
+					vm.furnacerunObj.operators.push(r);
+					toastr.success(r.firstname+' '+r.lastname,'Added');
+			
+				});
 	
-	
+			vm.selectedOperator = 'none';
 }
 
-vm.removeOperator = function (){
+vm.removeOperator = function (index){
 	
-	
-	
+	var operatorID = vm.furnacerunObj.operators[index].operator_id;
+	apiRequest.send('delete', '/furnacerun/'+vm.slipcastID+'/operator/'+operatorID, null).success(function(r){
+					
+			
+				
+					toastr.success(vm.furnacerunObj.operators[index].firstname+' '+vm.furnacerunObj.operators[index].lastname,'Deleted');
+							vm.furnacerunObj.operators.splice(index, 1);
+			
+				});
 	
 }
 
