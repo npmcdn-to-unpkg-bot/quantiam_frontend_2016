@@ -80,7 +80,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 								$location.path('/slipcast/' + r.id);
 					
 					})
-				
+					
 				
 				}				
 							
@@ -125,7 +125,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 	vm.previousContainerWeightData = {};
 	vm.completedTasks = [];
 	vm.operatorList = select2request;
-
+	webSocket.turnOn(); //enable websocket braodcasts
 	
 	vm.init = function (){
 		
@@ -922,7 +922,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 })
 
 
-App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, userService,apiRequest, DTColumnBuilder) {
+App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, userService,apiRequest, webSocket, DTColumnBuilder) {
 
 var vm = this;
 vm.admin = false;
@@ -937,7 +937,7 @@ vm.steelLayers = [{'id':'1','name':'1'},{'id':'2','name':'2'},{'id':'3','name':'
 vm.steelLayers = ['1','2','3','4'];
 vm.steelPositions = ['1','2','3','4','5','6','7','8','9','10'];
 vm.furnaceRunProfileFilter = [];
-
+webSocket.turnOn(); //enable websocket broadcasts
 
 vm.init = function ()
 {
@@ -1030,7 +1030,7 @@ vm.addSteel = function (inventory_id = null){
 	
 		if(inventory_id)
 		{
-			inventoryID=inventoryID;
+			inventoryID=inventory_id;
 		}
 		else
 		{
@@ -1125,11 +1125,8 @@ vm.removeOperator = function (index){
 
 
 $scope.$on('steel', function(event,obj) {
-			
-			
 					vm.addSteel($scope.getID(obj.data));
-					toastr.success('Scanned',obj.data);
-		
+					//toastr.success('Scanned',obj.data);
 			});
 
 

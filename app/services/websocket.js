@@ -3,7 +3,7 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
       // Open a WebSocket connection
 			var vm = this;
 			
-			vm.enableActions = 1;
+			vm.enableActions = 0;
 			
 			vm.turnOff = function (){
 				
@@ -46,14 +46,29 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 			 
 			 
 																									/// Map events to state
-																									
-																										switch($state.current.name){
-																																							 case 'slipcastview':
+																							
+																										if($state.current.name == 'furnacerunview'){
+																																								
+																																								var allowed_scanners = ['QAQC','Furnaces'];
+																																								
+																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners) && message.machine.type == 'Scanner'){
+																																														console.log($state.current);
+																																													console.log(message);
+																																															if(vm.checkSubstring('QMIS',message.data))
+																																															{
+																																																$rootScope.$broadcast('steel',message);
+																																															}
+																																															
+
+																																														}
+																										}
+																										
+																												if($state.current.name == 'slipcastview'){	
 																																							 
 																																											
 																																													var allowed_scanners = ['QAQC','Slipcasting'];
 																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners) && message.machine.type == 'Scanner'){
-																																													
+																																														console.log($state.current);
 																																															console.log(message);
 																																															console.log(vm.checkSubstring('QMSB',message.data));
 																																													
@@ -76,31 +91,13 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																																$rootScope.$broadcast('slipcastview_scalevalue',message);
 																																															
 																																														}
-																																											
-																																								case 'furnacerunview':
+																																							
 																																								
-																																								var allowed_scanners = ['QAQC','Furnaces'];
-																																								
-																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners) && message.machine.type == 'Scanner'){
-																																													
-																																															if(vm.checkSubstring('QMIS',message.data))
-																																															{
-																																																$rootScope.$broadcast('steel',message);
-																																															}
-																																															
-
-																																														}
-																																								
-																																								
-																																								case 'slipcast':
-																																								
-																																								
-																																								
-																																								case 'prefinish':
+																																
 																																								}
-																																								
-	//				vm.previous_message	= message;																																				
-			 }		
+						}		
+																																		
+			 		
 		
       });
 
