@@ -1,11 +1,28 @@
 <div class='row'>
 	
+	
+		   <uib-alert ng-if="!FRV.editable && !FRV.admin" >
+				 <B> Notice: </B>  The period in which you could edit this slipcasting run has expired.  Please contact the database adminsitrator if you must edit this. 
+			 </uib-alert>
+			 
+			   <div ng-if="FRV.admin && FRV.admin_edit_notice" class="alert-warning alert">
+				<p> <B> Notice: </B>  You could edit this with admin rights.
+				 <button class='btn btn-xs' ng-click="FRV.enableAmindEditing()" style='margin-left:30px' > Enable Editing </button>
+				 </p>
+				 </div>
+				 
+			<div ng-if="FRV.editable" class="alert-success alert">
+				 <B> Notice: </B>  This run is currently editable. 
+			
+			 </div>
+	
+	
 	   <div class="col-lg-9">
 		 
 		 
         <div class="card card-underline">
             <div class="card-head">
-                    <header>Furnace Run: <span style="color: #778899" ng-if="SVC.slipCastObj"> {{ FRV.furnacerunObj.identifier }} </span></header>
+                    <header>Furnace Run: <span style="color: #778899" ng-if="FRV.furnacerunObj"> {{ FRV.furnacerunObj.identifier }} </span></header>
 									
 									<div class='tools'>
 
@@ -217,7 +234,14 @@
 						</div>
 					</div>
 				</div>
-</div>
+				
+		
+										
+</div>	
+
+
+
+
 
 <div class='col-lg-3'>
 	
@@ -325,6 +349,20 @@
 </div>
 
 
+		
+				<div class='row'>
+					
+							<dropzone identifier="{{FRV.furnacerunObj.identifier}}" > </dropzone>
 
+						</div>
+
+						<hr>
+						<div class='row'>
+							
+							<div class='col-md-6'>
+							
+							<comments identifier="{{FRV.furnacerunObj.identifier}}"> </comments>
+							</div>
+						</div>
 </div>
 

@@ -192,6 +192,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		}	
 
 	
+	
+	
 	vm.getSlipcastObj = function ()
 	{
 	
@@ -806,6 +808,22 @@ App.controller('FurnaceRunController', function($scope, $stateParams, $location,
 		console.log(vm.dtTable);
 	}
 	
+	
+								
+	vm.createFurnaceRun = function (){
+				
+		
+				
+				apiRequest.send('post','/furnacerun', null).success(function(r){
+					
+					
+							$location.path('/furnacerun/' + r.furnace_run_id);
+					
+					});
+				
+				
+				}				
+	
 	vm.getdtTable();
 	
 });
@@ -908,7 +926,7 @@ App.controller('FurnaceRunViewController', function($scope, $stateParams, $windo
 
 var vm = this;
 vm.admin = false;
-vm.admin_edit_notice = true;
+vm.admin_edit_notice = false;
 vm.editable = false;
 vm.editableDays = -1; //1 day ago
 vm.furnacerunID = $stateParams.furnacerunid;
@@ -934,6 +952,15 @@ vm.countSteel = function ()
 	
 	vm.steelCount = vm.furnacerunObj.steel.length;
 }
+
+	vm.enableAmindEditing = function ()
+	{
+			vm.admin_edit_notice = false;
+			vm.editable = 1;
+			
+		}
+
+
 
 vm.checkEditable = function (){
 		
@@ -997,15 +1024,26 @@ vm.updateFurnaceRunObj = function(){
 
 
 
-vm.addSteel = function (){
+vm.addSteel = function (inventory_id = null){
 	
-		apiRequest.send('post','/furnacerun/'+vm.furnacerunID+'/steel/'+vm.selectedSteel,null).success(function(r){
+	 var inventoryID;
+	
+		if(inventory_id)
+		{
+			inventoryID=inventoryID;
+		}
+		else
+		{
+			inventoryID=vm.selectedSteel;
+		}
+	
+		apiRequest.send('post','/furnacerun/'+vm.furnacerunID+'/steel/'+inventoryID,null).success(function(r){
 		
 				console.log(r);
 				vm.furnacerunObj.steel.push(r);
 				vm.countSteel();
 		
-			toastr.success('Steel Object '+vm.selectedSteel,'Added');
+			toastr.success('Steel Object '+inventoryID,'Added');
 	}).error(function(e){
 		
 			toastr.error("An error occured, contact administrator.");
@@ -1085,23 +1123,18 @@ vm.removeOperator = function (index){
 	
 }
 
-$scope.models = {
-        selected: null,
-        lists: {"A": [], "B": []}
-    };
 
-    // Generate initial model
-    for (var i = 1; i <= 3; ++i) {
-        $scope.models.lists.A.push({label: "Item A" + i});
-        $scope.models.lists.B.push({label: "Item B" + i});
-    }
-
-    // Model to JSON for demo purpose
-    $scope.$watch('models', function(model) {
-        $scope.modelAsJson = angular.toJson(model, true);
-    }, true);
+$scope.$on('steel', function(event,obj) {
+			
+			
+					vm.addSteel($scope.getID(obj.data));
+					toastr.success('Scanned',obj.data);
+		
+			});
 
 
+		
+		
 vm.init();// run initialization functions
 
 });

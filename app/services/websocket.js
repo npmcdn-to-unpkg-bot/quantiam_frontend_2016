@@ -77,7 +77,21 @@ App.service('webSocket', function($rootScope, $websocket,$state) {
 																																															
 																																														}
 																																											
-																																		 
+																																								case 'furnacerunview':
+																																								
+																																								var allowed_scanners = ['QAQC','Furnaces'];
+																																								
+																																													if(vm.checkAllowedMachine(message.machine.name, allowed_scanners) && message.machine.type == 'Scanner'){
+																																													
+																																															if(vm.checkSubstring('QMIS',message.data))
+																																															{
+																																																$rootScope.$broadcast('steel',message);
+																																															}
+																																															
+
+																																														}
+																																								
+																																								
 																																								case 'slipcast':
 																																								
 																																								
