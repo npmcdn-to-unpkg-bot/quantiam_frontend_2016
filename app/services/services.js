@@ -29,7 +29,7 @@ App.service(  "apiRequest",  function($http,  $location, errorService) {
 															if(code == '401')
 															{
 																	toastr.error('Your login session is no longer valid');
-																	$location.path('/login');
+																	user.logoutUser();
 															}
 											 
 											 
