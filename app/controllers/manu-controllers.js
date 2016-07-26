@@ -976,7 +976,7 @@ vm.checkEditable = function (){
 		}
 		
 		
-		if((userService.checkIfUserGroupMember(5)) || (userService.checkIfUserGroupMember(42))
+		if((userService.checkIfUserGroupMember(5)) || (userService.checkIfUserGroupMember(42)))
 		{
 			vm.admin = true;
 			if( vm.editable == false)
