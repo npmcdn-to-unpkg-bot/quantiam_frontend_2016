@@ -5,24 +5,13 @@
             <thead>
                 <th>Key</th>
                 <th>Value</th>
-            <th>Actions</th>
             </thead>
 
             <tbody>
-                <tr ng-repeat="(key, value) in SVC.profile_data" ng-if="SVC.hiddenRows.indexOf(key) == -1 && value">
+                <tr ng-repeat="(key, value) in SVC.profile_data" ng-if="SVC.hiddenRows.indexOf(key) == -1">
 
                         <td><b>{{ humanize(key) }}</b></td>
                         <td style="text-align:center"><input ng-blur="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data[key]"></td>
-                        <td class="centertext">
-                            <div uib-tooltip="Delete value from database." class="btn btn-xs" ng-really-click="SVC.d
-                            eleteRow(key)" ng-really-message="Are you sure you want to delete &quot;{{humanize(key)}}?&quot;">
-                                <i class="button fa fa-trash fa-lg" style="color: red"></i>
-                            </div>
-                            <div uib-tooltip="Remove column from database." class="btn btn-xs" ng-really-click="SVC.removeColumn(key)"
-                                 ng-really-message="**WARNING** Deleting the column will delete it entirely from the database!">
-                                <i class="button fa fa-times fa-lg" style="color: darkred"></i>
-                            </div>
-                        </td>
                 </tr>
 
             </tbody>
