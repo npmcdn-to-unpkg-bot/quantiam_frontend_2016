@@ -928,7 +928,7 @@ var vm = this;
 vm.admin = false;
 vm.admin_edit_notice = false;
 vm.editable = false;
-vm.editableDays = -1; //1 day ago
+vm.editableDays = 0; //1 day ago
 vm.furnacerunID = $stateParams.furnacerunid;
 vm.furnacerunObj;
 vm.furnacerunObjLoaded = false;
@@ -1064,7 +1064,7 @@ var inventoryID = vm.furnacerunObj.steel[index].inventory_id;
 				
 				vm.furnacerunObj.steel.splice(index, 1);
 				vm.countSteel();
-				toastr.success('Steel Object '+vm.selectedSteel,'Removed');
+				toastr.success('Steel Object '+inventoryID,'Removed');
 				
 	}).error(function(e){
 		
