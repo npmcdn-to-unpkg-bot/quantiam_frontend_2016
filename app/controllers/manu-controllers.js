@@ -844,7 +844,6 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 	var vm = this;
 	vm.isArray = angular.isArray;
 	vm.profile_id = $stateParams.profile_id;
-	vm.editableData = {};
 	vm.hiddenRows = ['steps', 'created_by', 'created_datetime', 'last_updated_datetime', 'manu_slipcasting_profile_id'];
 
 	vm.init = function() {
@@ -868,9 +867,8 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		console.log(newvalue);
 		var httpVerb = 'put';
 
-		if (newvalue == '')
+		if (newvalue == '' || newvalue == null)
 		{
-			console.log('empty');
 			newvalue = 'delete';
 		}
 
@@ -880,8 +878,12 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 				toastr.success(toEdit + ' changed to ' + newvalue);
 			}
 			else {
-				toastr.success('Deleted ' + toEdit);
+				toastr.success('Deleted');
 			}
+			
+			// Sets new value to key.
+			vm.profile_data[toEdit] = r.newvalue;
+
 		}).error(function(e) {
 			toastr.error('Could not change ' + toEdit);
 			console.log('error', e);

@@ -11,7 +11,7 @@
                 <tr ng-repeat="(key, value) in SVC.profile_data" ng-if="SVC.hiddenRows.indexOf(key) == -1">
 
                         <td><b>{{ humanize(key) }}</b></td>
-                        <td style="text-align:center"><input ng-blur="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data[key]"></td>
+                        <td style="text-align:center"><input ng-enter-blur="SVC.editRow(key, value)" type="text" ng-model="SVC.profile_data[key]"></td>
                 </tr>
 
             </tbody>
