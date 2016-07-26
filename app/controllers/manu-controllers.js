@@ -1002,7 +1002,7 @@ vm.getFurnaceObj = function () {
 
 vm.updateFurnaceRunObj = function(){
 	
-	if(!vm.furnacerunObj.furnace_run_name)
+	if(!vm.furnacerunObj.furnace_run_name && vm.furnacerunObj.furnace_id)
 	{
 		vm.furnacerunObj.furnace_run_name = vm.furnacerunObj.furnace_name+'-';
 	}
