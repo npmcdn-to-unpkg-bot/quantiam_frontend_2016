@@ -853,7 +853,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		apiRequest.send('get', '/slipcast/profile/' + vm.profile_id, null).success(function(r) {
 
 			vm.profile_data = r;
-			vm.editable_data = r;
+			vm.steps = vm.profile_data.steps;
 
 		}).error(function(e) {
 
@@ -891,6 +891,12 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 			console.log('error', e);
 		})
 	};
+
+	vm.editStep = function (step)
+	{
+		console.log(vm.profile_data);
+		console.log(steps);
+	}
 
 
 	vm.init();

@@ -22,4 +22,35 @@
             </tfoot>
         </table>
     </div>
+    <div class="col-lg-6">
+        <table class="table table-striped table-hover sexystripes table-stats shadow">
+            <thead>
+                <th>Step</th>
+                <th>Instruction</th>
+                <th>Delete</th>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="(key, value) in SVC.steps">
+                    <td>{{ value.step }}</td>
+                    <td><input ng-enter-blur="SVC.editStep(value)" type="text" ng-model="value.tasks"></td>
+                    <td>
+                        <div style="margin: auto; display:block" class="btn btn-xs">
+                            <i class="fa fa-trash fa-lg" style=""></i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul dnd-list="step in SVC.profile_data.steps">
+            <li ng-repeat="step"
+                dnd-draggable="step.tasks"
+                dnd-effect-allowed="move"
+                dnd-move="list.splice($index, 1)"
+                dnd-selected="models.selected = value">
+
+            </li>
+        </ul>
+    </div>
 </div>
