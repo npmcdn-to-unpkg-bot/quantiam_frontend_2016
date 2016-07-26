@@ -349,7 +349,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 					vm.slipCastObj.steel[steelIndex].container_weights[container-1] = r;
 					
-					vm.previousContainerWeightData = {'steelIndex' : steelIndex, 'container': container-1};
+					vm.previousContainerWeightData = {'steelIndex' : steelIndex, 'container': container-1,'key':key};
+					console.log(vm.previousContainerWeightData);
 					console.log(r);
 				
 					 toastr.success('Successfully Saved');
@@ -363,7 +364,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			
 			if(vm.previousContainerWeightData.steelIndex)
 			{
-				vm.slipCastObj.steel[vm.previousContainerWeightData.steelIndex].container_weights.splice(vm.previousContainerWeightData.container, 1);
+				//vm.slipCastObj.steel[vm.previousContainerWeightData.steelIndex].container_weights.splice(vm.previousContainerWeightData.container, 1);
+				vm.slipCastObj.steel[vm.previousContainerWeightData.steelIndex].container_weights[vm.previousContainerWeightData.container][vm.previousContainerWeightData.key] = null;
 				toastr.success("Removed");
 			}
 			else
