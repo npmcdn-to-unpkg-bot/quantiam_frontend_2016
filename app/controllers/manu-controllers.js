@@ -903,7 +903,7 @@ App.controller('FurnaceRunViewController', function($scope, $stateParams, $windo
 var vm = this;
 vm.admin = false;
 vm.admin_edit_notice = true;
-vm.editable = true;
+vm.editable = false;
 vm.editableDays = -1; //1 day ago
 vm.furnacerunID = $stateParams.furnacerunid;
 vm.furnacerunObj;
@@ -959,15 +959,16 @@ vm.getFurnaceObj = function () {
 		});
 }
 
-vm.updateFurnacerunObjObj = function(){
+vm.updateFurnaceRunObj = function(){
 	
+	console.log('worked');
 	
 	apiRequest.send('put','/furnacerun/'+vm.furnacerunID,vm.furnacerunObj).success(function(r){
 		
-				toastr.success('Updated');
+				console.log(r);
 				vm.furnacerunObj = r;
 		
-		
+		toastr.success('Updated');
 	}).error(function(e){
 		
 			toastr.error("An error occured, contact administrator.");
@@ -981,15 +982,41 @@ vm.updateFurnacerunObjObj = function(){
 
 vm.addSteel = function (){
 	
+		apiRequest.send('post','/furnacerun/'+vm.furnacerunID+'/steel/'+vm.selectedSteel,null).success(function(r){
+		
+				console.log(r);
+				vm.furnacerunObj.steel.push(r);
+		
+			toastr.success('Steel Object '+vm.selectedSteel,'Added');
+	}).error(function(e){
+		
+			toastr.error("An error occured, contact administrator.");
+		
+		});
 	
 	
 	
 }
 
 
-vm.removeSteel = function (){
+vm.removeSteel = function (index){
 
+var inventoryID = vm.furnacerunObj.steel[index].inventory_id;
 
+	apiRequest.send('delete','/furnacerun/'+vm.furnacerunID+'/steel/'+inventoryID,null).success(function(r){
+		
+				
+				vm.furnacerunObj.steel.splice(index, 1);
+				
+				toastr.success('Steel Object '+vm.selectedSteel,'Removed');
+				
+	}).error(function(e){
+		
+			toastr.error("An error occured, contact administrator.");
+		
+		});
+	
+	
 
 
 }
@@ -1014,6 +1041,22 @@ vm.removeOperator = function (){
 	
 	
 }
+
+$scope.models = {
+        selected: null,
+        lists: {"A": [], "B": []}
+    };
+
+    // Generate initial model
+    for (var i = 1; i <= 3; ++i) {
+        $scope.models.lists.A.push({label: "Item A" + i});
+        $scope.models.lists.B.push({label: "Item B" + i});
+    }
+
+    // Model to JSON for demo purpose
+    $scope.$watch('models', function(model) {
+        $scope.modelAsJson = angular.toJson(model, true);
+    }, true);
 
 
 vm.init();// run initialization functions

@@ -50,14 +50,14 @@
 																	ng-change="FRV.updateFurnaceRunObj()"
 																	options="select2request.fetchList('/furnace/list',null)"
 																	ng-model="FRV.furnacerunObj.furnace_id"
-													
+																	ng-disabled="!FRV.editable"
 																	></select2>
 										
                     </div>		
 
 										<div class="form-group col-lg-3" style="width:170px">
-										<b> Run Name </b> <input  style="width:100%" type="text" class='form-control' ng-model="FRV.furnacerunObj.furnace_run_name"
-										ng-blur=""  placeholder="" 	ng-disabled="!FRV.editable"		> 
+										<b> Run Name </b> <input  style="width:100%" type="text" class='form-control' ng-model="FRV.furnacerunObj.furnace_run_name" ng-blur="FRV.updateFurnaceRunObj()"
+										placeholder="" 	ng-disabled="!FRV.editable"		> 
                     </div>  
 										
 										
@@ -69,10 +69,10 @@
 																		<select2 
 																	style="font-size:11px;"
 																	placeholder="Furnace Run Type"
-																	ng-change="FRV.updateTable()"
+																		ng-change="FRV.updateFurnaceRunObj()"
 																	options="select2request.fetchList('/furnacerun/type/list',null)"
 																	ng-model="FRV.furnacerunObj.furnace_run_type_id"
-													
+																	ng-disabled="!FRV.editable"
 																	></select2>  
 										
 										
@@ -100,7 +100,7 @@
 												</a>
 												<ul class="dropdown-menu"  ng-if="FRV.editable" role="menu" aria-labelledby="dLabel">
 													<datetimepicker 
-													data-on-set-time="FRV.furnacerunObj('datetime',FRV.furnacerunObj.created_date)"
+													data-on-set-time="FRV.updateFurnaceRunObj()"
 													data-ng-model="FRV.furnacerunObj.created_date"
 													data-datetimepicker-config="{
 													dropdownSelector: '#dropdown2',
@@ -130,7 +130,7 @@
 						<div id="steel_thing">				
 						
 						
-							<h3 class='page-header' style='margin-top:0px'>Steel <small> Tip: When entering data - use "Tab" to quickly cycle through each field. </small>
+							<h3 class='page-header' style='margin-top:0px'>Steel <small>  </small>
 								
 									<div style='float:right'>
 																
@@ -201,7 +201,7 @@
 											<td>
 											
 														<a 	ng-disabled="!FRV.editable"		
-											class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="FRV.removeSteel( $index)">
+											class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="FRV.removeSteel($index)">
 
 															<i style="color:red;" class="fa fa-trash-o fa-1x"></i>
 													</a>
@@ -248,11 +248,11 @@
 								<th>Action</th>
 							</tr>
 						</thead>
-							<tr ng-if="!SVC.slipCastObj.operators[0]"><td colspan=2><center>Please add an Operator</center></td></tr>
-							<tr ng-repeat="operator in SVC.slipCastObj.operators" >
+							<tr ng-if="!FRV.furnacerunObj.operators[0]"><td colspan=2><center>Please add an Operator</center></td></tr>
+							<tr ng-repeat="operator in FRV.furnacerunObj.operators" >
 								<td><b>{{operator.firstname}} {{operator.lastname}}</b></td>
 								<td>
-								<a 	ng-disabled="!SVC.editable"		
+								<a 	ng-disabled="!FRV.editable"		
 								class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove Operator" ng-click="SVC.removeOperator(operator.employeeID)">
 
                         <i style="color:red;" class="fa fa-trash-o fa-1x"></i>
@@ -327,3 +327,4 @@
 
 
 </div>
+
