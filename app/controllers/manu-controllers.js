@@ -1099,7 +1099,7 @@ vm.editSteel = function (index){
 vm.addOperator = function (){
 	
 			
-			apiRequest.send('post', '/furnacerun/'+vm.slipcastID+'/operator/'+vm.selectedOperator, null).success(function(r){
+			apiRequest.send('post', '/furnacerun/'+vm.furnacerunObj.furnace_run_id+'/operator/'+vm.selectedOperator, null).success(function(r){
 				
 					vm.furnacerunObj.operators.push(r);
 					toastr.success(r.firstname+' '+r.lastname,'Added');
@@ -1112,7 +1112,7 @@ vm.addOperator = function (){
 vm.removeOperator = function (index){
 	
 	var operatorID = vm.furnacerunObj.operators[index].operator_id;
-	apiRequest.send('delete', '/furnacerun/'+vm.slipcastID+'/operator/'+operatorID, null).success(function(r){
+	apiRequest.send('delete', '/furnacerun/'+vm.furnacerunObj.furnace_run_id+'/operator/'+operatorID, null).success(function(r){
 					
 			
 				
