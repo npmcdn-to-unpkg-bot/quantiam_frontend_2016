@@ -364,21 +364,37 @@
 																	ng-if="Obj.container_weights[$index].container == null"	> Record </button>
 																
 															
-																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].container != null">{{Obj.container_weights[$index].container}} g</p>
+																	<p style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	ng-if="Obj.container_weights[$index].container != null">{{Obj.container_weights[$index].container}} g</p>
+																		<a ng-if="SVC.editable && Obj.container_weights[$index].container" style=" display:inline-block;"	
+																			class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove" ng-click="SVC.removeContainerWeight($parent.$parent.$index,$index,'container')">
+
+																							<i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+																					</a>
 																	<!-- somethign else -->
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id, $parent.$parent.$index, $index+1,'slip')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || !SVC.editable"
 																		ng-if="Obj.container_weights[$index].slip == null"> Record </button>
-																	<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].slip != null">{{Obj.container_weights[$index].slip}} g</p>
+																	<p style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	ng-if="Obj.container_weights[$index].slip != null">{{Obj.container_weights[$index].slip}} g</p>
+															
+															<a ng-if="SVC.editable && Obj.container_weights[$index].slip" style=" display:inline-block;"	
+																			class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove" ng-click="SVC.removeContainerWeight($parent.$parent.$index,$index,'slip')">
+
+																							<i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+																					</a>
 																	<!-- somethign else -->
 																</td>
 																	<td>
 																	<button type="button" class="btn ink-reaction btn-xs btn-raised btn-primary" 
 																		ng-if="Obj.container_weights[$index].remainder == null"
 																	ng-click="SVC.recordContainerWeightData(Obj.manu_inventory_id,   $parent.$parent.$index, $index+1,'remainder')" ng-disabled="!SVC.scaleStatus || Obj.container_weights[$index].container == null || Obj.container_weights[$index].slip == null || !SVC.editable" > Record </button>
-																		<p style='font-size:13px; font-weight:bold; text-align:center;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
+																		<p style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	ng-if="Obj.container_weights[$index].remainder != null">{{Obj.container_weights[$index].remainder}} g</p>
+																		<a ng-if="SVC.editable && Obj.container_weights[$index].remainder" style=" display:inline-block;"	
+																			class="btn btn-icon-toggle btn-refresh" tooltip-placement="top" uib-tooltip="Remove" ng-click="SVC.removeContainerWeight($parent.$parent.$index,$index,'remainder')">
+
+																							<i style="color:red;" class="fa fa-trash-o fa-1x"></i>
+																					</a>
 																<!-- somethign else -->
 																</td>
 													
@@ -406,7 +422,7 @@
 												</div><!--end .card -->
 													<center>	<label> <b>Slip Target: </b></label> {{SVC.slipCastObj.profile.weight_per_container}}g </center>
 													
-													<center><button class='btn btn-primary btn-sm' ng-click="SVC.undoSlipWeigh()"> Undo </button></center>
+												<!-- 	<center><button class='btn btn-primary btn-sm' ng-click="SVC.undoSlipWeigh()"> Undo </button></center> -->
 											</div>
 								
 								</div>

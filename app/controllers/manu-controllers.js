@@ -362,6 +362,12 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		 
 		} 
 		
+		vm.removeContainerWeight = function (steelIndex,containerIndex,key)
+		{
+			
+			vm.slipCastObj.steel[steelIndex].container_weights[containerIndex][key] = null;
+		}
+		
 		vm.undoSlipWeigh = function () {
 			
 			if(vm.previousContainerWeightData.steelIndex)
