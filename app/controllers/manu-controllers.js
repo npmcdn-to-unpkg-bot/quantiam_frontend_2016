@@ -32,6 +32,10 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 					 var customOptions = {
 						 
 						 'campaign_id' : vm.campaign_id,
+						 'inventory_id' : vm.inventory_id,
+						 'profile_id' : vm.profile_id,
+						 'slip_id' : vm.slip_id,
+						 'slip__recipe_id' : vm.slip_recipe_id,
 						 
 						 };
 
@@ -48,8 +52,9 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 				
 									DTColumnBuilder.newColumn('campaign_name', 'Campaign').notSortable(),
 									DTColumnBuilder.newColumn('profile_name', 'Profile').notSortable(),
+									DTColumnBuilder.newColumn('recipe_name', 'Recipe').notSortable(),
 									DTColumnBuilder.newColumn('steel').withTitle('Casted').renderWith(function(data, type, full) {
-									
+									console.log(full);
 												var string = '';
 												full.steel.forEach( function (arrayItem)
 																				{
@@ -1130,5 +1135,25 @@ App.controller('SlipcastProfileController', function() {
 
 
 
+
+});
+
+
+
+App.controller('PrefinishController', function() {
+
+var vm = this;
+
+
+
+vm.init = function () 
+{
+	
+	
+	
+}
+
+
+vm.init();
 
 });

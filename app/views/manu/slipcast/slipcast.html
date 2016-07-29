@@ -28,6 +28,44 @@
 																	ng-model="SC.campaign_id"
 													
 																	></select2>
+																	
+																	<select2 
+																	style="font-size:11px;"
+																	placeholder="Profile Filter"
+																	ng-change="SC.updateTable()"
+																	options="select2request.fetchList('/slipcast/profile/list',{})"
+																	ng-model="SC.profile_id"
+													
+																	></select2>
+																				
+																	<select2 
+																	style="font-size:11px;"
+																	placeholder="Slip Filter"
+																	ng-change="SC.updateTable()"
+																	options="select2request.fetchList('/slip/list',{})"
+																	ng-model="SC.slip_id"
+													
+																	></select2>
+																	
+																	
+															<select2 
+																	style="font-size:11px;"
+																	placeholder="Slip Recipe Filter"
+																	ng-change="SC.updateTable()"
+																	options="select2request.fetchList('/slip/recipe/list',{})"
+																	ng-model="SC.slip_recipe_id"
+													
+																	></select2>
+			 
+		
+															<select2 
+																	style="font-size:11px;"
+																	placeholder="Inventory Filter"
+																	ng-change="SC.updateTable()"
+																	options="select2request.fetchList('/steel/list',{})"
+																	ng-model="SC.inventory_id"
+													
+																	></select2>
 			 
 	
 		</div>
