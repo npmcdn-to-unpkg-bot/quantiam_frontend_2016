@@ -1,6 +1,6 @@
-<h3> Profile {{ SVC.profile_id }}</h3>
+<h3 style="text-align:center; background-color: #4E6C8C; color: white"><b>Profile {{ SVC.profile_id }}</b> </h3>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4 col-lg-offset-2">
          <table class="table table-striped table-hover sexystripes table-stats shadow">
             <thead>
                 <th>Key</th>
@@ -22,35 +22,21 @@
             </tfoot>
         </table>
     </div>
-    <div class="col-lg-6">
-        <table class="table table-striped table-hover sexystripes table-stats shadow">
-            <thead>
-                <th>Step</th>
-                <th>Instruction</th>
-                <th>Delete</th>
-            </thead>
+    <div class="col-lg-3">
+        <div class="card card-underline">
+            <div class="card-head card-head-xs style-primary">
 
-            <tbody>
-                <tr ng-repeat="(key, value) in SVC.steps">
-                    <td>{{ value.step }}</td>
-                    <td><input ng-enter-blur="SVC.editStep(value)" type="text" ng-model="value.tasks"></td>
-                    <td>
-                        <div style="margin: auto; display:block" class="btn btn-xs">
-                            <i class="fa fa-trash fa-lg" style=""></i>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            </div>
+ <div class="card-body">
+                <ul class="dnd" ng-sortable="sortConfig">
+                    <li ng-repeat="value in SVC.steps">
+                        <i style="padding-left:10px" class="my-handle fa fa-bars fa-3"></i>
+                        &nbsp; &nbsp;{{ $index + 1 }}:<input ng-enter-blur="SVC.editTask(value.step, value.tasks)" type="text" ng-model="value.tasks"></li>
+                </ul>
+        </div>
+        </div>
 
-        <ul dnd-list="step in SVC.profile_data.steps">
-            <li ng-repeat="step"
-                dnd-draggable="step.tasks"
-                dnd-effect-allowed="move"
-                dnd-move="list.splice($index, 1)"
-                dnd-selected="models.selected = value">
-
-            </li>
-        </ul>
     </div>
 </div>
+
+<button class="md-button-toggle md-button md-ink-ripple">RIPPLE</button>

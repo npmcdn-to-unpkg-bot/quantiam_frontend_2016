@@ -852,7 +852,7 @@ App.controller('SlipcastProfileListController', function($scope, apiRequest, $lo
 
 });
 
-App.controller('SlipcastProfileViewController', function($stateParams, apiRequest) {
+App.controller('SlipcastProfileViewController', function($stateParams, apiRequest, $scope) {
 
 	var vm = this;
 	vm.isArray = angular.isArray;
@@ -864,7 +864,9 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		apiRequest.send('get', '/slipcast/profile/' + vm.profile_id, null).success(function(r) {
 
 			vm.profile_data = r;
-			vm.steps = vm.profile_data.steps;
+			$scope.steps = vm.profile_data.steps;
+			vm.steps = $scope.steps;
+
 
 		}).error(function(e) {
 
@@ -903,16 +905,77 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		})
 	};
 
-	vm.editStep = function (step)
+	vm.editTask = function (toEdit, newvalue){
+
+		console.log(toEdit);
+		console.log(newvalue);
+		var httpVerb = 'put';
+
+		if (newvalue == '' || newvalue == null)
+		{
+			newvalue = 'delete';
+		}
+
+		apiRequest.send(httpVerb, '/slipcast/profile/' + vm.profile_id + '/steps/' + toEdit + '/' + newvalue, null).success(function(r) {
+			console.log(r);
+			if (httpVerb = 'put'){
+				toastr.success(toEdit + ' changed to ' + newvalue);
+			}
+			else {
+				toastr.success('Deleted');
+			}
+
+		}).error(function(e) {
+			toastr.error('Could not change ' + toEdit);
+			console.log('error', e);
+		})
+	};
+
+	vm.editOrder = function ()
 	{
-		console.log(vm.profile_data);
-		console.log(steps);
-	}
+		apiRequest.send('post', '/slipcast/profile/' + vm.profile_id + '/steps', vm.steps).success(function(r) {
+
+			toastr.success('Changed order of steps');
+
+		}).error(function(e) {
+
+			toastr.error(e);
+		});
+
+	};
+
+
+
+
+		vm.sortConfig = {
+			animation: 150,
+		};
+
+	$scope.$watch('SVC.steps', function(newVal, oldVal) {
+
+		if (oldVal != null)
+		{
+			for (var i = 0; i < newVal.length; i++)
+			{
+				if (newVal[i].step != oldVal[i].step)
+				{
+					vm.editOrder();
+					break;
+				}
+			}
+
+		}
+
+
+	}, true);
+
+
+
 
 
 	vm.init();
 
-})
+});
 
 
 App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, userService,apiRequest, webSocket, DTColumnBuilder) {

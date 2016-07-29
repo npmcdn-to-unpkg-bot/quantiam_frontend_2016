@@ -219,3 +219,43 @@ td.centertext {
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+.my-handle{
+	cursor: move;
+	cursor: -webkit-grabbing;
+}
+
+ul.dnd {
+	margin: 10px;
+	padding: 0;
+	list-style: none;
+	color:purple;
+	border-radius: 2px;
+}
+
+ul.dnd li
+{
+	display: block
+
+}
+
+ul.dnd li:nth-child(even) {
+	background:rgba(238, 238, 238, 0.3);
+	border: solid grey 1px;
+	height: 3em
+}
+ul.dnd li:nth-child(odd)
+{
+	border: solid grey 1px;
+	height: 4em;
+	background:rgba(255, 255, 255, 0.35);
+}
+ul.dnd li:nth-child(n+2)
+{
+	height: 4em;
+}
+
+div.card-head-xs
+{
+	height: 0.5rem;
+}
