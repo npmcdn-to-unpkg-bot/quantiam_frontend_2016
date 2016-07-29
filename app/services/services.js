@@ -77,6 +77,7 @@ App.service('dtRequest', function() {
 										 headers: {
 												 "Authorization": "Bearer " + localStorage.getItem('token'),
 											 },
+											method: "POST",
 										data: customData,
 										dataSrc: 'aoData',
 							/* 		  	success: function (r)

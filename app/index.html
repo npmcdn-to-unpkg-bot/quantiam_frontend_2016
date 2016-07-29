@@ -167,7 +167,20 @@
 							</ul><!--end /submenu -->
 						</li>
 						
-						
+						<li class="gui-folder"     ng-class="{  'active': isActive('/steel') || isLastSelectedSidebar('Inventory'),  'expanded': (isActive('/steel') && IC.memubar_visible) || (isLastSelectedSidebar('Inventory')  && IC.memubar_visible)}" >
+							<a   ng-click="expandSidebarMenuItem($event)" >
+								<div class="gui-icon"><i class="fa fa-archive"></i></div>
+								<span class="title">Inventory</span>
+							</a>
+							<!--start submenu -->
+							<ul>
+				
+					
+									<li    >
+									<a href="#/steel" ng-class="{  'active': isActive('/steel')}"   ><span class="title">Steel</span></a>
+									</li> 	
+							</ul>
+						</li>
 										
 						<li class="gui-folder"     ng-class="{  'active': isActive('/slipcast') || isLastSelectedSidebar('Manufacturing'),  'expanded': (isActive('/slipcast') && IC.memubar_visible) || (isLastSelectedSidebar('Manufacturing')  && IC.memubar_visible)}" >
 							<a   ng-click="expandSidebarMenuItem($event)" >
@@ -299,6 +312,7 @@
 <script src="controllers/controllers.js" charset="utf-8"></script>
 <script src="controllers/select-controllers.js" charset="utf-8"></script>
 <script src="controllers/manu-controllers.js" charset="utf-8"></script>
+<script src="controllers/inventory-controllers.js" charset="utf-8"></script>
 <script src="routes.js" charset="utf-8"></script>
 <script src="directives/directives.js" charset="utf-8"></script>
 <script src="factories/factories.js" charset="utf-8"></script>

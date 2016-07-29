@@ -59,6 +59,16 @@
 																	ng-model="FRC.furnaceID"
 													
 																	></select2>
+																	
+																	
+																	<select2 
+																	style="font-size:11px;"
+																	placeholder="Inventory Filter"
+																	ng-change="FRC.updateTable()"
+																	options="select2request.fetchList('/steel/list',null)"
+																	ng-model="FRC.inventory_id"
+													
+																	></select2>
 	
 													
 												
