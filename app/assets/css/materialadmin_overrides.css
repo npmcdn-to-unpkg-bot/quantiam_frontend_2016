@@ -226,35 +226,21 @@ td.centertext {
 }
 
 ul.dnd {
-	margin: 10px;
-	padding: 0;
-	list-style: none;
-	color:purple;
-	border-radius: 2px;
+	list-style-type: none;
+}
+ul.dnd:before, ul.dnd:after {
+	text-align: left;
+	display: block;
 }
 
-ul.dnd li
-{
-	display: block
-
+ul.dnd li {
+	text-align: left;
+	margin-bottom: -1px;
 }
-
 ul.dnd li:nth-child(even) {
-	background:rgba(238, 238, 238, 0.3);
-	border: solid grey 1px;
-	height: 3em
+	width: 100%;
+	background: rgba(238, 238, 238, 0.3);
 }
-ul.dnd li:nth-child(odd)
-{
-	border: solid grey 1px;
-	height: 4em;
-	background:rgba(255, 255, 255, 0.35);
-}
-ul.dnd li:nth-child(n+2)
-{
-	height: 4em;
-}
-
 div.card-head-xs
 {
 	height: 0.5rem;

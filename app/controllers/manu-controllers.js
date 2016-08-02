@@ -957,7 +957,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 		{
 			for (var i = 0; i < newVal.length; i++)
 			{
-				if (newVal[i].step != oldVal[i].step)
+				if (newVal[i].step != oldVal[i].step )
 				{
 					vm.editOrder();
 					break;
