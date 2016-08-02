@@ -227,6 +227,7 @@ td.centertext {
 
 ul.dnd {
 	list-style-type: none;
+	padding-left:0px;
 }
 ul.dnd:before, ul.dnd:after {
 	text-align: left;
@@ -236,6 +237,8 @@ ul.dnd:before, ul.dnd:after {
 ul.dnd li {
 	text-align: left;
 	margin-bottom: -1px;
+	margin:0px;
+	padding:10px;
 }
 ul.dnd li:nth-child(even) {
 	width: 100%;
