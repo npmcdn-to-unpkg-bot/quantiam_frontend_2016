@@ -23,7 +23,7 @@ var vm = this;
 		
 		var customOptions = {
 							 
-							// 'campaign_id' : vm.campaignID,
+								'campaign_id' : vm.campaignID,
 							
 							 
 							 };

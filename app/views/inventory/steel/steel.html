@@ -3,7 +3,20 @@
 	
 	<div class='row'>		
 		
-					<h3> Steel Inventory </h3>
+					<h3> Steel Inventory
+						
+						
+						
+						</h3>
+						
+															<select2 
+																	style="font-size:11px;"
+																	placeholder="Campaign Filter"
+																	ng-change="SIC.updateTable()"
+																	options="select2request.fetchList('/campaign/list',{})"
+																	ng-model="SIC.campaignID"
+													
+																	></select2>
 						
 
 
