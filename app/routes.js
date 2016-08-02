@@ -85,5 +85,11 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               templateUrl: 'views/manu/furnace/furnacerunview.html',
               controller: 'FurnaceRunViewController as FRV'
 
+        }) 
+			 .state('steel', {
+            url:'/steel',
+              templateUrl: 'views/inventory/steel/steel.html',
+              controller: 'SteelInventoryController as SIC'
+
         })
 }]);
