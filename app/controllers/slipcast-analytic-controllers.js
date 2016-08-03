@@ -34,8 +34,8 @@ vm.buildCharts = function() {
 			yAxis: {
 			
 				
-				max: vm.xmr.xUCL + parseFloat((vm.xmr.xUCL*0.005).toFixed(2)),
-				min: vm.xmr.xLCL - parseFloat((vm.xmr.xLCL*0.005).toFixed(2)),
+				max: vm.xmr.xUCL + parseFloat((vm.xmr.xUCL*0.010).toFixed(2)),
+				min: vm.xmr.xLCL - parseFloat((vm.xmr.xLCL*0.010).toFixed(2)),
 				plotLines:[
 								{
 										value: vm.xmr.xUCL,
