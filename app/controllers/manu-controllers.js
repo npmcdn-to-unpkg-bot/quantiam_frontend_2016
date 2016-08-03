@@ -910,6 +910,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 
 		if (newvalue == '' || newvalue == null)
 		{
+			httpVerb = 'delete';
 			newvalue = 'delete';
 		}
 
@@ -920,6 +921,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 			}
 			else {
 				toastr.success('Deleted');
+				vm.steps.splice(toEdit, 1);
 			}
 
 		}).error(function(e) {
@@ -927,6 +929,14 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 			console.log('error', e);
 		})
 	};
+
+	vm.newStep = function() {
+		apiRequest.send('post', '/slipcast/profile/' + vm.profile_id + '/newstep', null).success(function(r) {
+			toastr.success(r);
+		}).error(function(e) {
+			toastr.error('Couldn\'t do that');
+		})
+	}
 
 	vm.editOrder = function ()
 	{

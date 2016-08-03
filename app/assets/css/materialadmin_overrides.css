@@ -247,6 +247,9 @@ ul.dnd li:nth-child(odd){
 	width: 100%;
 	background: white;
 }
+ul.dnd li:last-child{
+	border-bottom: 1px solid rgba(189, 193, 193, 0.2);
+}
 div.card-head-xs
 {
 	height: 0.5rem;
