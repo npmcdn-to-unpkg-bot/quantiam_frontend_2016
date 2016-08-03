@@ -143,6 +143,7 @@ table.sexystripes   th {
 	background-color: #456382;
 	text-align: center;
 	border-right: 1px solid white;
+	border-radius: 2px;
 }
 table.sexystripes th:last-child{
 	border-right: 0;
