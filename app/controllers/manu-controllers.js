@@ -730,10 +730,7 @@ App.controller('SlipcastViewGraphsController', function($scope, $stateParams, $w
 });
 
 
-App.controller('SlipcastAnalyticalController', function($scope, $stateParams, $window, apiRequest) {
-	
-	
-});
+
 
 App.controller('FurnaceRunController', function($scope, $stateParams, $location, apiRequest, DTColumnBuilder, dtRequest) {
 	

@@ -41,7 +41,7 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 			.state('slipcast-analytics', {
 									url:'/slipcast/analytics/',
 										templateUrl: 'views/manu/slipcast/analytics.html',
-										controller: 'SlipcastAnalyticalController as SAC'
+										controller: 'SlipcastAnalyticController as SCAC'
 
 							})
 
@@ -67,9 +67,10 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
               templateUrl: 'views/manu/slipcast/slipcastprofile.html',
               controller: 'SlipcastProfileListController as SC'
 
-        }) 
+				 }) 
+			
 				 .state('slipcast-profile-view', {
-            url:'/slipcast/profile/:profile_id',
+					 url:'/slipcast/profile/:profile_id',
               templateUrl: 'views/manu/slipcast/slipcastprofileview.html',
               controller: 'SlipcastProfileViewController as SVC'
 
