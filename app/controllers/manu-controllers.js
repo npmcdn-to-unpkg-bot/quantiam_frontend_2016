@@ -54,7 +54,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 									DTColumnBuilder.newColumn('profile_name', 'Profile').notSortable(),
 									DTColumnBuilder.newColumn('recipe_name', 'Recipe').notSortable(),
 									DTColumnBuilder.newColumn('steel').withTitle('Casted').renderWith(function(data, type, full) {
-									console.log(full);
+					//				console.log(full);
 												var string = '';
 												full.steel.forEach( function (arrayItem)
 																				{
