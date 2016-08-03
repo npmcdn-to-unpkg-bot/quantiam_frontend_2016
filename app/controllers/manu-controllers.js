@@ -916,12 +916,12 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 
 		apiRequest.send(httpVerb, '/slipcast/profile/' + vm.profile_id + '/steps/' + toEdit + '/' + newvalue, null).success(function(r) {
 			console.log(r);
-			if (httpVerb = 'put'){
+			if (httpVerb == 'put'){
 				toastr.success(toEdit + ' changed to ' + newvalue);
 			}
 			else {
-				toastr.success('Deleted');
-				vm.steps.splice(toEdit, 1);
+				toastr.success('Deleted step ' + (toEdit + 1));
+				vm.init();
 			}
 
 		}).error(function(e) {
@@ -931,8 +931,9 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 	};
 
 	vm.newStep = function() {
-		apiRequest.send('post', '/slipcast/profile/' + vm.profile_id + '/newstep', null).success(function(r) {
+		apiRequest.send('post', '/slipcast/profile/' + vm.profile_id + '/newstep/' + vm.steps.length, null).success(function(r) {
 			toastr.success(r);
+			vm.init();
 		}).error(function(e) {
 			toastr.error('Couldn\'t do that');
 		})
