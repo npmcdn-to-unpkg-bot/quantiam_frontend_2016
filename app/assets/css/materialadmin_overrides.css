@@ -235,9 +235,9 @@ ul.dnd:before, ul.dnd:after {
 }
 
 ul.dnd li {
-	margin-bottom: -1px;
-	margin:0px;
-	padding:10px;
+	margin:0;
+	padding: 7.5px;
+	border-top: 1px solid rgba(189, 193, 193, 0.2);
 }
 ul.dnd li:nth-child(even) {
 	width: 100%;

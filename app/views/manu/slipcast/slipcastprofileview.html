@@ -30,7 +30,7 @@
         </table>
     </div>
     <div class="col-lg-3">
-        <div class="card card-underline">
+        <div class="card card-underline" style="color: #666">
             <div class="card-head card-head-xs style-primary" style="min-height:30px; text-align:center">
 <header style="font-weight:bold; font-size: 0.9em;     font-family: helvetica,arial,sans-serif;">Steps</header>
             </div>
@@ -38,7 +38,7 @@
                 <ul class="dnd" ng-sortable="sortConfig">
                     <li style="display: table" ng-repeat="value in SVC.steps">
                         <i style="padding-left:10px;" class="my-handle fa fa-bars fa-3"></i>
-                        &nbsp; &nbsp;{{ $index + 1 }}:<span style="display: table-cell; vertical-align: middle"><input ng-enter-blur="SVC.editTask(value.step, value.tasks)" type="text" ng-model="value.tasks"></span></li>
+                        &nbsp; &nbsp;{{ $index + 1 }}:<span style="display: table-cell; vertical-align: middle"><input style="height: auto; width: auto;" ng-enter-blur="SVC.editTask(value.step, value.tasks)" type="text" ng-model="value.tasks"></span></li>
                 </ul>
         </div>
         </div>
