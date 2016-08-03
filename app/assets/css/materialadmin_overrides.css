@@ -230,12 +230,10 @@ ul.dnd {
 	padding-left:0px;
 }
 ul.dnd:before, ul.dnd:after {
-	text-align: left;
 	display: block;
 }
 
 ul.dnd li {
-	text-align: left;
 	margin-bottom: -1px;
 	margin:0px;
 	padding:10px;
@@ -243,6 +241,10 @@ ul.dnd li {
 ul.dnd li:nth-child(even) {
 	width: 100%;
 	background: rgba(238, 238, 238, 0.3);
+}
+ul.dnd li:nth-child(odd){
+	width: 100%;
+	background: white;
 }
 div.card-head-xs
 {
