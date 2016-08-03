@@ -3,6 +3,13 @@ App.controller('SlipcastAnalyticController', function($scope, $location, apiRequ
 // State params = 'slipcastID': '###'
 	var vm = this;
 	vm.showCharts = false;
+	
+	vm.loadSlipcastRun = function (slipcastID)
+	{
+			$location.path('/slipcast/' + slipcastID);
+		
+		
+	}
 
 	apiRequest.send('get', '/slipcast/controlcharts/slipweight/campaign/12', null).success(function(r) {
 
@@ -71,7 +78,20 @@ vm.buildCharts = function() {
 				series:[{
 					name:vm.xmr.y_name,
 					type:'spline',
-					data: vm.xmr.xSeries.data
+					data: vm.xmr.xSeries.data,
+						point: {
+				
+						events: {
+						
+								click: function (){
+											
+											vm.loadSlipcastRun(this.slipcastID);
+									}
+						
+						
+								}
+				
+						}
 					
 					}]
 				
@@ -118,10 +138,22 @@ vm.buildCharts = function() {
 				},
 				series:[{
 
-				name:vm.xmr.y_name,
+				name:vm.xmr.y_name+' Difference',
 				type:'spline',
 				data: vm.xmr.mrSeries.data,
-		
+					point: {
+				
+						events: {
+						
+								click: function (){
+											
+											vm.loadSlipcastRun(this.slipcastID);
+									}
+						
+						
+								}
+				
+						}
 				}],
 				
 	};

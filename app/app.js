@@ -5,5 +5,7 @@ var App = angular.module('App', ['ui.router', 'datatables', 'ui.bootstrap', 'ui.
 	select2Config.dropdownAutoWidth = true;
 
 	
-});
+}).config(['$urlRouterProvider', function ($urlRouterProvider) {
+   // $urlRouterProvider.deferIntercept();
+  }]);
 
