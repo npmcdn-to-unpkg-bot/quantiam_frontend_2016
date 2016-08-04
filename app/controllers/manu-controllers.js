@@ -165,6 +165,8 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 			vm.slipObj = r;
 			console.log(vm.slipObj);
 			
+	
+			
 			});
 		
 		
@@ -208,12 +210,34 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 				
 				vm.slipCastObjLoaded = true;
 					
-					vm.getSlip();
+				vm.getSlip();
 				vm.checkEditable();
 				vm.checkStepCompletion();
+					vm.calculateSlipOnTube();
 			});
 		
 		
+	}
+	
+	vm.calculateSlipOnTube = function ()
+	{
+		vm.slipCastObj.steel.forEach(function(steel){
+			
+			steel.deposited_slip = 0;
+			
+			steel.container_weights.forEach(function(weights,index){
+		
+					if(weights.remainder)
+					{
+							weights.deposited =   parseFloat((weights.slip - (weights.remainder - weights.container)).toFixed(2));
+						
+							steel.deposited_slip = steel.deposited_slip + weights.deposited;
+					}
+				});
+				
+			
+			})
+	
 	}
 	
 	vm.editSlipcastObj = function (key,value)
@@ -355,7 +379,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 					apiRequest.send('put','/slipcast/'+vm.slipcastID+'/steel/'+steel+'/container/'+container, param).success(function(r){
 			
 					vm.slipCastObj.steel[steelIndex].container_weights[container-1] = r;
-					
+					vm.calculateSlipOnTube();
 
 					 toastr.success('Successfully Saved');
 		
