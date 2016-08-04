@@ -147,6 +147,64 @@ App.controller('HomeController', ['$scope', function($scope) {
 	
 }]);
 
+App.controller('RtoTestController', function($scope,$location,  dtRequest,apiRequest,DTColumnBuilder) {
+
+    var vm = this;
+
+console.log('happy');
+
+    vm.rowClickHandler = function (info) {
+
+        $location.path('/rtotest');
+
+
+        $scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise.
+
+    }
+
+    vm.getdtTable = function () {
+
+
+        var customOptions = {
+
+            'created' : vm.created,
+            'status' : vm.status,
+            'firstname' : vm.firstname,
+            'lastname' : vm.lastname,
+            'employeeID' : vm.employeeID,
+
+        };
+
+        //what columns do we want to show?
+       var dtColumns = [
+
+            DTColumnBuilder.newColumn('employee-name').withTitle('Name').renderWith(function(data, type, full) {
+                return '<b>' + full.firstname + '</b>';
+            }),
+
+            DTColumnBuilder.newColumn('status', 'Status').notSortable(),
+            DTColumnBuilder.newColumn('employeeID', 'EmployeeID').notSortable(),
+            DTColumnBuilder.newColumn('created', 'Created').notSortable(),
+
+
+        ];
+
+
+        vm.dtTable = dtRequest.build_dtOptions('rto/data/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response
+        console.log(vm.dtTable);
+
+
+
+
+    };
+
+
+
+
+    vm.getdtTable();
+
+});
+
 
 App.controller('AuthController', ['$scope', '$location', 'userService', function ($scope, $location, userService){
 

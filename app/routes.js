@@ -21,6 +21,13 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/rto/rto_dashboard.html',
             controller: 'RtoController as RC'
         })
+
+        .state('rtotest', {
+            url: '/rtotest',
+            templateUrl: 'views/rto/rtodashtest.html',
+            controller: 'RtoTestController as RTC'
+        })
+
         .state('rtoView', {
             url:'/rto/:rtoid',
             templateUrl: 'views/rto/rto_view.html',
