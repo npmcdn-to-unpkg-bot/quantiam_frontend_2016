@@ -160,7 +160,7 @@ console.log('happy');
 
         $scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise.
 
-    }
+    };
 
     vm.getdtTable = function () {
 
@@ -191,8 +191,6 @@ console.log('happy');
 
 
         vm.dtTable = dtRequest.build_dtOptions('rto/data/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response
-        console.log(vm.dtTable);
-
 
 
 
