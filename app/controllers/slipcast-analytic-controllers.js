@@ -2,17 +2,21 @@ App.controller('SlipcastAnalyticController', function($scope, $location, apiRequ
 
 // State params = 'slipcastID': '###'
 	var vm = this;
-
-
-	apiRequest.send('get', '/slipcast/analytic/slipweight/campaign/12', null).success(function(r) {
-
-		vm.slipWeight = r;
-				calculate_XMR(r,'inventoryID','slipCasted','inventoryID');
+	vm.showCharts = false;
+	
+	vm.loadSlipcastRun = function (slipcastID)
+	{
+			$location.path('/slipcast/' + slipcastID);
 		
 		
-		//	console.log(vm.slipWeight);
-		//vm.buildHumidityGraphs();
+	}
 
+	apiRequest.send('get', '/slipcast/controlcharts/slipweight/campaign/12', null).success(function(r) {
+
+	
+			vm.xmr =r;
+			console.log(vm.xmr);
+			vm.buildCharts();
 
 	}).error(function(e) {
 
@@ -21,12 +25,140 @@ App.controller('SlipcastAnalyticController', function($scope, $location, apiRequ
 	});
 
 
+vm.buildCharts = function() {
 
-	vm.ChartConfig = {
-		
+	vm.showCharts = true;
+	vm.xChartConfig = {
+	
+			title:{
+			text:"X Control Chart - "+vm.xmr.title,
+			},
+		 legend: {
+            enabled: false
+        },
+			xAxis:{
+				
+				 title:{
+						text: vm.xmr.x_name+' ('+vm.xmr.x_unit+')',
+					},
+				},
+			yAxis: {
+			 title:{
+						text: vm.xmr.y_name+' ('+vm.xmr.y_unit+')',
+					},
+				
+				max: (vm.xmr.xSeries.UCL + parseFloat((vm.xmr.xSeries.UCL*0.010).toFixed(2))),
+				min: (vm.xmr.xSeries.LCL - parseFloat((vm.xmr.xSeries.LCL*0.010).toFixed(2))),
+			
+				plotLines:[
+								{
+										value: vm.xmr.xSeries.UCL,
+										color: '#ff0000',
+										width:2,
+										zIndex:4,
+										label:{text:'UCL'}
+								},	
+								{
+										value: vm.xmr.xSeries.LCL,
+										color: '#ff0000',
+										width:2,
+										zIndex:4,
+										label:{text:'LCL'}
+								},
+								{
+										value: vm.xmr.xSeries.avg,
+										color: '#05305d',
+										width:1,
+										zIndex:2,
+										dashStyle: 'Dot',
+										label:{text:'Average'}
+								},
+						]
+				},
+				series:[{
+					name:vm.xmr.y_name,
+					type:'spline',
+					data: vm.xmr.xSeries.data,
+						point: {
+				
+						events: {
+						
+								click: function (){
+											
+											vm.loadSlipcastRun(this.slipcastID);
+									}
+						
+						
+								}
+				
+						}
+					
+					}]
+				
+				
+			
+	};
+	
+	vm.mrChartConfig = {
+			title:{
+			text:"MR Control Chart - "+vm.xmr.title,
+			},
+			 legend: {
+            enabled: false
+        },
+			xAxis:{
+				
+				 title:{
+						text: vm.xmr.x_name+' ('+vm.xmr.x_unit+')',
+					},
+				},
+			yAxis: {
+        title:{
+						text: vm.xmr.y_name+' ('+vm.xmr.y_unit+')',
+					},
+			
+				plotLines:[
+								{
+										value: vm.xmr.mrSeries.UCL,
+										color: '#ff0000',
+										width:2,
+										zIndex:4,
+										label:{text:'UCL'}
+								},	
+					
+								{
+										value: vm.xmr.mrSeries.avg,
+										color: '#05305d',
+										dashStyle: 'Dot',
+										width:1,
+										zIndex:2,
+										label:{text:'Average'}
+								},
+						]
+				},
+				series:[{
+
+				name:vm.xmr.y_name+' Difference',
+				type:'spline',
+				data: vm.xmr.mrSeries.data,
+					point: {
+				
+						events: {
+						
+								click: function (){
+											
+											vm.loadSlipcastRun(this.slipcastID);
+									}
+						
+						
+								}
+				
+						}
+				}],
+				
 	};
 
-
+}
 
 	
 
@@ -35,68 +167,3 @@ App.controller('SlipcastAnalyticController', function($scope, $location, apiRequ
 
 });
 
-
-function calculate_XMR (ObjOfArrays,xValue,yValue, orderBy)
-{
-	
-	var returnObj = {};
-	returnObj.xArray = [];
-	returnObj.xBar;
-	returnObj.mrArray = [];
-	returnObj.mrBar;
-	
-
-
-	
-					ObjOfArrays.sort(orderByInventoryID);
-
-					var previous_value;
-					
-					ObjOfArrays.forEach( function (dataPoint){
-							
-							if(previous_value) {
-								
-								 var mr = parseFloat(Math.abs(previous_value - dataPoint[yValue]).toFixed(2));
-									returnObj.mrArray.push(mr);
-							}
-							
-							returnObj.xArray.push(dataPoint[yValue]);
-							
-							
-							previous_value = dataPoint[yValue];
-						
-					});
-					
-					
-						returnObj.xBar =  parseFloat(arrayAverage(returnObj.xArray).toFixed(2));
-						returnObj.mrBar =  parseFloat(arrayAverage(returnObj.mrArray).toFixed(2));
-						returnObj.xLCL =  parseFloat((returnObj.xBar - (2.66 * returnObj.mrBar)).toFixed(2));
-						returnObj.xUCL = parseFloat((returnObj.xBar + (2.66 * returnObj.mrBar)).toFixed(2));
-						
-						returnObj.mrUCL = parseFloat((3.267 * returnObj.mrBar).toFixed(2));
-						returnObj.mrUCL = (0 * returnObj.mrBar);
-	
-	console.log(returnObj);
-}
-
-
-function orderByInventoryID(a,b) {
-
-  if (a.inventoryID < b.inventoryID)
-    return -1;
-  if (a.inventoryID > b.inventoryID)
-    return 1;
-  return 0;
-}
-
-function arrayAverage (array){
-	
-		var total = 0;
-							for(var i = 0; i < array.length; i++) {
-									total += array[i];
-							}
-							var avg = total / array.length;
-	return avg;
-	
-	
-}
