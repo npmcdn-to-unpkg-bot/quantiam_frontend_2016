@@ -1,17 +1,24 @@
-App.controller('SlipcastAnalyticController', function($scope, $location, apiRequest) {
+App.controller('SlipcastControlChartController', function($scope, $location, apiRequest) {
+	
+	
+});
+App.controller('SlipcastControlChartViewController', function($scope, $location,$stateParams, apiRequest) {
 
 // State params = 'slipcastID': '###'
 	var vm = this;
 	vm.showCharts = false;
+		vm.campaignID = $stateParams.campaignID;
+		vm.variableMonitored = $stateParams.variableMonitored;
 	
 	vm.loadSlipcastRun = function (slipcastID)
 	{
+			console.log('triggered');
 			$location.path('/slipcast/' + slipcastID);
 		
 		
 	}
 
-	apiRequest.send('get', '/slipcast/controlcharts/slipweight/campaign/12', null).success(function(r) {
+	apiRequest.send('get', '/slipcast/controlcharts/'+vm.variableMonitored+'/campaign/'+vm.campaignID, null).success(function(r) {
 
 	
 			vm.xmr =r;
@@ -39,8 +46,10 @@ vm.buildCharts = function() {
 			xAxis:{
 				
 				 title:{
-						text: vm.xmr.x_name+' ('+vm.xmr.x_unit+')',
+							text: vm.xmr.x_name+' ('+vm.xmr.x_unit+')',
 					},
+					type:'category',
+					tickInterval:5,
 				},
 			yAxis: {
 			 title:{
@@ -48,7 +57,7 @@ vm.buildCharts = function() {
 					},
 				
 				max: (vm.xmr.xSeries.UCL + parseFloat((vm.xmr.xSeries.UCL*0.010).toFixed(2))),
-				min: (vm.xmr.xSeries.LCL - parseFloat((vm.xmr.xSeries.LCL*0.010).toFixed(2))),
+				min: (vm.xmr.xSeries.LCL - parseFloat((vm.xmr.xSeries.LCL*0.015).toFixed(2))),
 			
 				plotLines:[
 								{
@@ -79,13 +88,28 @@ vm.buildCharts = function() {
 					name:vm.xmr.y_name,
 					type:'spline',
 					data: vm.xmr.xSeries.data,
+				tooltip:{
+						pointFormatter: function () {
+            return ('<b>ID</b>: '+this.identifier ||  '') + ' <b>Name</b>: ' + (this.inventoryName || '<br/>')+
+						'<br/><b>Date</b>: '+this.readableDate+'<br/> <span style="color:'+this.color+'">\u25CF</span> '+this.series.name+': <b>'+this.y+'</b> '+vm.xmr.y_unit+' <br/>'+(this.comment || '')+'<br/>';
+								
+						},
+						headerFormat: '',
+					
+						
+						},
+						marker:{
+							
+							enabled:true,
+							
+							},
 						point: {
 				
 						events: {
 						
 								click: function (){
-											
-											vm.loadSlipcastRun(this.slipcastID);
+											console.log(this);
+											//vm.loadSlipcastRun(this.slipcastID);
 									}
 						
 						
@@ -101,7 +125,7 @@ vm.buildCharts = function() {
 	
 	vm.mrChartConfig = {
 			title:{
-			text:"MR Control Chart - "+vm.xmr.title,
+			text:"Moving Range Control Chart - "+vm.xmr.title,
 			},
 			 legend: {
             enabled: false
@@ -111,6 +135,7 @@ vm.buildCharts = function() {
 				 title:{
 						text: vm.xmr.x_name+' ('+vm.xmr.x_unit+')',
 					},
+					tickInterval:5,
 				},
 			yAxis: {
         title:{
@@ -141,8 +166,16 @@ vm.buildCharts = function() {
 				name:vm.xmr.y_name+' Difference',
 				type:'spline',
 				data: vm.xmr.mrSeries.data,
+				tooltip:{
+						pointFormatter: function () {
+             return ('<b>ID</b>: '+this.identifier ||  '') + ' <b>Name</b>: ' + (this.inventoryName || '<br/>')+
+						'<br/><b>Date</b>: '+this.readableDate+'<br/> <span style="color:'+this.color+'">\u25CF</span> '+this.series.name+': <b>'+this.y+'</b> '+vm.xmr.y_unit+' <br/>'+(this.comment || '')+'<br/>';
+								
+						},
+							headerFormat: '',
+					},
 					point: {
-				
+			
 						events: {
 						
 								click: function (){

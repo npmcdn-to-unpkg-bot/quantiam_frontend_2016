@@ -1,5 +1,5 @@
 App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/dashboard');
+    //$urlRouterProvider.otherwise('/dashboard');
 
     $stateProvider
         .state('home', {
@@ -45,10 +45,17 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/users/user_info.html',
             controller: 'usersController as UC'
         })
-			.state('slipcast-analytics', {
-									url:'/slipcast/analytics/',
-										templateUrl: 'views/manu/slipcast/analytics.html',
-										controller: 'SlipcastAnalyticController as SCAC'
+			.state('slipcast-controlchart-view', {
+									url:'/slipcast/control-charts/:variableMonitored/campaign/:campaignID',
+										templateUrl: 'views/manu/slipcast/control-chart-view.html',
+										controller: 'SlipcastControlChartViewController as SCCVC'
+
+							})
+							
+							.state('slipcast-control-charts', {
+									url:'/slipcast/control-charts/',
+										templateUrl: 'views/manu/slipcast/control-charts.html',
+										controller: 'SlipcastControlChartController as SCAC'
 
 							})
 
