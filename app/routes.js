@@ -52,10 +52,10 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 							})
 							
-							.state('slipcast-control-charts', {
-									url:'/slipcast/control-charts/',
-										templateUrl: 'views/manu/slipcast/control-charts.html',
-										controller: 'SlipcastControlChartController as SCAC'
+							.state('slipcast-analytics', {
+									url:'/slipcast/analytics/',
+										templateUrl: 'views/manu/slipcast/analytics.html',
+										controller: 'SlipcastAnalyticsController as SCAC'
 
 							})
 

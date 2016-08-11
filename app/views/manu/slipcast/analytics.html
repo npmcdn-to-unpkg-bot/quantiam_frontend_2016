@@ -1,0 +1,99 @@
+
+
+<div class='row'>
+	
+	<div class=' col-md-offset-3 col-md-6' ng-class="{'alert-success': SC.campaignID, 'alert-danger': !SC.campaignID}" >
+	
+	<h3 style='margin:10px'> Step 1: Select a Campaign
+		
+		
+		<div class="pull-right">
+			<select2 
+						style="font-size:11px;"
+						placeholder="Campaign Selector"
+						options="select2request.fetchList('/campaign/list',{})"
+						ng-model="SC.campaignID"
+							></select2>
+		
+			
+		<i class="fa fa-check fa" style="color:green" ng-if="SC.campaignID"></i>
+		
+		</div>
+	
+		</h3>
+		
+		
+				
+		<!-- <span style="border-radius: 2px;" type="button"  class="btn-block btn-refresh btn-xs btn-success ng-scope">Approved</span> -->
+	</div>
+	</div>
+	<div class='row' ng-if="SC.campaignID">
+		<div class='col-md-offset-3 col-md-6 alert-info' style=' margin-top:10px;'>
+				<h3 style='margin:10px' > Step 2: Select a chart!</h3>
+		</div>
+	</div>
+	<!-- ng-if="SC.campaignID" -->
+	
+	<div class='col-md-offset-2 col-md-8' ng-if="SC.campaignID">
+	
+		<h3 class='page-header'> Control Charts <small> Process stability and control </small></h3>
+		<div class='row'>
+				<div class='col-md-offset-2 col-md-8'>
+				<p> 
+					<b>What are control charts?</b> <a style='color:blue' href="https://www.isixsigma.com/tools-templates/control-charts/a-guide-to-control-charts/"> 
+							Click for a more detailed explanation. 
+							</a>  <br>
+					Control charts are used to monitor process stability and control. These charts are <u>independant</u> of specification limits.<br>
+					
+					</p>
+				</div>
+
+		</div>
+		
+		<div class='row' style='margin-top:20px'>
+					<div class='col-md-4'>
+					<center>
+						<a href="#/slipcast/control-charts/slipweight/campaign/{{SC.campaignID}}">
+						<img  width=200px class="clickable" src='http://patentimages.storage.googleapis.com/US6335065B1/US06335065-20020101-D00000.png'></img><br>
+						
+						<button class='btn btn-info btn-sm' style='margin-top:10px'>Slip on Steel </button>
+						</a>
+					</center>
+					</div>
+					<div class='col-md-4'>
+					
+							<center>
+								<a href="#/slipcast/control-charts/viscositycast/campaign/{{SC.campaignID}}">
+						<img   width=280px class="clickable" src='https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Laminar_shear.svg/320px-Laminar_shear.svg.png'></img><br>
+					
+						<button class='btn btn-info btn-sm' style='margin-top:10px'>Viscosity at Casting</button>
+								</a>
+					</center>
+					
+					</div>
+					<div class='col-md-4'>
+					
+					<center>
+					
+						<a href="#/slipcast/control-charts/percent-solvent/campaign/{{SC.campaignID}}">
+						<img  width=200px  class="clickable"  src='http://sciencewithme.com/sciencewithme/wp-content/uploads/2015/04/solutions_11.png'></img><br>
+					
+						<button class='btn btn-info btn-sm' style='margin-top:10px'>Solvent % of Slip </button>
+						</a>
+					</center>
+					
+					</div>
+					
+		
+		</div>
+	
+	</div>
+	
+	
+	<div class='col-md-offset-2 col-md-8' ng-if="SC.campaignID">
+	
+		<h3 class='page-header'> Scatter Plots <small> Looking for trends. </small></h3>
+		
+		
+		
+	</div>

@@ -1,4 +1,6 @@
-App.controller('SlipcastControlChartController', function($scope, $location, apiRequest) {
+App.controller('SlipcastAnalyticsController', function($scope, $location, apiRequest) {
+	var vm = this;
+	vm.campaignID;
 	
 	
 });
@@ -31,15 +33,27 @@ App.controller('SlipcastControlChartViewController', function($scope, $location,
 
 	});
 
+	
+	vm.hotOptions = {
+		
+	stretchH: 'all',		
+		
+		}
 
 vm.buildCharts = function() {
 
 	vm.showCharts = true;
 	vm.xChartConfig = {
-	
+	chart: {
+		 backgroundColor:'rgba(255, 255, 255, 0.0)'
+		},
 			title:{
 			text:"X Control Chart - "+vm.xmr.title,
 			},
+			subtitle:
+			{
+				text:vm.xmr.sub_title
+				},
 		 legend: {
             enabled: false
         },
@@ -56,7 +70,7 @@ vm.buildCharts = function() {
 						text: vm.xmr.y_name+' ('+vm.xmr.y_unit+')',
 					},
 				
-				max: (vm.xmr.xSeries.UCL + parseFloat((vm.xmr.xSeries.UCL*0.010).toFixed(2))),
+				max: (vm.xmr.xSeries.UCL + parseFloat((vm.xmr.xSeries.UCL*0.015).toFixed(2))),
 				min: (vm.xmr.xSeries.LCL - parseFloat((vm.xmr.xSeries.LCL*0.015).toFixed(2))),
 			
 				plotLines:[
@@ -108,8 +122,8 @@ vm.buildCharts = function() {
 						events: {
 						
 								click: function (){
-											console.log(this);
-											//vm.loadSlipcastRun(this.slipcastID);
+										//	console.log(this);
+											vm.loadSlipcastRun(this.slipcastID);
 									}
 						
 						
@@ -124,9 +138,16 @@ vm.buildCharts = function() {
 	};
 	
 	vm.mrChartConfig = {
+		chart: {
+		  backgroundColor:'rgba(255, 255, 255, 0.0)'
+		},
 			title:{
 			text:"Moving Range Control Chart - "+vm.xmr.title,
 			},
+			subtitle:
+			{
+				text:vm.xmr.sub_title
+				},
 			 legend: {
             enabled: false
         },
@@ -141,6 +162,10 @@ vm.buildCharts = function() {
         title:{
 						text: vm.xmr.y_name+' ('+vm.xmr.y_unit+')',
 					},
+					
+						
+				//max: (vm.xmr.mrSeries.UCL + parseFloat((vm.xmr.mrSeries.UCL*0.2).toFixed(2))),
+			
 			
 				plotLines:[
 								{
