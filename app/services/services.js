@@ -74,7 +74,7 @@ App.service('dtRequest', function() {
 								
 								 ajax: {
 									 url: "http://apps.edm.quantiam.com:2000"+'/'+requestPath,
-									 url: "http://localhost/quantiam_api/public/"+requestPath,
+							//		 url: "http://localhost/quantiam_api/public/"+requestPath,
 										 headers: {
 												 "Authorization": "Bearer " + localStorage.getItem('token'),
 											 },
