@@ -179,7 +179,7 @@ console.log('happy');
         //what columns do we want to show?
        var dtColumns = [
 
-            DTColumnBuilder.newColumn('employee-name').withTitle('Name').renderWith(function(data, type, full) {
+            DTColumnBuilder.newColumn('lastname').withTitle('Name').renderWith(function(data, type, full) {
 
                 return '<b>' + full.firstname +' ' + full.lastname + '</b>';
             }),

@@ -45,8 +45,8 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
 									DTColumnBuilder.newColumn('datamatrix').withTitle('Code').renderWith(function(data, type, full) {
 																	return '<img width=50px src="'+full.datamatrix+'"</img>';
-															}),
-									DTColumnBuilder.newColumn('ID').withTitle('ID').renderWith(function(data, type, full) {
+															}).notSortable(),
+									DTColumnBuilder.newColumn('manu_slipcasting_id').withTitle('ID').renderWith(function(data, type, full) {
 																		return '<b>QMSC-'+full.manu_slipcasting_id+'</b>';
 																}),
 				

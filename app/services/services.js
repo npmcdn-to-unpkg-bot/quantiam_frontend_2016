@@ -1,7 +1,7 @@
 App.service(  "apiRequest",  function($http,  $location, errorService) {
 
-	var apiUrl = "http://apps.edm.quantiam.com:2000";
-//	var apiUrl = "http://localhost/quantiam_api/public";
+//	var apiUrl = "http://apps.edm.quantiam.com:2000";
+	var apiUrl = "http://localhost/quantiam_api/public";
         return {
 								send: function (httpVerb,path,params){
 									var response;
@@ -74,6 +74,7 @@ App.service('dtRequest', function() {
 								
 								 ajax: {
 									 url: "http://apps.edm.quantiam.com:2000"+'/'+requestPath,
+									 url: "http://localhost/quantiam_api/public/"+requestPath,
 										 headers: {
 												 "Authorization": "Bearer " + localStorage.getItem('token'),
 											 },
