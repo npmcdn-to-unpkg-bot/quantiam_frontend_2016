@@ -66,13 +66,15 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 																	
 																	
 															}).notSortable(),
-									DTColumnBuilder.newColumn('datetime', 'Created'),
+									DTColumnBuilder.newColumn('datetime', 'Created').renderWith(function(data, type, full) {
+										return new moment(full.datetime).format('MMMM Do, YYYY') + ' at ' + new moment(full.datetime).format('h:mm a');
+									}),
 								
 								
 							];
 							
 
-			vm.dtTable = dtRequest.build_dtOptions('slipcasting/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response 
+			vm.dtTable = dtRequest.build_dtOptions('slipcasting/list', dtColumns, customOptions, vm, 'rowClickHandler'); //query endpoint for datables response
 							
 	vm.createSlipcastRun = function (){
 				
