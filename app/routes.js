@@ -57,6 +57,14 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 							})
 							
+							
+								.state('slipcast-scatterplot-view', {
+									url:'/slipcast/scatter-plot/:variablePairMonitored/campaign/:campaignID',
+										templateUrl: 'views/manu/slipcast/scatter-plot-view.html',
+										controller: 'SlipcastScatterPlotViewController as SSPVC'
+
+							})
+							
 							.state('slipcast-analytics', {
 									url:'/slipcast/analytics/',
 										templateUrl: 'views/manu/slipcast/analytics.html',

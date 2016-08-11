@@ -27,12 +27,17 @@
 		<!-- <span style="border-radius: 2px;" type="button"  class="btn-block btn-refresh btn-xs btn-success ng-scope">Approved</span> -->
 	</div>
 	</div>
+	
+	
+	
 	<div class='row' ng-if="SC.campaignID">
 		<div class='col-md-offset-3 col-md-6 alert-info' style=' margin-top:10px;'>
 				<h3 style='margin:10px' > Step 2: Select a chart!</h3>
 		</div>
 	</div>
-	<!-- ng-if="SC.campaignID" -->
+
+	
+	
 	
 	<div class='col-md-offset-2 col-md-8' ng-if="SC.campaignID">
 	
@@ -40,10 +45,10 @@
 		<div class='row'>
 				<div class='col-md-offset-2 col-md-8'>
 				<p> 
-					<b>What are control charts?</b> <a style='color:blue' href="https://www.isixsigma.com/tools-templates/control-charts/a-guide-to-control-charts/"> 
+					<b>What are control charts?</b> <a style='color:blue' target="_blank" href="https://www.isixsigma.com/tools-templates/control-charts/a-guide-to-control-charts/"> 
 							Click for a more detailed explanation. 
 							</a>  <br>
-					Control charts are used to monitor process stability and control. These charts are <u>independant</u> of specification limits.<br>
+				Control charts are used to monitor process stability and control for a <u>single variable</u>. These charts are <u>independant</u> of specification limits.<br>
 					
 					</p>
 				</div>
@@ -90,10 +95,24 @@
 	</div>
 	
 	
-	<div class='col-md-offset-2 col-md-8' ng-if="SC.campaignID">
 	
+	
+	
+	<div class='col-md-offset-2 col-md-8' style='margin-bottom:300px' ng-if="SC.campaignID">
+	
+		
 		<h3 class='page-header'> Scatter Plots <small> Looking for trends. </small></h3>
-		
-		
+			<div class='row' style='margin-top:20px'>
+					<div class='col-md-4'>
+					<center>
+						<a href="#/slipcast/scatter-plot/viscosity-vs-solventpercent/campaign/{{SC.campaignID}}">
+						<img  width=250px class="clickable" src='https://plot.ly/~cufflinks/72/life-expectancy-vs-gdp-per-capita.png'></img><br>
+						
+						<button class='btn btn-info btn-sm' style='margin-top:10px'> Viscosity vs Solvent Percent </button>
+						</a>
+					</center>
+					</div>
+			</div>
 		
 	</div>
+	

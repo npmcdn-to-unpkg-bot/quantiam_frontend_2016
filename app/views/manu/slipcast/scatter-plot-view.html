@@ -1,0 +1,38 @@
+<div class='row' ng-if="!SSPVC.showCharts">
+	
+	
+	<center style="padding-top:100px">
+		<i class="fa fa-cog fa-spin fa-4x" aria-hidden="true"></i>
+	</center>
+</div>
+
+<div class='row' ng-if="SSPVC.showCharts">
+	
+			<div class="col-lg-12" >
+							<highchart config="SSPVC.ChartConfig"></highchart>
+							<center> <h3> Soon™,  automatic correlation plot line on this chart. </h3></center>
+			</div>
+
+	<hr>
+</div>
+	
+
+<div class='row' ng-if="SSPVC.showCharts">
+
+	<div class='col-lg-offset-1 col-lg-10'>
+		<h3 class='page-header'> Data Dump </h3>
+	  <hot-table 
+				settings="SSPVC.hotOptions"
+				height="800"
+				col-headers=true
+				datarows="SSPVC.scatterplot.data"
+				min-spare-rows=0
+				
+			
+    >
+		
+		
+	 	<hot-column ng-repeat="(key,value) in SSPVC.scatterplot.data[0]"   data="{{key}}"  data="created" title="key"  type="'text'" read-only></hot-column>  	
+  </hot-table>
+	</div>
+		</div>
