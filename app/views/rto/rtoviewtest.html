@@ -1,0 +1,292 @@
+<div>
+    <button style="border-radius: 2px;" type="button" ng-if="zz.rtoData.status == 'approved'" class="btn btn-block btn-refresh btn-xs btn-success">Approved</button>
+    <button style="border-radius: 2px;" type="button" ng-if="zz.rtoData.status == 'new'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
+    <button style="border-radius: 2px;" type="button" ng-if="zz.rtoData.status == 'pending'" class="btn btn-block ink-reaction btn-refresh btn-xs btn-warning">Pending</button>
+    <button style="border-radius: 2px;"  type="button" ng-if="zz.rtoData.status == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</button>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card card-underline">
+            <div class="card-head">
+                <header>Requested Time for {{ zz.name }} {{IC.user}}</header>
+                <div class="tools">
+                    <a data-ng-disabled=" zz.rtoData.approvals[0]" ng-really-message="Permanently delete request?" ng-really-click="deleteRto();" class="btn btn-icon-toggle btn-refresh"
+                       tooltip-placement="top" uib-tooltip="Delete Request">
+
+                        <i style="color:red;" class="fa fa-trash-o fa-2x"></i>
+                    </a>
+
+                    <a data-ng-disabled="zz.rtoData.approvals[0]" ng-click="newForm();" class="btn btn-icon-toggle btn-refresh"
+                       tooltip-placement="top" uib-tooltip="Add Time">
+
+                        <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="card-body">
+                <table id="rtotable"  class="table table-striped table-hover" cellspacing="0" width="100%" >
+                    <thead>
+                    <tr >
+                        <th>Last Updated</th>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th><b>Date of Absence</b></th>
+                        <th>Actions</th>
+                        <th>Notes</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="obj in zz.rtoData.requested_time" ng-click="zz.editForm(obj.rtotimeID, $index)"    ng-style="obj.holiday==1 && {'background-color': 'rgba(243, 143, 0, 0.60)'}"   ng-attr-tooltip-placement="{{obj.holiday==1 ? 'top' : null }}" ng-attr-uib-tooltip="{{obj.holiday==1 ? 'Are you sure about this?' : null }}">
+                        <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
+                        <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
+                        <td>{{ obj.type }}</td>
+                        <td><b>{{ obj.date | date : 'fullDate' }}</b></td>
+                        <td id="edit/delete">
+                            <a data-ng-disabled="zz.rtoData.approvals[0].employeeID == user.employeeID || zz.rtoData.approvals[1]"  ng-click="zz.editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                            <a data-ng-disabled="zz.rtoData.approvals[0].employeeID == user.employeeID || zz.rtoData.approvals[1]"  ng-click="zz.deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                        </td>
+                        <td >
+                            <p ng-if="obj.holiday == 1" > <b>Holiday</b> </p>
+                        </td>
+                    </tr>
+                    <tr ng-hide="zz.rtoData.requested_time[0]">
+                        <td style="text-align:center" ng-click="zz.newForm()" colspan="6">Click to add a time-off request.</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        <div ng-show="zz.show_form" class="card card-underline">
+            <div class="card-head">
+                <header>{{ zz.formTitle }}</header>
+            </div>
+
+            <div class="card-body">
+
+
+
+                <form class="form-inline" name="input">
+                    <div class="form-group">
+
+
+                        <div class="input-group">
+
+													 <span class="input-group-content">
+														   <input  id="datePicker2" class="form-control" type="text" uib-datepicker-popup="yyyy-MM-dd"
+                                                                   ng-model="date" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true"
+                                                                   close-text="Close"  required>
+																<label for="datePicker2">Date</label>
+														</span>
+                            <span class="input-group-addon">
+															   <button type="button" class="btn btn-default" ng-click="zz.open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+														</span>
+                        </div>
+                        <div uib-datepicker-popup-wrap="" ng-model="zz.date" ng-change="zz.dateSelection(zz.date)"
+                             template-url="uib/template/datepickerPopup/popup.html" class="ng-not-empty ng-valid ng-valid-date-disabled" style="">
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group" >
+
+                        <input class="form-control" type="number" min="-8" max="8" step="0.5" ng-model="zz.hours" id="reqHours" required>
+                        <label for="reqHours">Hours Absent</label>
+                    </div>
+
+                    <div class="form-group" id="classPicker">
+
+                        <select class="form-control" ng-model="zz.type" required>
+                            <option value="">&nbsp;</option>
+                            <option value="pto">PTO</option>
+                            <option value="vacation">Vacation</option>
+                            <option value="unpaid">Unpaid</option>
+                            <option value="cto">CTO</option>
+                        </select>
+                        <label for="classPicker">Type</label>
+                    </div>
+
+                    <div ng-if="zz.user.employeeID == zz.rtoData.employeeID" class="form-group">
+                        <button ng-disabled="input.$invalid" ng-if="zz.formMode == 'new'" ng-click="zz.postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                        <button ng-disabled="input.$invalid" ng-if="zz.formMode == 'edit'" ng-click="zz.editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                    </div>
+
+                    <div ng-hide="zz.notifyloady == 1" ng-if="zz.user.employeeID != zz.rtoData.employeeID" class="form-group">
+                        <button ng-disabled="input.$invalid" ng-if="zz.formMode == 'new'" ng-click="postRtotime()" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                        <button ng-disabled="input.$invalid" ng-if="zz.formMode == 'edit'" ng-click="editRtotime($index)" class="btn btn-block ink-reaction btn-info" type="submit">Submit</button>
+                    </div>
+                    <i ng-hide="zz.notifyloady == 0" class="fa fa-circle-o-notch fa-spin fa-2x " aria-hidden="true" ></i>
+
+                </form>
+            </div>
+        </div>
+
+
+        <div ng-show="zz.isEmptyObject(zz.existingAbsencesObject)" class="card card-underline" >
+            <div class="card-head">
+                <header> Potential Absence Conflicts </header>
+            </div>
+            <div class="card-body">
+
+
+
+                <div ng-repeat="(key,array) in zz.existingAbsencesObject" class='col-md-6'>
+                    <h3 class='page-header' style='margin-top:5px'> {{ key | date : 'longDate'  }} </h3>
+                    <table class='table table-striped table-hover'>
+
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Duration</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr   ng-repeat="value in array"  >
+                            <td>{{value.firstname}} {{value.lastname}}</td>
+                            <td>{{value.type}}</td>
+                            <td>{{value.hours}}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <comments identifier="RTO-{{zz.rtoData.requestID}}"></comments>
+
+    </div>
+
+    <div class="col-lg-4" >
+
+
+        <div class="card card-underline">
+            <div class="card-head">
+                <header>Approvals</header>
+
+                <div ng-show="zz.user.employeeID != zz.rtoData.employeeID || zz.user.depth == 0" style="float: right; padding:10px; width:25%" >
+                    <a  ng-click="zz.approveRto('approved'); zz.click=true">
+                        <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success"
+                                data-ng-disabled="zz.click || zz.user.employeeID == zz.rtoData.approvals[0].employeeID || zz.user.employeeID == zz.rtoData.approvals[1].employeeID">
+
+                            Approve
+                        </button>
+                    </a>
+                </div>
+
+                <div ng-show="zz.user.employeeID != zz.rtoData.employeeID || zz.user.depth == 0" style="float: right; padding:10px; width:25%" >
+                    <a  ng-click="zz.approveRto('denied'); zz.click=true">
+                        <button style="float: right" type="button" class="btn btn-block btn-refresh btn-xl btn-danger"
+                                data-ng-disabled="zz.click || zz.user.employeeID == zz.rtoData.approvals[0].employeeID || zz.user.employeeID == zz.rtoData.approvals[1].employeeID">
+
+                            Deny
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="card-body">
+                <table ng-show="zz.rtoData.approvals[0]" id="approvaltable" class="table table-striped table-hover dataTable" cellspacing="0" width="100%" >
+                    <thead>
+                    <tr>
+                        <th>Supervisor</th>
+                        <th>Approval</th>
+                        <th>Date</th>
+                        <th ng-hide="zz.user.employeeID == zz.rtoData.approvals.employeeID">Remove</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="obj in zz.rtoData.approvals">
+                        <td>{{ obj.name }}</td>
+                        <td><span id="0" ng-if="obj.approval == 'approved'" class="btn btn-block ink-reaction btn-xs btn-success">Approved</span>
+                            <span id="1" ng-if="obj.approval == 'denied'"  class="btn btn-block ink-reaction btn-xs btn-danger">Denied</span>
+                        </td>
+                        <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
+                        <td ng-hide="zz.user.employeeID == zz.rtoData.approvals.employeeID">
+                            <button  data-ng-disabled="zz.user.employeeID != obj.employeeID" ng-really-message="Are you sure you want to delete this approval?" ng-really-click="zz.removeApproval(obj.approvalID, $index)" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Remove">
+                                <i class="md md-delete" style="color:red" ></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-hide="zz.rtoData.approvals[0]">
+                        <td style="text-align:center" colspan="3">No Approvals Created</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <div align="center" ng-hide="zz.user.employeeID != zz.rtoData.employeeID || zz.rtoData.approvals[0] || zz.user.depth == 0" class="tools">
+                    <form class="form-inline">
+                        <div class="form-group" style="margin:0px; padding:0px">
+                            <select ng-model="zz.supervisorID" class="form-control" style="margin:0px; margin-right:10px;" required>
+                                <option ng-repeat="obj in zz.user.supervisors" ng-selected="last" value="{{obj.employeeID}}">{{obj.firstname}} {{obj.lastname}}</option>
+                            </select>
+
+                            <button ng-hide="zz.notifyloady == 1 " ng-click="zz.emailSupervisor()" type="submit" style="margin:0px; background: #0A246A; color: white" class="btn btn-sm ink-reaction">Notify</button>
+                            <i ng-hide="zz.notifyloady == 0" class="fa fa-circle-o-notch fa-spin fa-2x " aria-hidden="true" ></i>
+                        </div>
+                    </form>
+                    <br>
+                    <p>
+                        Notify a supervisor via email to approve your request.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="zz.rtoData.status == 'pending' || zz.rtoData.status == 'new'" class="card card-underline" >
+            <div class="card-head">
+                <header> Banked Hours Impact </header>
+            </div>
+            <div class="card-body">
+
+
+                <table class='table table-striped table-hover'>
+
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Current</th>
+                        <th>Impact </th>
+                        <th>Result</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="(key,value) in zz.bankTotals.remaining">
+                        <td>{{key}}</td>
+                        <td>{{value}}</td>
+                        <td>
+                            <span style="color:red; font-weight:bold;" ng-if="zz.requestedTime[key] > 0">-{{zz.requestedTime[key]}}</span>
+                            <span style="color:green; font-weight:bold;" ng-if="zz.requestedTime[key] < 0">+{{zz.requestedTime[key]*-1}}</span>
+                        </td>
+                        <td>{{zz.resultTime[key]}}</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

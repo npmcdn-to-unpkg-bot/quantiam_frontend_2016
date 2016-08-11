@@ -263,4 +263,7 @@ div.card-head-xs
 {
 	height: 0.5rem;
 }
-
+table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before
+{
+	color: white;
+}

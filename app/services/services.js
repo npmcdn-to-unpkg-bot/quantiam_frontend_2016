@@ -44,9 +44,9 @@ App.service(  "apiRequest",  function($http,  $location, errorService) {
 					
 		
 App.service('dtRequest', function() {
-		
-		
-		
+
+
+
 		
 		function build_dtOptions (requestPath, dtColumns, customData,Obj, RowClickCallbackName) {
 				
@@ -55,7 +55,7 @@ App.service('dtRequest', function() {
 				//customData							custom paramters/values you want set object format
 				//Obj											the angular datatables object
 				//RowClickCallbackName   the name of the function for which you want the rows to react using
-				
+
 				if(!dtColumns)
 				{
 						console.log('please specify the columns you want');

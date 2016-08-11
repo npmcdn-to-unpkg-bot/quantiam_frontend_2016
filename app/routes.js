@@ -33,6 +33,11 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: 'views/rto/rto_view.html',
             controller: 'RtoViewController as RVC'
         })
+        .state('rtoviewtest', {
+            url:'/rtotest/:rtoid',
+            templateUrl: 'views/rto/rtoviewtest.html',
+            controller: 'rtoviewtestcontroller as zz'
+        })
 
         .state('users', {
             url:'/users',

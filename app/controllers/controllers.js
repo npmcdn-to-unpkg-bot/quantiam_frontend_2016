@@ -147,7 +147,7 @@ App.controller('HomeController', ['$scope', function($scope) {
 	
 }]);
 
-App.controller('RtoTestController', function($scope,$location,  dtRequest,apiRequest,DTColumnBuilder) {
+App.controller('RtoTestController', function($scope,$location, $filter, dtRequest,apiRequest,DTColumnBuilder) {
 
     var vm = this;
 
@@ -175,16 +175,20 @@ console.log('happy');
 
         };
 
+
         //what columns do we want to show?
        var dtColumns = [
 
             DTColumnBuilder.newColumn('employee-name').withTitle('Name').renderWith(function(data, type, full) {
-                return '<b>' + full.firstname + '</b>';
+
+                return '<b>' + full.firstname +' ' + full.lastname + '</b>';
             }),
 
-            DTColumnBuilder.newColumn('status', 'Status').notSortable(),
-            DTColumnBuilder.newColumn('employeeID', 'EmployeeID').notSortable(),
-            DTColumnBuilder.newColumn('created', 'Created').notSortable(),
+            DTColumnBuilder.newColumn('status', 'Status'),
+            DTColumnBuilder.newColumn('employeeID').withOption('type', 'num').withTitle('Employee ID'),
+            DTColumnBuilder.newColumn('created').withTitle('Created').renderWith(function(data, type, full) {
+                return $filter('date')(full.created);
+            })
 
 
         ];
@@ -196,7 +200,10 @@ console.log('happy');
 
     };
 
+    $scope.$watch('response.headers', function() {
 
+        console.log(vm.dtTable);
+    }, true);
 
 
     vm.getdtTable();
@@ -501,7 +508,7 @@ function calculate_BankTotalsDifference (){
 								checkHolidays ();
 							
 							
-            if ($scope.rtoData.employeeID != $scope.user.employeeID)
+            if ($scope.rtoData.employeeID != vm.user.employeeID)
             {
                 $scope.editNotification();
             }
@@ -932,5 +939,409 @@ App.controller('WeatherCtrl', function ($scope, weatherService) {
     $scope.weather = weatherService.getWeather();
 });
 
+
+App.controller('rtoviewtestcontroller', function($stateParams, apiRequest, userInfoService, rtoViewService) {
+
+
+    var vm = this;
+    vm.rtoData = {};
+
+
+    var request_id = $stateParams.rtoid;
+
+    rtoViewService.rtoViewData(request_id).then(function(r){
+
+        vm.rtoData = r.data;
+        console.log(r.data);
+        // console.log(vm.rtoData.requested_time[0].date);
+
+        vm.checkExistingAbsences();
+
+        if(!vm.holidays)
+        {
+
+            apiRequest.send('get', '/timesheet/holidaylist', null).then(function(r){
+
+                vm.holidays = r.data;
+
+
+            });
+
+        }
+
+
+
+        userInfoService.getUserData(vm.rtoData.employeeID).then(function(r){
+
+            vm.userInfo = r.data;
+            vm.name = vm.userInfo.firstname+' '+vm.userInfo.lastname;
+
+
+
+            userInfoService.QueryUserRtoBank(vm.rtoData.employeeID).then(function(r){
+
+                vm.bankTotals = userInfoService.getUserRtoBank();
+                calculate_BankTotalsDifference ();
+                checkHolidays ();
+
+                vm.user = userService.getstoredUser();
+
+
+            });
+
+
+
+
+        });
+
+    });
+
+    function checkHolidays ()
+    {
+        for (var i = 0; i < vm.rtoData.requested_time.length; i++) {
+            vm.holidays.forEach( function (holiday)
+            {
+
+                if(vm.rtoData.requested_time[i].date == holiday.date)
+                {
+                    vm.rtoData.requested_time[i].holiday = 1;
+                }
+
+            });
+        }
+
+
+
+    }
+
+    function calculate_BankTotalsDifference (){
+
+        var vm = this;
+
+        var requestedTime = {};
+        var resultTime = {};
+
+        console.log(vm.bankTotals);
+
+        for (var i = 0; i < vm.rtoData.requested_time.length; i++) {
+
+            if(!requestedTime[vm.rtoData.requested_time[i].type])
+            {
+                requestedTime[vm.rtoData.requested_time[i].type] = vm.rtoData.requested_time[i].hours;
+            }
+            else
+            {
+                requestedTime[vm.rtoData.requested_time[i].type] = requestedTime[vm.rtoData.requested_time[i].type] + vm.rtoData.requested_time[i].hours;
+            }
+
+        }
+
+        //compare
+
+        for (var key in vm.bankTotals.remaining )
+        {
+            if(requestedTime[key])
+            {
+                resultTime[key] = vm.bankTotals.remaining[key] - requestedTime[key];
+            }
+            else
+            {
+                resultTime[key] = vm.bankTotals.remaining[key];
+            }
+
+        }
+
+
+
+        vm.requestedTime = requestedTime;
+        vm.resultTime = resultTime;
+
+    }
+
+
+
+    vm.viewTables = function () {
+
+    };
+
+    vm.postRtotime = function() {
+        var params = {
+            "hours": vm.hours,
+            "type": vm.type,
+            "date": dateStringService.dateToString(vm.date)
+
+        };
+
+        if (params.type == 'vacation')
+        {
+            if (params.hours != 8 && params.hours != -8)
+            {
+                toastr.error('Vacation must be in increments of 8 hours', 'Error');
+                return;
+            }
+        }
+
+
+        rtoViewService.postRtotime(params,request_id).success(function(r){
+
+
+            vm.rtoData.requested_time.push(r);
+            calculate_BankTotalsDifference ();
+            vm.checkExistingAbsences();
+            checkHolidays ();
+
+            if (vm.rtoData.employeeID != vm.user.employeeID)
+            {
+                vm.editNotification();
+            }
+
+
+        }).error(function(e){
+
+            toastr.error('Failed to create RTO');
+        });
+
+    };
+
+    vm.editRtotime = function()
+    {
+        var params = {
+            "rtotimeID": vm.rtotimeID,
+            "hours": vm.hours,
+            "type": vm.type,
+            "date": dateStringService.dateToString(vm.date)
+        };
+
+
+        if (params.type == 'vacation')
+        {
+            if (params.hours != 8 && params.hours != -8)
+            {
+                toastr.error('Vacation must be in increments of 8 hours', 'Error');
+                return;
+            }
+        }
+
+
+        rtoViewService.putRtotime(params).success(function(r) {
+
+            vm.rtoData.requested_time.splice(vm.index, 1, r);
+            calculate_BankTotalsDifference ();
+            vm.checkExistingAbsences();
+            checkHolidays ();
+
+
+            if (vm.rtoData.employeeID != vm.user.employeeID)
+            {
+                vm.editNotification();
+            }
+
+
+        }).error(function(e) {
+            toastr.error('Failed to update RTO');
+        });
+
+
+
+        /*    vm.rtoData.requested_time.splice(vm.index, 0, rtoViewService.putRtotime(params));
+         vm.rtoData.requested_time.splice(vm.index, 1);*/
+    };
+
+
+    vm.newForm = function(){
+
+        vm.show_form = true;
+        vm.formTitle = 'Create New RTO';
+        vm.formMode = 'new';
+
+        //clear fields
+        vm.hours ="";
+        vm.type = null;
+        vm.date="";
+
+
+    };
+
+
+    vm.editForm = function(rtotime_id, index){
+        vm.rtotime = vm.rtoData.requested_time;
+
+        // Set object to accurate rtotime table values.
+        for (i = 0; i < vm.rtotime.length; i++)
+        {
+            if (vm.rtotime[i].rtotimeID == rtotime_id)
+            {
+                vm.rtotime = vm.rtotime[i];
+            }
+        }
+        //set values to pop up in tables.
+
+
+        var s = vm.rtotime.date.split('-');
+
+
+        vm.hours = vm.rtotime.hours;
+        vm.type = vm.rtotime.type;
+        vm.date = new Date(Number(s[0]),Number(s[1]) -1 ,Number(s[2]));
+        vm.rtotimeID = vm.rtotime.rtotimeID;
+        vm.index = index;
+
+        vm.show_form = true;
+        vm.formTitle = 'Edit Existing RTO';
+        vm.formMode = 'edit';
+
+    };
+
+    vm.deleteForm = function(rtotime_id, index){
+
+        if(rtoViewService.deleteRtotime(rtotime_id)) {
+
+            vm.rtoData.requested_time.splice(index, 1);
+            calculate_BankTotalsDifference ();
+            vm.checkExistingAbsences();
+        }
+
+
+    };
+
+    vm.approveRto = function(approval)
+    {
+
+        var params = {
+            "requestID": vm.rtoData.requestID,
+            "approval": approval
+        };
+
+        rtoApprovalService.approve(params).success(function(r) {
+            console.log(r);
+            vm.rtoData.approvals.push(r);
+            vm.rtoData.status = (r.check);
+
+            toastr.success('Approval Posted', 'Success');
+
+        }).error(function(e) {
+
+            toastr.error('Approval Failed', 'Error');
+        });
+
+    };
+
+
+    vm.removeApproval = function(approvalID, index)
+    {
+        vm.click = false;
+        rtoApprovalService.remove(approvalID).success(function(r) {
+            vm.rtoData.approvals.splice(index, 1);
+            vm.rtoData.status = (r);
+
+            toastr.success('Approval Deleted', 'Success');
+
+        }).error(function(e) {
+
+            toastr.error('Deletion Failed: ');
+
+        });
+    };
+
+    vm.deleteRto = function() {
+
+        rtoViewService.deleteRto(vm.rtoData.requestID).success(function (r) {
+
+            toastr.success("RTO " + vm.rtoData.requestID + " deleted successfully.");
+            console.log(r);
+            history.go(-1);
+
+        }).error(function (e) {
+
+            console.log(e);
+        })
+    };
+
+
+    vm.editNotification = function () {
+
+
+        vm.notifyloady = 1;
+        emailService.sendEditNotification(vm.rtoData.employeeID, vm.user.name).success(function(r) {
+
+            console.log(r);
+            toastr.success('Request modified');
+            vm.notifyloady=0;
+
+        }).error(function(e) {
+
+            toastr.error('Could not edit request');
+            vm.notifyloady=0;
+
+        })
+    }
+
+
+    vm.emailSupervisor = function()
+    {
+        console.log(vm.supervisorID);
+        vm.notifyloady = 1;
+
+        var params = {
+            "subject": "New Time Off Request from "+vm.user.name+" Awaiting Approval",
+            "body": "<a href='"+document.location.href+"'>Click here to view time-off request.</a>",
+            "recipientID": vm.supervisorID,
+        };
+
+        apiRequest.send('post', '/mail/send', params).success(function(r) {
+            toastr.success('Email Sent');
+            vm.notifyloady = 0;
+            console.log(r);
+        }).error(function(e){
+            vm.notifyloady = 0;
+            toastr.error(' This failed miserably. ');
+            console.log(e);
+
+        });
+    }
+
+
+    vm.popup1 = {
+        opened: false
+    };
+
+
+    vm.open1 = function() {
+        vm.popup1.opened = true;
+    };
+
+    vm.isEmptyObject = function(obj) {
+        /* logic of your choosing here */
+        return Object.keys(obj).length;
+    };
+
+
+    vm.showExistingAbsences = false;
+    vm.existingAbsencesObject = {};
+
+    vm.checkExistingAbsences = function()
+    {
+        var dateArray = [];
+
+
+        for (var i = 0; i < vm.rtoData.requested_time.length; i++) {
+
+            dateArray.push(vm.rtoData.requested_time[i].date);
+        }
+
+        rtoViewService.refreshRtoExistingAbsencesObject(dateArray).success(function(r){
+
+            vm.existingAbsencesObject = r;
+
+
+        });
+
+
+    }
+
+
+
+
+});
 
 

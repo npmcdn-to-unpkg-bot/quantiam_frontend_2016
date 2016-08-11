@@ -44,6 +44,3 @@ App.filter('temp', function($filter) {
 
 
 
-
-
-
