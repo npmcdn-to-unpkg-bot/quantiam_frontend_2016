@@ -400,10 +400,27 @@
 																</td>
 																<td  style="vertical-align:middle" ng-if="($index % SVC.slipCastObj.profile.containers_per_object) == 0" rowspan=2>
 																
-																<p style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	
-																	ng-if="Obj.container_weights[$index].deposited != null">
-																	{{Obj.container_weights[$index].deposited + Obj.container_weights[$index + 1].deposited}} g</p>
-											
+																		<!--- if control limits exceeed display the other type --->
+																		
+																		<p 
+																			style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	
+																			ng-if="Obj.container_weights[$index].deposited != null && Obj.container_weights[$index + 1].deposited"
+																		
+																			>
+																			{{Obj.container_weights[$index].deposited + Obj.container_weights[$index + 1].deposited}} g
+																			<br>
+																			
+																			<b
+																			style="color:red; cursor:pointer;"
+																			ng-if="Obj.container_weights[$index + 1].deposited && (Obj.container_weights[$index].deposited + Obj.container_weights[$index + 1].deposited) < SVC.slipCastObj.control_limits.sliponsteel.xLCL "
+																			tooltip-placement="bottom" 
+																			uib-tooltip="Process limit exceeded. If irrevesible, seek a supervisor or QAQC." 
+																			> Warning </b>	
+																			
+																			</p>
+													
+																		
+													
 																</td>
 													
 													
@@ -428,7 +445,17 @@
 														</div>
 													</div><!--end .card-body -->
 												</div><!--end .card -->
-													<center>	<label> <b>Slip Target: </b></label> {{SVC.slipCastObj.profile.weight_per_container}}g </center>
+													<center>	
+														
+														<label> <b>Slip Target: </b></label> {{SVC.slipCastObj.profile.weight_per_container}}g <br><br>
+														<div ng-if="SVC.slipCastObj.control_limits.sliponsteel.xAVG"><label> <b>Deposit AVG: </b></label> {{SVC.slipCastObj.control_limits.sliponsteel.xAVG}} g  <br> </div>
+														<div ng-if="SVC.slipCastObj.control_limits.sliponsteel.xUCL"><label> <b>Deposit UCL: </b></label> {{SVC.slipCastObj.control_limits.sliponsteel.xUCL}} g  <br> </div>
+														<div ng-if="SVC.slipCastObj.control_limits.sliponsteel.xLCL" ><label> <b>Deposit LCL: </b></label> {{SVC.slipCastObj.control_limits.sliponsteel.xLCL}} g <br>  </div>
+						
+														
+														
+														
+													</center>
 													
 												<!-- 	<center><button class='btn btn-primary btn-sm' ng-click="SVC.undoSlipWeigh()"> Undo </button></center> -->
 											</div>
