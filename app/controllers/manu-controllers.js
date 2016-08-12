@@ -320,7 +320,9 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 
 			apiRequest.send('post', '/slipcast/'+vm.slipcastID+'/steel/'+steel,null).success(function(r){
 
-			vm.slipCastObj.steel.push(r);
+			//vm.slipCastObj.steel.push(r);
+			vm.getSlipcastObj(vm.slipcastID);
+			
 			toastr.success('Successfully added QMSI-'+steel);
 
 			}).error(function(e){

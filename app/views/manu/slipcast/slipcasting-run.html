@@ -86,7 +86,7 @@
 													style="width:100%"
 											
 													ng-change="SVC.editSlipcastObj('manu_slipcasting_table_id',SVC.slipCastObj.manu_slipcasting_table_id)"
-													options="select2request.fetchList('/slipcast/table/list', null)"
+													options="select2request.fetchList('/slipcast/table/list', [])"
 													ng-model="SVC.slipCastObj.manu_slipcasting_table_id"
 								
 															ng-disabled="!SVC.editable"		
@@ -282,7 +282,7 @@
 			
 						<!--- steps go here -->
 						
-						<div class='col-lg-3'>
+						<div ng-if="SVC.slipCastObj.profile.steps" class='col-lg-3'>
 								<h3 class='page-header' style='margin-top:0px'>Steps<small> Verify preparation steps. </small></h3>
 
 							<table class='table table-striped table-stats table-condensed shadow'>
