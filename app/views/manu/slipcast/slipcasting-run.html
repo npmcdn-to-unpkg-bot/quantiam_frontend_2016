@@ -398,8 +398,11 @@
 																					</a>
 																<!-- somethign else -->
 																</td>
-																<td>
-																<p style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	ng-if="Obj.container_weights[$index].deposited != null">{{Obj.container_weights[$index].deposited}} g</p>
+																<td  style="vertical-align:middle" ng-if="($index % SVC.slipCastObj.profile.containers_per_object) == 0" rowspan=2>
+																
+																<p style='font-size:13px; font-weight:bold; text-align:center; display:inline-block;'	
+																	ng-if="Obj.container_weights[$index].deposited != null">
+																	{{Obj.container_weights[$index].deposited + Obj.container_weights[$index + 1].deposited}} g</p>
 											
 																</td>
 													
