@@ -30,7 +30,7 @@
             </thead>
 
             <tbody>
-            <tr ng-repeat="obj in rtoList" ng-if="obj.status == 'new' || obj.status == 'pending'" ng-click="showRto(obj.requestID)">
+            <tr class="clickable" ng-repeat="obj in rtoList" ng-if="obj.status == 'new' || obj.status == 'pending'" ng-click="showRto(obj.requestID)">
                     <td>{{ obj.firstname }} {{ obj.lastname }}</td>
                     <td> {{ obj.requestID }}</td>
                     <td>{{ obj.created | datetime | date : 'longDate' }}</td>
@@ -74,7 +74,7 @@
             </thead>
 
             <tbody>
-            <tr ng-repeat="obj in rtoList" ng-if="obj.status == 'approved' || obj.status == 'denied'" ng-click="showRto(obj.requestID)">
+            <tr class="clickable" ng-repeat="obj in rtoList" ng-if="obj.status == 'approved' || obj.status == 'denied'" ng-click="showRto(obj.requestID)">
                     <td>{{ obj.firstname }} {{ obj.lastname }}</td>
                     <td> {{ obj.requestID }}</td>
                     <td>{{ obj.created | datetime | date : 'longDate' }}</td>

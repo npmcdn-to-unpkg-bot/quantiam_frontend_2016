@@ -32,6 +32,7 @@
     "ngHandsontable": "^0.12.0"
   },
   "resolutions": {
-    "angular": ">=1.3.0"
+    "angular": ">=1.3.0",
+    "dropzone": "^4.3.0"
   }
 }

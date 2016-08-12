@@ -1,3 +1,31 @@
+
+<select2
+        style="font-size:11px;"
+        placeholder="Employee"
+        ng-change="RTC.updateTable()"
+        options="select2request.fetchList('/user/list',{})"
+        ng-model="RTC.employee"
+
+></select2>
+<select2
+        style="font-size:11px;"
+        placeholder="Status"
+        ng-change="RTC.updateTable()"
+        options="select2request.fetchList('/rto/status/list',{})"
+        ng-model="RTC.status"
+
+></select2>
+<select2
+        style="font-size:11px;"
+        placeholder="Employee"
+        ng-change="RTC.updateTable()"
+        options="select2request.fetchList('/employees/list',{})"
+        ng-model="RTC.employee"
+
+></select2>
+
+
+
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
 

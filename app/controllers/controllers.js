@@ -151,7 +151,8 @@ App.controller('RtoTestController', function($scope,$location, $filter, dtReques
 
     var vm = this;
 
-console.log('happy');
+    vm.statusOptions = ['approved', 'pending', 'denied'];
+console.log(vm.statusOptions);
 
     vm.rowClickHandler = function (info) {
 
@@ -179,15 +180,36 @@ console.log('happy');
         //what columns do we want to show?
        var dtColumns = [
 
+           DTColumnBuilder.newColumn('requestID').withTitle('ID').renderWith(function(data, type, full) {
+               return '<b>' + full.requestID + '</b>';
+           }),
+
             DTColumnBuilder.newColumn('lastname').withTitle('Name').renderWith(function(data, type, full) {
 
                 return '<b>' + full.firstname +' ' + full.lastname + '</b>';
             }),
 
-            DTColumnBuilder.newColumn('status', 'Status'),
-            DTColumnBuilder.newColumn('employeeID').withOption('type', 'num').withTitle('Employee ID'),
-            DTColumnBuilder.newColumn('created').withTitle('Created').renderWith(function(data, type, full) {
-                return $filter('date')(full.created);
+           DTColumnBuilder.newColumn('employeeID').withOption('type', 'num').withTitle('Employee ID'),
+
+            DTColumnBuilder.newColumn('status').withTitle('Status').renderWith(function(data, type, full) {
+                if (full.status == 'denied')
+                {
+                    return '<span class="btn btn-block ink-reaction btn-flat btn-danger">Denied</span>';
+                }
+                else if (full.status == 'approved')
+                {
+                    return '<span class="btn btn-block ink-reaction btn-flat btn-success">Approved</span>';
+
+                }
+                else
+                {
+                    return '<span class="btn btn-block ink-reaction btn-flat btn-warning">Pending</span>';
+
+                }
+            }),
+            DTColumnBuilder.newColumn('created').withTitle('Created').renderWith(function(data, type, full)
+            {
+                return new moment(full.created).format('MMMM Do, YYYY') + ' at ' + new moment(full.datetime).format('h:mm a');
             })
 
 
@@ -660,8 +682,8 @@ function calculate_BankTotalsDifference (){
         $scope.notifyloady = 1;
 
         var params = {
-            "subject": "New Time Off Request from "+$scope.user.name+" Awaiting Approval",
-            "body": "<a href='"+document.location.href+"'>Click here to view time-off request.</a>",
+            "subject": "New Time Off Request from "+$scope.user.name+" Awaiting Your Approval",
+            "body":  "<p>" + $scope.user.name + " has an absence request pending your approval. <a href='"+document.location.href+"'> Click here to view time-off request.</a></p>",
             "recipientID": $scope.supervisorID,
         };
 
@@ -671,7 +693,7 @@ function calculate_BankTotalsDifference (){
             console.log(r);
         }).error(function(e){
             $scope.notifyloady = 0;
-            toastr.error(' This failed miserably. ');
+            toastr.error('Failed to notify supervisor.');
           console.log(e);
 
         });

@@ -17,12 +17,12 @@
   },
   "license": "MIT",
   "homepage": "https://github.com/leocaseiro/angular-chosen",
-  "version": "1.4.2",
-  "_release": "1.4.2",
+  "version": "1.4.3",
+  "_release": "1.4.3",
   "_resolution": {
     "type": "version",
-    "tag": "1.4.2",
-    "commit": "e40387ff45b19fce4ca4a1f5c06d0bee5400348f"
+    "tag": "1.4.3",
+    "commit": "8b7e137f458f26fd643317cfa1102b7ccde5b238"
   },
   "_source": "https://github.com/leocaseiro/angular-chosen.git",
   "_target": "^1.4.2",
