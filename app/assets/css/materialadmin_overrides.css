@@ -267,3 +267,10 @@ table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:b
 {
 	color: white;
 }
+button.btn-select
+{
+	font-size: 0.8em;
+	width: 8%;
+	display: inline;
+	margin-top: 0 !important;
+}

@@ -1,28 +1,24 @@
+<div class="col-lg-8 col-lg-offset-2">
+    <select2
+            style="font-size:11px;"
+            placeholder="Employee"
+            ng-change="RTC.updateTable()"
+            options="select2request.fetchList('/user/list',{})"
+            ng-model="RTC.employee"
 
-<select2
-        style="font-size:11px;"
-        placeholder="Employee"
-        ng-change="RTC.updateTable()"
-        options="select2request.fetchList('/user/list',{})"
-        ng-model="RTC.employee"
+    ></select2>
+    <button class="btn-select btn btn-block btn-refresh btn-success">Approved</button>
+    <button class="btn-select btn btn-block btn-refresh btn-warning">Pending</button>
+    <button class="btn-select btn btn-block btn-refresh btn-danger">Denied</button>
 
-></select2>
-<select2
-        style="font-size:11px;"
-        placeholder="Status"
-        ng-change="RTC.updateTable()"
-        options="select2request.fetchList('/rto/status/list',{})"
-        ng-model="RTC.status"
+    <div class="pull-right">
+        <a ng-click="addRto()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
 
-></select2>
-<select2
-        style="font-size:11px;"
-        placeholder="Employee"
-        ng-change="RTC.updateTable()"
-        options="select2request.fetchList('/employees/list',{})"
-        ng-model="RTC.employee"
+            <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+        </a>
+    </div>
 
-></select2>
+</div>
 
 
 

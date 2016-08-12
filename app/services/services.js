@@ -8,10 +8,10 @@ App.service(  "apiRequest",  function($http,  $location, errorService) {
 									var data = params;
 									if(httpVerb == 'put' || httpVerb == 'post')
 									{
-											var params = null;	
+											var params = null;
 									}
 
-									
+
 										var req = {
 															 method: httpVerb,
 															 url: apiUrl + path,
@@ -24,32 +24,32 @@ App.service(  "apiRequest",  function($http,  $location, errorService) {
 													         //dataType: 'text',
 										}
 										 response =	$http(req).error(function(e,code){
-											 
-											 
+
+
 															if(code == '401')
 															{
 																	toastr.error('Your login session is no longer valid');
 																	user.logoutUser();
 															}
-											 
-											 
+
+
 											 });
 										return response;
 									},
 									apiUrl: apiUrl,
 				}
-					
+
 		});
-							
-					
-		
+
+
+
 App.service('dtRequest', function() {
 
 
 
-		
+
 		function build_dtOptions (requestPath, dtColumns, customData,Obj, RowClickCallbackName) {
-				
+
 				//requestPath     			api route for the datatables request
 				//dtColumns      				 angular dtColumns object
 				//customData							custom paramters/values you want set object format
@@ -60,18 +60,18 @@ App.service('dtRequest', function() {
 				{
 						console.log('please specify the columns you want');
 				}
-				
+
 				if(!customData)
 				{
 					customData = {};
 				}
-				
-				
+
+
 				return {
-				
+
 								 serverSide: true,
 								 processing: true,
-								
+
 								 ajax: {
 									 url: "http://apps.edm.quantiam.com:2000"+'/'+requestPath,
 							//		 url: "http://localhost/quantiam_api/public/"+requestPath,
