@@ -147,7 +147,7 @@ App.controller('HomeController', ['$scope', function($scope) {
 	
 }]);
 
-App.controller('RtoTestController', function($scope,$location, $filter, dtRequest,apiRequest,DTColumnBuilder) {
+App.controller('RtoController', function($scope,$location, $filter, dtRequest, apiRequest, DTColumnBuilder, rtoService) {
 
     var vm = this;
 
@@ -156,11 +156,16 @@ console.log(vm.statusOptions);
 
     vm.rowClickHandler = function (info) {
 
-        $location.path('/rtotest');
+        $location.path('/rto/' + info.requestID);
 
 
         $scope.$apply(); //must be used when being called outside of the angualr scope, does nothign otherwise.
 
+    };
+
+    vm.updateTable = function() {
+        vm.getdtTable();
+        console.log(vm.employee);
     };
 
     vm.getdtTable = function () {
@@ -170,8 +175,6 @@ console.log(vm.statusOptions);
 
             'created' : vm.created,
             'status' : vm.status,
-            'firstname' : vm.firstname,
-            'lastname' : vm.lastname,
             'employeeID' : vm.employeeID,
 
         };
@@ -230,6 +233,21 @@ console.log(vm.statusOptions);
 
     vm.getdtTable();
 
+
+
+    vm.addRto = function() {
+
+        rtoService.addRto().success(function(r)
+        {
+            console.log(r);
+            $location.path('/rto/' + r.requestID);
+
+        })
+
+
+    }
+
+
 });
 
 
@@ -263,7 +281,7 @@ App.controller('AuthController', ['$scope', '$location', 'userService', function
 	}]);
 
 
-App.controller('RtoController', ['$scope', '$location', 'rtoService', 'DTOptionsBuilder', 'DTColumnDefBuilder', function($scope, $location, rtoService, DTOptionsBuilder, DTColumnDefBuilder) {
+App.controller('RtoDeprecatedController', ['$scope', '$location', 'rtoService', 'DTOptionsBuilder', 'DTColumnDefBuilder', function($scope, $location, rtoService, DTOptionsBuilder, DTColumnDefBuilder) {
 
 
 		var vm = this;

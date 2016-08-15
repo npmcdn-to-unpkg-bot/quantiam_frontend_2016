@@ -16,16 +16,16 @@ App.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             url:'/login',
             templateUrl: 'views/auth/login.html'
 				})
-        .state('rto', {
-            url:'/rto',
+        .state('oldrto', {
+            url:'/oldrto',
             templateUrl: 'views/rto/rto_dashboard.html',
-            controller: 'RtoController as RC'
+            controller: 'RtoDeprecatedController as RC'
         })
 
-        .state('rtotest', {
-            url: '/rtotest',
+        .state('rto', {
+            url: '/rto',
             templateUrl: 'views/rto/rtodashtest.html',
-            controller: 'RtoTestController as RTC'
+            controller: 'RtoController as RTC'
         })
 
         .state('rtoView', {

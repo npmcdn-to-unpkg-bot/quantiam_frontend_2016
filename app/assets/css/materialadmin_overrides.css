@@ -274,6 +274,14 @@ button.btn-select
 	display: inline;
 	margin-top: 0 !important;
 }
+button.btn-select:focus {
+	opacity: 0.5;
+}
+
+.selectrtotype {
+opacity:0.5;
+}
+}
 
 .tooltip-inner {
      max-width: none;

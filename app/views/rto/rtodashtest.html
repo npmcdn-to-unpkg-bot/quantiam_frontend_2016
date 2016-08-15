@@ -4,15 +4,16 @@
             placeholder="Employee"
             ng-change="RTC.updateTable()"
             options="select2request.fetchList('/user/list',{})"
-            ng-model="RTC.employee"
+            ng-model="RTC.employeeID"
 
     ></select2>
-    <button class="btn-select btn btn-block btn-refresh btn-success">Approved</button>
-    <button class="btn-select btn btn-block btn-refresh btn-warning">Pending</button>
-    <button class="btn-select btn btn-block btn-refresh btn-danger">Denied</button>
+    <button class="btn-select btn btn-block btn-refresh btn-success" ng-class="{'selectrtotype': RTC.status == 'approved'}" ng-click="RTC.status = 'approved'; RTC.updateTable()">Approved</button>
+    <button class="btn-select btn btn-block btn-refresh btn-warning" ng-class="{'selectrtotype': RTC.status == 'pending'}" ng-click="RTC.status = 'pending'; RTC.updateTable()">Pending</button>
+    <button class="btn-select btn btn-block btn-refresh btn-danger" ng-class="{'selectrtotype': RTC.status == 'denied'}" ng-click="RTC.status = 'denied'; RTC.updateTable()">Denied</button>
+    <button class="btn-select btn btn-refresh" ng-class="{'selectrtotype': RTC.status == ''}" ng-click="RTC.status=''; RTC.updateTable()"><i class="fa fa-close"></i></button>
 
     <div class="pull-right">
-        <a ng-click="addRto()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
+        <a ng-click="RTC.addRto()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
 
             <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
         </a>
