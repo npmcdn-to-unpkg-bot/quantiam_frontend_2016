@@ -148,7 +148,6 @@ App.controller('HomeController', ['$scope', function($scope) {
 }]);
 
 App.controller('RtoController', function($scope,$location, $filter, dtRequest, apiRequest, DTColumnBuilder, rtoService) {
-
     var vm = this;
 
     vm.statusOptions = ['approved', 'pending', 'denied'];
@@ -353,12 +352,10 @@ App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$loca
             console.log('this is how you do functions on leaving page.');
         });
 
-
             // /console.log($location.path());
 	
 		var request_id = $stateParams.rtoid;
-		
-	
+
     $scope.show_form = false;
     $scope.notifyloady = 0;
 
@@ -369,8 +366,6 @@ App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$loca
 		rtoViewService.rtoViewData(request_id).then(function(r){
 
 			$scope.rtoData = r.data;
-			console.log(r.data);
-           // console.log($scope.rtoData.requested_time[0].date);
 					 
 			$scope.checkExistingAbsences();
 
