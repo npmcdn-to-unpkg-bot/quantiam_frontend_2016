@@ -348,16 +348,27 @@ App.service("userInfoService", function($http, apiRequest) {
 /*
 	This service contains methods used to authenticate and update the user.
 */
-App.service("userService",  function( $location, $rootScope, apiRequest ) {
+App.service("user",  function( $location, $rootScope, apiRequest ) {
 		
-		 
+		var vm = this;
 			
 		var storedUserObject = {};
 		var lastPath;
 
+			vm.buildUser = function(userObj)
+			{
+			
+			console.log(userObj);
+				for(var key in userObj) {
+				
+				vm[key] = userObj[key];
+				};
+					
+				
+			}
 			
 		// Obtain the user JWT token using credentials
-		function authenticateUser (username, pass)
+		vm.authenticateUser = function (username, pass)
 		{
 		
 		
@@ -386,47 +397,66 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		}
 		
 		
-		function checkIfUserGroupMember (groupID){
+		vm.checkPermissions = function  (permissionID){
 		
-		if(storedUserObject.groups)
-		{
-	//	console.log(storedUserObject.groups.length);
-			for (var i = 0; i < storedUserObject.groups.length; i++) {
-			
-						
-							
-						if(storedUserObject.groups[i].group_id == groupID)
-						{
-
-							return true
-						
-						}
-
-			}
-			
-				return false; 
-		}
-		
-		
-		}
-		
-		function getstoredUser(){
+				if(vm.permissions)
+				{
+			//	console.log(storedUserObject.groups.length);
+					for (var i = 0; i < vm.permissions.length; i++) {
 					
-						return storedUserObject; //returns stored object
+								
+									
+								if(vm.permissions[i].permission_id == permissionID)
+								{
+									console.log('good');
+									return true
+								
+								}
+
+					}
 					
+						return false; 
+				}
+		
+		
 		}
+		
+		vm.checkIfUserGroupMember = function  (groupID){
+		
+				if(this.groups)
+				{
+			//	console.log(storedUserObject.groups.length);
+					for (var i = 0; i < this.groups.length; i++) {
+					
+								
+									
+								if(this.groups[i].group_id == groupID)
+								{
+
+									return true
+								
+								}
+
+					}
+					
+						return false; 
+				}
+		
+		
+		}
+
 		
 		// Use the stored token to refresh the user object.
-		function refreshUser() 
+		vm.refreshUser = function () 
 		{
 			
 					
 					
 					var response = apiRequest.send('get','/user').success(function(r){
 							
-							storedUserObject = r;
+							vm.buildUser(r);
 							 
-							return r; 
+						
 							
 									 
 					 })
@@ -446,7 +476,7 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 		}
 		
 		// Used to redirect the user to the login screen and delete the stored token.
-		function logoutUser()
+		vm.logoutUser = function()
 		{
 		
 				localStorage.clear(); // clear stored data
@@ -456,22 +486,14 @@ App.service("userService",  function( $location, $rootScope, apiRequest ) {
 				$location.path('/login');
 				
 		}
-		function getlastPath (){
+		
+		vm.getlastPath = function  (){
 					return lastPath;
 			
 			}
 		
 		
-return ({
 
-							authenticateUser: authenticateUser,
-							refreshUser: refreshUser,
-							getstoredUser: getstoredUser,
-							logoutUser: logoutUser,
-							storedUserObject: storedUserObject,
-							getlastPath: getlastPath,
-							checkIfUserGroupMember: checkIfUserGroupMember
-			});
 
 	});
 

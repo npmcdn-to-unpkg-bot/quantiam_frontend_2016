@@ -48,10 +48,25 @@ App.controller('SlipcastScatterPlotViewController', function($scope, $location,$
 vm.buildCharts = function() {
 
 	vm.showCharts = true;
-	vm.ChartConfig = {
-	chart: {
-		 backgroundColor:'rgba(255, 255, 255, 0.0)'
-		},
+  var chart = new Highcharts.Chart({
+        chart: {
+           renderTo: 'container',
+            margin: 100,
+            type: 'scatter',
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 30,
+                depth: 250,
+                viewDistance: 5,
+                fitToPlot: false,
+                frame: {
+                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
+                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
+                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                }
+            }
+        },
 			title:{
 			text:"Scatter Plot - "+vm.scatterplot.title,
 			},
@@ -76,47 +91,64 @@ vm.buildCharts = function() {
 						text: vm.scatterplot.y_name+' ('+vm.scatterplot.y_unit+')',
 					},
 			},
-		
+			zAxis:
+			{
+				 title:{
+						text: "Slip Temperature (C)",
+					},
+			},
+			plotOptions: {
+            scatter: {
+                width: 10,
+                height: 10,
+                depth: 10
+            }
+        },
 
 			series:[{
 					name:vm.scatterplot.y_name,
-					type:'scatter',
-					data: vm.scatterplot.data,
-					tooltip:{
-						pointFormatter: function () {
-            return ('<b>ID</b>: '+this.identifier ||  '') + ' <b>Name</b>: ' + (this.inventoryName || '<br/>')+
-						'<br/><b>Date</b>: '+this.readableDate+'<br/> <span style="color:'+this.color+'">\u25CF</span> '+vm.scatterplot.y_name+': <b>'+this.y+'</b> '+vm.scatterplot.y_unit+' <br/>'+
-						'<span style="color:'+this.color+'">\u25CF</span> '+vm.scatterplot.x_name+': <b>'+this.x+'</b> '+vm.scatterplot.x_unit+' <br/>'+(this.comment || '')+'<br/>';
-								
-						},
-						headerFormat: '',
-					
-						
-						},
-						marker:{
-							
-							enabled:true,
-							
-							},
-						point: {
-				
-						events: {
-						
-								click: function (){
-									
-											vm.loadSlipcastRun(this.slipcastID);
-									}
-						
-						
-								}
-				
-						}
+					 colorByPoint: true,
+					 	data: vm.scatterplot.data,
+		
 					
 					}]
 				
 				
 			
-		}
+		});
+		
+		
+		    $(chart.container).bind('mousedown.hc touchstart.hc', function (eStart) {
+        eStart = chart.pointer.normalize(eStart);
+
+        var posX = eStart.pageX,
+            posY = eStart.pageY,
+            alpha = chart.options.chart.options3d.alpha,
+            beta = chart.options.chart.options3d.beta,
+            newAlpha,
+            newBeta,
+            sensitivity = 5; // lower is more sensitive
+
+        $(document).bind({
+            'mousemove.hc touchdrag.hc': function (e) {
+                // Run beta
+                newBeta = beta + (posX - e.pageX) / sensitivity;
+                chart.options.chart.options3d.beta = newBeta;
+
+                // Run alpha
+                newAlpha = alpha + (e.pageY - posY) / sensitivity;
+                chart.options.chart.options3d.alpha = newAlpha;
+
+                chart.redraw(false);
+            },
+            'mouseup touchend': function () {
+                $(document).unbind('.hc');
+            }
+        });
+    });
+		
+		
+		
 	}
 	console.log(vm.ChartConfig);
 });

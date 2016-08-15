@@ -1,4 +1,4 @@
-App.controller('IndexController', ['$scope', '$location','userService','select2request', function($scope, $location, userService,select2request ) {
+App.controller('IndexController', ['$scope', '$location','user','select2request', function($scope, $location, user,select2request ) {
   var vm = this;
 	vm.memubar_visible = false;
 	vm.expandedsidebarstate = false;
@@ -46,13 +46,10 @@ App.controller('IndexController', ['$scope', '$location','userService','select2r
 	function updateIndexUserObject (){
 		
 		
-			 userService.refreshUser().then(function(r){
+			 user.refreshUser().then(function(r){
 	
-						$scope.user = userService.getstoredUser();
-
-                 console.log($scope.user);
-			
-					
+						$scope.user = user;
+				
 			 });
 	}
 	
@@ -119,7 +116,7 @@ App.controller('IndexController', ['$scope', '$location','userService','select2r
 	$scope.logout = function (){
 			
 			$scope.user = null;
-			userService.logoutUser();
+			user.logoutUser();
 			
 			}
 
@@ -127,8 +124,8 @@ App.controller('IndexController', ['$scope', '$location','userService','select2r
 	$scope.checkIfGroupMember = function (groupID){
 		
 		//console.log(groupID);
-		//console.log(userService.checkIfUserGroupMember(groupID));
-		return userService.checkIfUserGroupMember(groupID);
+		//console.log(user.checkIfUserGroupMember(groupID));
+		return user.checkIfUserGroupMember(groupID);
 		
 		}
 		
@@ -250,13 +247,13 @@ console.log(vm.statusOptions);
 });
 
 
-App.controller('AuthController', ['$scope', '$location', 'userService', function ($scope, $location, userService){
+App.controller('AuthController', ['$scope', '$location', 'user', function ($scope, $location, user){
 
     $scope.authenticate = function() {
-			userService.authenticateUser($scope.username,$scope.password).success(function(r){
+			user.authenticateUser($scope.username,$scope.password).success(function(r){
 				
 			
-				var lastPath = userService.getlastPath();
+				var lastPath = user.getlastPath();
 			
 				if(lastPath && lastPath != '/login')
 				{
@@ -342,14 +339,14 @@ App.controller('RtoDeprecatedController', ['$scope', '$location', 'rtoService', 
 
 }]);
 
-App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'userService', 'dateStringService', 'rtoApprovalService', 'emailService', 'apiRequest',
+App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$location', 'rtoViewService', 'userInfoService', 'user', 'dateStringService', 'rtoApprovalService', 'emailService', 'apiRequest',
        
 			 
 			 
-			 function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, userService, dateStringService, rtoApprovalService, emailService, apiRequest) {
+			 function($scope,  $stateParams, $filter, $location, rtoViewService, userInfoService, user, dateStringService, rtoApprovalService, emailService, apiRequest) {
   
         $scope.$on("$locationChangeStart", function() {
-            console.log('this is how you do functions on leaving page.');
+           // console.log('this is how you do functions on leaving page.');
         });
 
             // /console.log($location.path());
@@ -396,7 +393,7 @@ App.controller('RtoViewController',['$scope', '$stateParams', '$filter',  '$loca
 									calculate_BankTotalsDifference ();
 									checkHolidays ();
 
-                                    $scope.user = userService.getstoredUser();
+                                    $scope.user = user;
 
 									
 									});
@@ -1035,7 +1032,7 @@ App.controller('rtoviewtestcontroller', function($stateParams, apiRequest, userI
                 calculate_BankTotalsDifference ();
                 checkHolidays ();
 
-                vm.user = userService.getstoredUser();
+                vm.user = user.getstoredUser();
 
 
             });
