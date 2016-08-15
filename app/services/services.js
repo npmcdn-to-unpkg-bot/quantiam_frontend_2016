@@ -401,14 +401,10 @@ App.service("user",  function( $location, $rootScope, apiRequest ) {
 		
 				if(vm.permissions)
 				{
-			//	console.log(storedUserObject.groups.length);
 					for (var i = 0; i < vm.permissions.length; i++) {
-					
-								
 									
 								if(vm.permissions[i].permission_id == permissionID)
 								{
-									console.log('good');
 									return true
 								
 								}

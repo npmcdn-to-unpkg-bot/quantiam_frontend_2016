@@ -106,7 +106,7 @@ App.controller('SlipcastController', function($scope,$location,  dtRequest,apiRe
 
  
 
-App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,userService, userInfoService,webSocket,select2request) {
+App.controller('SlipcastViewController',  function($scope, $stateParams, $uibModal, apiRequest,user, userInfoService,webSocket,select2request) {
 
 	var vm = this;
 	
@@ -188,7 +188,7 @@ App.controller('SlipcastViewController',  function($scope, $stateParams, $uibMod
 		}
 		
 		
-		if((userService.checkIfUserGroupMember(41) || userService.checkIfUserGroupMember(5)))
+		if((user.checkIfUserGroupMember(41) || user.checkIfUserGroupMember(5)))
 		{
 			vm.admin = 1;
 			if( vm.editable == 0)
@@ -1014,7 +1014,7 @@ App.controller('SlipcastProfileViewController', function($stateParams, apiReques
 });
 
 
-App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, userService,apiRequest, webSocket, DTColumnBuilder) {
+App.controller('FurnaceRunViewController', function($scope, $stateParams, $window, user,apiRequest, webSocket, DTColumnBuilder) {
 
 var vm = this;
 vm.admin = false;
@@ -1068,7 +1068,7 @@ vm.checkEditable = function (){
 		}
 		
 		
-		if((userService.checkIfUserGroupMember(5)) || (userService.checkIfUserGroupMember(42)))
+		if((user.checkIfUserGroupMember(5)) || (user.checkIfUserGroupMember(42)))
 		{
 			vm.admin = true;
 			if( vm.editable == false)
