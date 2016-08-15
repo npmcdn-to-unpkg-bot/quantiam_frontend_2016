@@ -41,7 +41,7 @@
                     </thead>
 
                     <tbody>
-                        <tr ng-repeat="obj in rtoData.requested_time" ng-click="editForm(obj.rtotimeID, $index)"    ng-style="obj.holiday==1 && {'background-color': 'rgba(243, 143, 0, 0.60)'}"   ng-attr-tooltip-placement="{{obj.holiday==1 ? 'top' : null }}" ng-attr-uib-tooltip="{{obj.holiday==1 ? 'Are you sure about this?' : null }}">
+                        <tr ng-repeat="obj in rtoData.requested_time | orderBy: 'date'" ng-click="editForm(obj.rtotimeID, $index)"    ng-style="obj.holiday==1 && {'background-color': 'rgba(243, 143, 0, 0.60)'}"   ng-attr-tooltip-placement="{{obj.holiday==1 ? 'top' : null }}" ng-attr-uib-tooltip="{{obj.holiday==1 ? 'Are you sure about this?' : null }}">
                             <td>{{ obj.updated | datetime | date : 'longDate' }}</td>
                             <td>{{ obj.hours }} hour<span ng-if="obj.hours != 1">s</span></td>
                             <td>{{ obj.type }}</td>

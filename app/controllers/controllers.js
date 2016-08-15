@@ -681,9 +681,25 @@ function calculate_BankTotalsDifference (){
         console.log($scope.supervisorID);
         $scope.notifyloady = 1;
 
+        // Build date table.
+        var dates = [];
+        angular.forEach($scope.rtoData.requested_time, function(data) {
+
+            var date = "<tr><td>" + new moment(data.date).format('MMMM Do, YYYY') + "</td><td>"+data.hours+" hrs</td></tr>";
+
+            dates.push(date);
+        });
+
+        dates = "<table>" +
+                     "<th>Dates Requested</th><th></th><th></th>" +
+                 "<tbody>"
+                         + dates +
+            "</tbody></table>";
+
+
         var params = {
             "subject": "New Time Off Request from "+$scope.user.name+" Awaiting Your Approval",
-            "body":  "<p>" + $scope.user.name + " has an absence request pending your approval. <a href='"+document.location.href+"'> Click here to view time-off request.</a></p>",
+            "body":  "<p>" + $scope.user.name + " has an absence request pending your approval. <a href='"+document.location.href+"'> Click here to view time-off request.</a></p>" + dates,
             "recipientID": $scope.supervisorID,
         };
 
