@@ -47,8 +47,8 @@
                             <td>{{ obj.type }}</td>
                             <td><b>{{ obj.date | date : 'fullDate' }}</b></td>
                             <td id="edit/delete">
-                               <a data-ng-disabled="rtoData.approvals[0].employeeID == user.employeeID || rtoData.approvals[1]"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
-                               <a data-ng-disabled="rtoData.approvals[0].employeeID == user.employeeID || rtoData.approvals[1]"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
+                               <a data-ng-disabled="rtoData.approvals[0].employeeID == user.employeeID || rtoData.status != 'pending'"  ng-click="editForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="top" uib-tooltip="Edit"><i class="md md-edit" style="color:royalblue"></i></a>
+                               <a data-ng-disabled="rtoData.approvals[0].employeeID == user.employeeID || rtoData.status != 'pending'"  ng-click="deleteForm(obj.rtotimeID, $index);" class="btn btn-icon-toggle btn-refresh btn-xs" tooltip-placement="right" uib-tooltip="Remove"><i class="md md-delete" style="color:red"></i></a>
                             </td>
 														<td >
 															<p ng-if="obj.holiday == 1" > <b>Holiday</b> </p>
