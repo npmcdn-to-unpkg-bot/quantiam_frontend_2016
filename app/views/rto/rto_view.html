@@ -130,45 +130,47 @@
         </div>
 				
 				
-				  <div ng-show="isEmptyObject(existingAbsencesObject)" class="card card-underline" >
-            <div class="card-head">
-                <header> Potential Absence Conflicts </header>
-						
-								<!-- 	<button style="font-size:10px; margin:10px;" class="btn btn-primary btn-xs pull-right" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal"> Expand All </button>
-						 -->
-            </div>
-						
-						
-						
-						
-            <div class="card-body">
-
+				
+			<!-- 	<h3 class='page-header'>Potential Absence Conflicts</h3> -->
+				<div class='row'>
+				<div ng-show="isEmptyObject(existingAbsencesObject)"   ng-repeat="(key,array) in existingAbsencesObject"  class="col-sm-4" >
+				
+				<div class="card ">
+           <div class="card-head">
+                <header style="font-size: 1.2em;">  {{ key | date : 'longDate'  }} </header>
+							
+							
 					
-							
-							
-						<div  ng-repeat="(key,array) in existingAbsencesObject" class='col-md-3'>
-               <h4 class='page-header' style='margin-top:5px'> {{ key | date : 'longDate'  }} 
-								 
-								 
 								 <div class="pull-right">
 								
 						
-											<button style="font-size:10px;" class="btn btn-primary btn-xs" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal" > {{array.length}} </button>
-							
+											<button style="font-size:10px; margin-right:5px;" class="btn btn-primary btn-xs" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal" > {{array.length}} Conflicts </button>
+
 							
 								 </div>
-								 </h4>
+								<!-- 	<button style="font-size:10px; margin:10px;" class="btn btn-primary btn-xs pull-right" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal"> Expand All </button>
+								-->
+            </div>
+					
+						
+						
+						
+            <div class="card-body" style="padding:10px">
+
+					
+						
+			
 							 
-							 <div  style="height:250px;  overflow: auto; ">
-							 <table   uib-collapse="isCollapsedHorizontal"  ng-class="{'icccn': collapseDay}" class='table col-md-12' >
+							 <div  style="max-height:200px;  overflow: auto; ">
+							 <table   uib-collapse="isCollapsedHorizontal"  class='table table-responsive' >
 
                  
 
-                    <tbody style="width:100%">
+                    <tbody >
                     <tr   ng-repeat="value in array"  >
-                        <td>{{value.firstname}} {{value.lastname | limitTo:1}}. </td>
-                        <td>{{value.type}}</td>
-                        <td>{{value.hours}}</td>
+                        <td style="width:10em">{{value.firstname}} {{value.lastname | limitTo:1}}. </td>
+                        <td style="width:10em">{{value.type}}</td>
+                        <td >{{value.hours}}</td>
                     </tr>
                     </tbody>
 
@@ -179,14 +181,14 @@
 							</div>
 
             </div>
-
-        </div>
+						
+				</div>
 				
-				
+				</div>
 				    <comments identifier="RTO-{{rtoData.requestID}}"></comments>
-
-    </div>
-
+		</div>
+   
+	 
     <div class="col-lg-4" >
 
 
