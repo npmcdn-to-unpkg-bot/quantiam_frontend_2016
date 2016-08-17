@@ -132,6 +132,9 @@
 				
 				
 			<!-- 	<h3 class='page-header'>Potential Absence Conflicts</h3> -->
+			
+			{{rtoData.status == 'approved' || rtoData.status == 'denied' ? isCollapsedHorizontal=true:isCollapsedHorizontal=false;""}}
+			
 				<div class='row'>
 				<div ng-show="isEmptyObject(existingAbsencesObject)"   ng-repeat="(key,array) in existingAbsencesObject"  class="col-sm-4" >
 				
@@ -196,7 +199,8 @@
             <div class="card-head">
                 <header>Approvals</header>
 
-                <div ng-show="user.employeeID != rtoData.employeeID || user.checkPermissions(2)" style="float: right; padding:10px; width:25%" >
+								
+                <div ng-if="user.employeeID != rtoData.employeeID || user.checkPermissions(2)" style="float: right; padding:10px; width:25%" >
                     <a  ng-click="approveRto('approved'); click=true">
                         <button style="float: right" type="button" class="btn btn-block ink-reaction btn-refresh btn-xl btn-success"
                                 data-ng-disabled="click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
@@ -206,7 +210,7 @@
                     </a>
                 </div>
 
-                <div ng-show="user.employeeID != rtoData.employeeID || user.checkPermissions(2)" style="float: right; padding:10px; width:25%" >
+                <div ng-if="user.employeeID != rtoData.employeeID || user.checkPermissions(2)" style="float: right; padding:10px; width:25%" >
                     <a  ng-click="approveRto('denied'); click=true">
                         <button style="float: right" type="button" class="btn btn-block btn-refresh btn-xl btn-danger"
                                 data-ng-disabled="click || user.employeeID == rtoData.approvals[0].employeeID || user.employeeID == rtoData.approvals[1].employeeID">
