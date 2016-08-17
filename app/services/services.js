@@ -376,7 +376,7 @@ App.service("user",  function( $location, $rootScope, apiRequest ) {
 			var response = apiRequest.send('post','/auth',params).success(function(r){
 
 							localStorage.setItem('token', r.token);
-							refreshUser();
+							vm.refreshUser();
 						
 							
 							$rootScope.$broadcast('updateIndexUserObject');

@@ -3,7 +3,7 @@
             style="font-size:11px;"
             placeholder="Employee"
             ng-change="RTC.updateTable()"
-            options="select2request.fetchList('/user/list',{'active': 1})"
+            options="select2request.fetchList('/user/list',{'hierarchy': 1})"
             ng-model="RTC.employeeID"
 
     ></select2>
