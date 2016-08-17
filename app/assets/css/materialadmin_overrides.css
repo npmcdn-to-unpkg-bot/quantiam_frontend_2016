@@ -269,8 +269,9 @@ table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:b
 }
 button.btn-select
 {
-	font-size: 0.8em;
-	width: 8%;
+	font-size: 0.9rem;
+	font-weight: 600;
+	max-width: 10em;
 	display: inline;
 	margin-top: 0 !important;
 }

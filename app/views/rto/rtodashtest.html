@@ -3,10 +3,15 @@
             style="font-size:11px;"
             placeholder="Employee"
             ng-change="RTC.updateTable()"
-            options="select2request.fetchList('/user/list',{})"
+            options="select2request.fetchList('/user/list',{'active': 1})"
             ng-model="RTC.employeeID"
 
     ></select2>
+
+
+
+
+
     <button class="btn-select btn btn-block btn-refresh btn-success" ng-class="{'selectrtotype': RTC.status == 'approved'}" ng-click="RTC.status = 'approved'; RTC.updateTable()">Approved</button>
     <button class="btn-select btn btn-block btn-refresh btn-warning" ng-class="{'selectrtotype': RTC.status == 'pending'}" ng-click="RTC.status = 'pending'; RTC.updateTable()">Pending</button>
     <button class="btn-select btn btn-block btn-refresh btn-danger" ng-class="{'selectrtotype': RTC.status == 'denied'}" ng-click="RTC.status = 'denied'; RTC.updateTable()">Denied</button>

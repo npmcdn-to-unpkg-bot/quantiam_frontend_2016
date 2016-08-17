@@ -459,7 +459,7 @@ App.service("user",  function( $location, $rootScope, apiRequest ) {
 					 .error(function(e){
 							
 						
-						 		logoutUser();
+						 		vm.logoutUser();
 									return false;
 						 });
 			
