@@ -136,7 +136,7 @@
 				<div ng-show="isEmptyObject(existingAbsencesObject)"   ng-repeat="(key,array) in existingAbsencesObject"  class="col-sm-4" >
 				
 				<div class="card ">
-           <div class="card-head">
+           <div class="card-head clickable"  ng-click="isCollapsedHorizontal = !isCollapsedHorizontal" >
                 <header style="font-size: 1.2em;">  {{ key | date : 'longDate'  }} </header>
 							
 							
@@ -144,7 +144,7 @@
 								 <div class="pull-right">
 								
 						
-											<button style="font-size:10px; margin-right:5px;" class="btn btn-primary btn-xs" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal" > {{array.length}} Conflicts </button>
+											<button style="font-size:10px; margin-right:5px;" class="btn btn-primary btn-xs"> {{array.length}} Conflicts </button>
 
 							
 								 </div>
@@ -185,7 +185,7 @@
 				</div>
 				
 				</div>
-				    <comments identifier="RTO-{{rtoData.requestID}}"></comments>
+				 
 		</div>
    
 	 
@@ -305,5 +305,7 @@
         </div>
 
 				
+				
+				   <comments identifier="RTO-{{rtoData.requestID}}"></comments>
     </div>
 </div>
