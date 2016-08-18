@@ -215,9 +215,30 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
 
                 }
             }),
-            DTColumnBuilder.newColumn('created').withTitle('Created').renderWith(function(data, type, full)
+            DTColumnBuilder.newColumn('time').withTitle('Hours').renderWith(function(data, type, full)
             {
-                return new moment(full.created).format('MMMM Do, YYYY') + ' at ' + new moment(full.datetime).format('h:mm a');
+                //return new moment(full.created).format('MMMM Do, YYYY') + ' at ' + new moment(full.datetime).format('h:mm a');
+
+                    vm.sumhours = [];
+                    vm.sumhours['pto'] = 0;
+                    vm.sumhours['vacation'] = 0 ;
+                    vm.sumhours['unpaid'] = 0;
+                    vm.sumhours['cto'] = 0;
+
+                    angular.forEach(full.time, function(time) {
+
+                        vm.sumhours[time.type] = vm.sumhours[time.type] + time.hours;
+
+                    });
+
+                    var htmlTable = '<table style="background: inherit; opacity: inherit; height: 35px; padding: 5px; padding-left:25px"> <thead> <td>PTO</td> <td>Vacation</td> <td>Unpaid</td> <td>CTO</td> </thead>' +
+                                     '<tbody"> <tr style="text-align: center"><td>' + vm.sumhours['pto'] + '</td>' +
+                                     '<td>' + vm.sumhours['vacation'] + '</td>' +
+                                     '<td>' + vm.sumhours['unpaid'] + '</td>' +
+                                     '<td>' + vm.sumhours['cto'] + '</td></tr></tbody></table>';
+
+
+                    return  htmlTable;
             })
 
 
