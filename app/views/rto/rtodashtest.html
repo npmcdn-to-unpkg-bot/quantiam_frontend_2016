@@ -1,3 +1,5 @@
+
+<form class="form-inline">
 <div class="col-lg-8 col-lg-offset-2">
     <select2
             style="font-size:11px;"
@@ -17,12 +19,26 @@
     <button class="btn-select btn btn-block btn-refresh btn-danger" ng-class="{'selectrtotype': RTC.status == 'denied'}" ng-click="RTC.status = 'denied'; RTC.updateTable()">Denied</button>
     <button class="btn-select btn btn-refresh" ng-class="{'selectrtotype': RTC.status == ''}" ng-click="RTC.status=''; RTC.updateTable()"><i class="fa fa-close"></i></button>
 
-    <div class="pull-right">
-        <a ng-click="RTC.addRto()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
 
-            <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
-        </a>
-    </div>
+        <div class="form-group">
+            <label>Start Date</label>
+               <input class="form-control "type="date" ng-model="RTC.startdate" ng-change="RTC.updateTable()">
+
+        </div>
+        <div class="form-group">
+            <label>End Date</label>
+            <input class="form-control"  type="date" ng-model="RTC.enddate" ng-change="RTC.updateTable()">
+        </div>
+    </form>
+        <div class="pull-right">
+            <a ng-click="RTC.addRto()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
+
+                <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
+            </a>
+        </div>
+
+
+
 
 </div>
 

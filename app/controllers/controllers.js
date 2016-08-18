@@ -148,7 +148,6 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
     var vm = this;
 
     vm.statusOptions = ['approved', 'pending', 'denied'];
-console.log(vm.statusOptions);
 
     vm.rowClickHandler = function (info) {
 
@@ -161,10 +160,18 @@ console.log(vm.statusOptions);
 
     vm.updateTable = function() {
         vm.getdtTable();
-        console.log(vm.employee);
     };
 
     vm.getdtTable = function () {
+
+        if (vm.startdate && vm.enddate)
+        {
+
+            vm.startdateConversion = new moment(vm.startdate).format('YYYY-MM-DD');
+            vm.enddateConversion = new moment(vm.enddate).format('YYYY-MM-DD');
+
+        }
+
 
 
         var customOptions = {
@@ -172,6 +179,8 @@ console.log(vm.statusOptions);
             'created' : vm.created,
             'status' : vm.status,
             'employeeID' : vm.employeeID,
+            'startdate' : vm.startdateConversion,
+            'enddate' : vm.enddateConversion,
 
         };
 
