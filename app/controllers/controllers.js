@@ -238,8 +238,19 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
                                      '<td>' + vm.sumhours['cto'] + '</td></tr></tbody></table>';
 
 
+
                     return  htmlTable;
-            })
+            }),
+           DTColumnBuilder.newColumn('time').withTitle('Dates').renderWith(function(data, type, full)
+           {
+               vm.dateList = [];
+
+               angular.forEach(full.time, function(time) {
+                   vm.dateList.push(' ' + new moment(time.date).format('MMM D'));
+               });
+
+               return vm.dateList;
+           })
 
 
         ];
