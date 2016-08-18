@@ -188,36 +188,22 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
         //what columns do we want to show?
        var dtColumns = [
 
-           DTColumnBuilder.newColumn('requestID').withTitle('ID').renderWith(function(data, type, full) {
-               return '<b>' + full.requestID + '</b>';
+           DTColumnBuilder.newColumn('requestID').withTitle('Request #').renderWith(function(data, type, full) {
+               return '<b style="padding-left:10px">' + full.requestID + '</b>';
            }),
+					 
 
-            DTColumnBuilder.newColumn('lastname').withTitle('Name').renderWith(function(data, type, full) {
+            DTColumnBuilder.newColumn('lastname').withTitle('Employee').renderWith(function(data, type, full) {
 
-                return '<b>' + full.firstname +' ' + full.lastname + '</b>';
+                return full.employeeID+ ' - <b>' + full.firstname +' ' + full.lastname + '</b>';
             }),
 
-           DTColumnBuilder.newColumn('employeeID').withOption('type', 'num').withTitle('Employee ID'),
-
-            DTColumnBuilder.newColumn('status').withTitle('Status').renderWith(function(data, type, full) {
-                if (full.status == 'denied')
-                {
-                    return '<span class="btn btn-block ink-reaction btn-flat btn-danger">Denied</span>';
-                }
-                else if (full.status == 'approved')
-                {
-                    return '<span class="btn btn-block ink-reaction btn-flat btn-success">Approved</span>';
-
-                }
-                else
-                {
-                    return '<span class="btn btn-block ink-reaction btn-flat btn-warning">Pending</span>';
-
-                }
-            }),
+           
+         
+						
             DTColumnBuilder.newColumn('time').withTitle('Hours').renderWith(function(data, type, full)
             {
-                //return new moment(full.created).format('MMMM Do, YYYY') + ' at ' + new moment(full.datetime).format('h:mm a');
+            
 
                     vm.sumhours = [];
                     vm.sumhours['pto'] = 0;
@@ -240,7 +226,7 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
 
 
                     return  htmlTable;
-            }),
+            }).notSortable(),
            DTColumnBuilder.newColumn('time').withTitle('Dates').renderWith(function(data, type, full)
            {
                vm.dateList = [];
@@ -250,7 +236,30 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
                });
 
                return vm.dateList;
-           })
+           }).notSortable(),
+					
+				/* 		   DTColumnBuilder.newColumn('created').withTitle('Created').renderWith(function(data, type, full)
+						{
+							    return new moment(full.created).format('MMMM Do, YYYY') + ' at ' + new moment(full.datetime).format('h:mm a');
+							
+						}), */
+						
+						DTColumnBuilder.newColumn('status').withTitle('Status').renderWith(function(data, type, full) {
+                if (full.status == 'denied')
+                {
+                    return '<span class="btn btn-block ink-reaction btn-flat btn-danger">Denied</span>';
+                }
+                else if (full.status == 'approved')
+                {
+                    return '<span class="btn btn-block ink-reaction btn-flat btn-success">Approved</span>';
+
+                }
+                else
+                {
+                    return '<span class="btn btn-block ink-reaction btn-flat btn-warning">Pending</span>';
+
+                }
+            }),
 
 
         ];

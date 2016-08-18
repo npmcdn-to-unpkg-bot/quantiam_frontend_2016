@@ -1,6 +1,9 @@
 
-<form class="form-inline">
+
 <div class="col-lg-8 col-lg-offset-2">
+
+<div class='row'>
+<form class="form-inline">
     <select2
             style="font-size:11px;"
             placeholder="Employee"
@@ -14,13 +17,13 @@
 
 
 
-    <button class="btn-select btn btn-block btn-refresh btn-success" ng-class="{'selectrtotype': RTC.status == 'approved'}" ng-click="RTC.status = 'approved'; RTC.updateTable()">Approved</button>
-    <button class="btn-select btn btn-block btn-refresh btn-warning" ng-class="{'selectrtotype': RTC.status == 'pending'}" ng-click="RTC.status = 'pending'; RTC.updateTable()">Pending</button>
-    <button class="btn-select btn btn-block btn-refresh btn-danger" ng-class="{'selectrtotype': RTC.status == 'denied'}" ng-click="RTC.status = 'denied'; RTC.updateTable()">Denied</button>
-    <button class="btn-select btn btn-refresh" ng-class="{'selectrtotype': RTC.status == ''}" ng-click="RTC.status=''; RTC.updateTable()"><i class="fa fa-close"></i></button>
+    <button style="margin-right: 1px;" class="btn-select btn btn-block btn-refresh btn-success" ng-class="{'selectrtotype': RTC.status == 'approved'}" ng-click="RTC.status = 'approved'; RTC.updateTable()">Approved</button>
+    <button style="margin-right: 1px;" class="btn-select btn btn-block btn-refresh btn-warning" ng-class="{'selectrtotype': RTC.status == 'pending'}" ng-click="RTC.status = 'pending'; RTC.updateTable()">Pending</button>
+    <button style="margin-right: 1px;" class="btn-select btn btn-block btn-refresh btn-danger" ng-class="{'selectrtotype': RTC.status == 'denied'}" ng-click="RTC.status = 'denied'; RTC.updateTable()">Denied</button>
+    <button style="margin-right: 1px;"  class="btn-select btn btn-refresh" ng-class="{'selectrtotype': RTC.status == ''}" ng-click="RTC.status=''; RTC.updateTable()"><i class="fa fa-close"></i></button>
 
 
-        <div class="form-group">
+        <div style="margin-left: 20px;"  class="form-group">
             <label>Start Date</label>
                <input class="form-control "type="date" ng-model="RTC.startdate" ng-change="RTC.updateTable()">
 
@@ -29,26 +32,26 @@
             <label>End Date</label>
             <input class="form-control"  type="date" ng-model="RTC.enddate" ng-change="RTC.updateTable()">
         </div>
-    </form>
+    
         <div class="pull-right">
             <a ng-click="RTC.addRto()" class="btn btn-icon-toggle btn-refresh" tooltip-placement="left" uib-tooltip="New Request">
 
                 <i style="color:green;" class="fa fa-plus-circle fa-2x"></i>
             </a>
         </div>
+</form>
 
+				
 
+				
 
+</div>
+
+	<div class='row'>
+					<table datatable="" dt-options="RTC.dtTable" dt-columns="RTC.dtColumns"  class="table table-striped table-condensed table-hover table-stats  dataTable shadow clickablerows" style='Width:100%; margin-top:10px;'>
+						</table>
+	</div>
 
 </div>
 
 
-
-<div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
-
-        <table datatable="" dt-options="RTC.dtTable" dt-columns="RTC.dtColumns"  class="table table-striped table-condensed table-hover table-stats  dataTable shadow clickablerows" style='Width:100%; margin-top:10px;'>
-        </table>
-
-    </div>
-</div>
