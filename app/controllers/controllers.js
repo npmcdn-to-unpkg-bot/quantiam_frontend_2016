@@ -232,7 +232,7 @@ App.controller('RtoController', function($scope,$location, $filter, dtRequest, a
                vm.dateList = [];
 
                angular.forEach(full.time, function(time) {
-                   vm.dateList.push(' ' + new moment(time.date).format('MMM D'));
+                   vm.dateList.push(' ' + new moment(time.date).format('ddd <b>MMM D</b>'));
                });
 
                return vm.dateList;
